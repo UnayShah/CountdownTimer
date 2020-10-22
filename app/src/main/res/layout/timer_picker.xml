@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/darker_gray"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/padding_large">
+    android:padding="@dimen/padding_large"
+    tools:context=".PopupActivity">
 
     <LinearLayout
         android:id="@+id/timer_picker_numbers"

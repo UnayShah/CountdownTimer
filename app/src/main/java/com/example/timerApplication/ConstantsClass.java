@@ -9,7 +9,7 @@ public final class ConstantsClass {
     public static final Integer VIBRATE_LONG = 500;
     public static final Integer VIBRATE_VERY_LONG = 1000;
     public static final Integer NUMBER_PICKER_HOURS_START = 0;
-    public static final Integer NUMBER_PICKER_HOURS_END = 100;
+    public static final Integer NUMBER_PICKER_HOURS_END = 99;
     public static final Integer NUMBER_PICKER_MINUTES_START = 0;
     public static final Integer NUMBER_PICKER_MINUTES_END = 59;
     public static final Integer NUMBER_PICKER_SECONDS_START = 0;
