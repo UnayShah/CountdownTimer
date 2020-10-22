@@ -44,9 +44,9 @@ public class PopupActivity implements View.OnClickListener {
      */
     public void init() {
         //Initialize number picker
-        numberPickerHours = popupView.findViewById(R.id.numberpicker_hours);
-        numberPickerMinutes = popupView.findViewById(R.id.numberpicker_minutes);
-        numberPickerSeconds = popupView.findViewById(R.id.numberpicker_seconds);
+        numberPickerHours = popupView.findViewById(R.id.number_picker_hours);
+        numberPickerMinutes = popupView.findViewById(R.id.number_picker_minutes);
+        numberPickerSeconds = popupView.findViewById(R.id.number_picker_seconds);
 
         //Set number picker range
         numberPickerInit(numberPickerHours, ConstantsClass.NUMBER_PICKER_HOURS_START, ConstantsClass.NUMBER_PICKER_HOURS_END);
@@ -76,8 +76,6 @@ public class PopupActivity implements View.OnClickListener {
      * Cancel the setting of timer after add button is pressed
      */
     private void cancelSetTimer() {
-        if (!editingView)
-            linearLayoutTimers.removeView(timersView);
         popupWindow.dismiss();
         editingView = false;
     }

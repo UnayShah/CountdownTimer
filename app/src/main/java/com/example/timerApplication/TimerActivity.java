@@ -1,15 +1,12 @@
 package com.example.timerApplication;
 
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -22,19 +19,12 @@ public class TimerActivity extends Fragment implements View.OnClickListener {
     Button addTimerButton;
     Button startPauseTimerButton;
     Button stopTimerButton;
-    Button setTimerButton;
-    Button cancelSetTimerButton;
     ScrollView scrollViewTimers;
-    NumberPicker numberPickerHours;
-    NumberPicker numberPickerMinutes;
-    NumberPicker numberPickerSeconds;
     View popupView;
-    PopupWindow popupWindow;
     Boolean editingView;
     Integer hours;
     Integer minutes;
     Integer seconds;
-    Vibrator vibrator;
 
     @Override
     public View onCreateView(
