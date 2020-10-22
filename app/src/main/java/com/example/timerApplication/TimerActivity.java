@@ -1,16 +1,12 @@
 package com.example.timerApplication;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -40,6 +36,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener {
     Integer hours;
     Integer minutes;
     Integer seconds;
+    Vibrator vibrator;
 
     @Override
     public View onCreateView(
@@ -52,10 +49,73 @@ public class TimerActivity extends Fragment implements View.OnClickListener {
 
     public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         init(view);
     }
 
+    /**
+     * Initialize view objects
+     *
+     * @param view
+     */
+    public void init(View view) {
+        editingView = false;
+        linearLayoutTimers = view.findViewById(R.id.timers_scrollView_linearLayout);
+        addTimerButton = view.findViewById(R.id.add_button);
+        startPauseTimerButton = view.findViewById(R.id.start_pause_button);
+        scrollViewTimers = view.findViewById(R.id.timers_scrollView);
+        stopTimerButton = view.findViewById(R.id.stop_button);
+        startPauseTimerButton.setOnClickListener(this);
+        stopTimerButton.setOnClickListener(this);
+        addTimerButton.setOnClickListener(this);
+        vibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+    }
+
+    /**
+     * Initialize popup
+     */
+    public void popupInit() {
+        //Initialize popup
+        popupView = getLayoutInflater().inflate(R.layout.timer_picker, null, true);
+
+        //Initialize number picker
+        numberPickerHours = popupView.findViewById(R.id.numberpicker_hours);
+        numberPickerMinutes = popupView.findViewById(R.id.numberpicker_minutes);
+        numberPickerSeconds = popupView.findViewById(R.id.numberpicker_seconds);
+
+        //Set number picker range
+        numberPickerInit(numberPickerHours, ConstantsClass.NUMBER_PICKER_HOURS_START, ConstantsClass.NUMBER_PICKER_HOURS_END);
+        numberPickerInit(numberPickerMinutes, ConstantsClass.NUMBER_PICKER_MINUTES_START, ConstantsClass.NUMBER_PICKER_MINUTES_END);
+        numberPickerInit(numberPickerSeconds, ConstantsClass.NUMBER_PICKER_SECONDS_START, ConstantsClass.NUMBER_PICKER_SECONDS_END);
+
+        //Route number picker buttons
+        setTimerButton = popupView.findViewById(R.id.set_timer_button);
+        cancelSetTimerButton = popupView.findViewById(R.id.cancel_set_timer_button);
+    }
+
+    /**
+     * Set number picker range
+     *
+     * @param numberPicker
+     * @param min
+     * @param max
+     */
+    public void numberPickerInit(NumberPicker numberPicker, int min, int max) {
+        numberPicker.setMaxValue(max);
+        numberPicker.setMinValue(min);
+        numberPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                return String.format("%02d", value);
+            }
+        });
+    }
+
+    /**
+     * Override onCLick
+     * Call functions based on button click
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -73,26 +133,13 @@ public class TimerActivity extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void cancelSetTimer(View timersView) {
-        if (!editingView)
-            linearLayoutTimers.removeView(timersView);
-        popupWindow.dismiss();
-        editingView = false;
-    }
-
-    private void setTimer(View timersView, TextView textView) {
-        hours = numberPickerHours.getValue();
-        minutes = numberPickerMinutes.getValue();
-        seconds = numberPickerSeconds.getValue();
-        textView.setText(String.format("%" + 2 + "s", hours).replace(' ', '0') + ":" + String.format("%" + 2 + "s", minutes).replace(' ', '0') + ":" + String.format("%" + 2 + "s", seconds).replace(' ', '0'));
-        popupWindow.dismiss();
-        timersView.setVisibility(View.VISIBLE);
-        editingView = false;
-    }
 
     private void addTimer() {
+        //Create new view
         final View timersView = getLayoutInflater().inflate(R.layout.add_timer, null, true);
+        //Set visibility to GONE otherwise it is visible in background
         timersView.setVisibility(View.GONE);
+        //Initialize contents of view
         final TextView textView = timersView.findViewById(R.id.timer_textView);
         final ImageButton editButton = timersView.findViewById(R.id.edit_timer);
         ImageButton deleteButton = timersView.findViewById(R.id.delete_timer);
@@ -118,28 +165,28 @@ public class TimerActivity extends Fragment implements View.OnClickListener {
     }
 
     private void editTimer(final View timersView, final TextView textView, int hours, int minutes, int seconds) {
+        popupInit();
         numberPickerHours.setValue(hours);
         numberPickerMinutes.setValue(minutes);
         numberPickerSeconds.setValue(seconds);
-        final Vibrator vibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.showAtLocation(timersView, Gravity.CENTER, 0, 0);
-        numberPickerHours.setOnScrollListener(new NumberPicker.OnScrollListener(){
+        numberPickerHours.setOnScrollListener(new NumberPicker.OnScrollListener() {
             @Override
             public void onScrollStateChange(NumberPicker view, int scrollState) {
-                vibrator.vibrate(10);
+                vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
             }
         });
-        numberPickerMinutes.setOnScrollListener(new NumberPicker.OnScrollListener(){
+        numberPickerMinutes.setOnScrollListener(new NumberPicker.OnScrollListener() {
             @Override
             public void onScrollStateChange(NumberPicker view, int scrollState) {
-                vibrator.vibrate(10);
+                vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
             }
         });
-        numberPickerSeconds.setOnScrollListener(new NumberPicker.OnScrollListener(){
+        numberPickerSeconds.setOnScrollListener(new NumberPicker.OnScrollListener() {
             @Override
             public void onScrollStateChange(NumberPicker view, int scrollState) {
-                vibrator.vibrate(10);
+                vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
             }
         });
         setTimerButton.setOnClickListener(new View.OnClickListener() {
@@ -155,46 +202,43 @@ public class TimerActivity extends Fragment implements View.OnClickListener {
                 cancelSetTimer(timersView);
             }
         });
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                cancelSetTimer(timersView);
-                return true;
-            }
-        });
     }
 
-    private void deleteTimer(View v) {
-        linearLayoutTimers.removeView(v);
-    }
-
-    public void init(View view) {
-        popupView = getLayoutInflater().inflate(R.layout.timer_picker, null, false);
+    /**
+     * Cancel the setting of timer after add button is pressed
+     *
+     * @param timersView
+     */
+    private void cancelSetTimer(View timersView) {
+        if (!editingView)
+            linearLayoutTimers.removeView(timersView);
+        popupWindow.dismiss();
         editingView = false;
-        linearLayoutTimers = view.findViewById(R.id.timers_scrollView_linearLayout);
-        addTimerButton = view.findViewById(R.id.add_button);
-        startPauseTimerButton = view.findViewById(R.id.start_pause_button);
-        scrollViewTimers = view.findViewById(R.id.timers_scrollView);
-        stopTimerButton = view.findViewById(R.id.stop_button);
-        startPauseTimerButton.setOnClickListener(this);
-        stopTimerButton.setOnClickListener(this);
-        addTimerButton.setOnClickListener(this);
-
-        popupView = getLayoutInflater().inflate(R.layout.timer_picker, null, true);
-
-        numberPickerHours = popupView.findViewById(R.id.numberpicker_hours);
-        numberPickerMinutes = popupView.findViewById(R.id.numberpicker_minutes);
-        numberPickerSeconds = popupView.findViewById(R.id.numberpicker_seconds);
-        numberPickerInit(numberPickerHours, 0, 23);
-        numberPickerInit(numberPickerMinutes, 0, 59);
-        numberPickerInit(numberPickerSeconds, 0, 59);
-
-        setTimerButton = popupView.findViewById(R.id.set_timer_button);
-        cancelSetTimerButton = popupView.findViewById(R.id.cancel_set_timer_button);
     }
 
-    public void numberPickerInit(NumberPicker numberPicker, int min, int max) {
-        numberPicker.setMaxValue(max);
-        numberPicker.setMinValue(min);
+    /**
+     * Set value of a new timer or that of edited timer
+     *
+     * @param timersView
+     * @param textView
+     */
+    private void setTimer(View timersView, TextView textView) {
+        hours = numberPickerHours.getValue();
+        minutes = numberPickerMinutes.getValue();
+        seconds = numberPickerSeconds.getValue();
+        textView.setText(String.format("%" + 2 + "s", hours).replace(' ', '0') + ":" + String.format("%" + 2 + "s", minutes).replace(' ', '0') + ":" + String.format("%" + 2 + "s", seconds).replace(' ', '0'));
+        popupWindow.dismiss();
+        timersView.setVisibility(View.VISIBLE);
+        editingView = false;
     }
+
+    /**
+     * Remove current timer view
+     *
+     * @param view
+     */
+    private void deleteTimer(View view) {
+        linearLayoutTimers.removeView(view);
+    }
+
 }
