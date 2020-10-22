@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/darker_gray"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_large">
+
+    <LinearLayout
+        android:id="@+id/timer_picker_numbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/numberpicker_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:solidColor="@android:color/holo_blue_dark" />
+
+        <NumberPicker
+            android:id="@+id/numberpicker_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:layout_marginRight="@dimen/padding_small"
+            android:solidColor="@android:color/holo_blue_dark" />
+
+        <NumberPicker
+            android:id="@+id/numberpicker_seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:solidColor="@android:color/holo_blue_dark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timer_picker_buttons"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            style="?android:attr/button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/set_timer_button"
+            android:text="@string/set" />
+
+        <Button
+            style="?android:attr/button"
+            android:id="@+id/cancel_set_timer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/cancel" />
+
+
+    </LinearLayout>
+</LinearLayout>
