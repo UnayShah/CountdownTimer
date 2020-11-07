@@ -12,4 +12,5 @@
     <color name="blueGray600">#546E7A</color>
     <color name="blueGray700">#455A64</color>
     <color name="blueGray900">#263238</color>
+    <color name="blackTransparent22">#22000000</color>
 </resources>
