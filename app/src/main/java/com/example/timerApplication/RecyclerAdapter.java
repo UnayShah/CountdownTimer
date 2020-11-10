@@ -1,6 +1,7 @@
 package com.example.timerApplication;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -12,15 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.timerApplication.Timers.Timer;
 
+import java.util.Collections;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
     private static String TAG = "Recycler";
     List<Timer> listTimers;
     LayoutInflater layoutInflater;
+    IStartDragListener startDragListener;
 
-    public RecyclerAdapter(List<Timer> listTimers) {
+    public RecyclerAdapter(List<Timer> listTimers, IStartDragListener startDragListener) {
         this.listTimers = listTimers;
+        this.startDragListener = startDragListener;
     }
 
     @NonNull
@@ -43,13 +47,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         TimerActivityRecycler.setListTimers(listTimers);
     }
 
-    public void setListTimers(List<Timer> listTimers){
+    public void setListTimers(List<Timer> listTimers) {
         this.listTimers = listTimers;
+        TimerActivityRecycler.setListTimers(listTimers);
     }
+
     /**
      * print list of timers
      */
-    private void printListTimers() {
+    public void printListTimers() {
         System.out.println("START:");
         for (Timer t : listTimers) {
             System.out.println(t.toString());
@@ -76,12 +82,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.itemView.setVisibility(View.GONE);
         holder.timerText.setText(new Timer().toString());
         editTimer(holder.itemView, position, holder.timerText, true);
+        holder.dragImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    startDragListener.requestDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         TimerActivityRecycler.setListTimers(listTimers);
         return listTimers.size();
+    }
+
+    @Override
+    public void onRowMoved(int fromPosition, int toPosition) {
+        Collections.swap(listTimers, fromPosition, toPosition);
+        this.notifyItemMoved(fromPosition, toPosition);
+//        printListTimers();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
