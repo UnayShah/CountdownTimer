@@ -156,38 +156,37 @@ public class PopupActivity implements View.OnClickListener {
         popupWindow.showAtLocation(timersView, Gravity.CENTER, 0, 0);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        numberPickerHours.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
-            }
-        });
-        numberPickerMinutes.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
-            }
-        });
-        numberPickerSeconds.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
-            }
-        });
 
-        setTimerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timerText.setText(setTimer().toString());
-            }
+        numberPickerHours.setOnScrollListener((view, scrollState) -> {
+            vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
+            if (allNumberPickersZero())
+                setTimerButton.setClickable(false);
+            else setTimerButton.setClickable(true);
         });
+        numberPickerMinutes.setOnScrollListener((view, scrollState) -> {
+            vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
+            if (allNumberPickersZero())
+                setTimerButton.setClickable(false);
+            else setTimerButton.setClickable(true);
+        });
+        numberPickerSeconds.setOnScrollListener((view, scrollState) -> {
+            vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
+            if (allNumberPickersZero())
+                setTimerButton.setClickable(false);
+            else setTimerButton.setClickable(true);
+        });
+        setTimerButton.setOnClickListener(v -> timerText.setText(setTimer().toString()));
 
-        cancelSetTimerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelSetTimer();
-            }
-        });
+        cancelSetTimerButton.setOnClickListener(v -> cancelSetTimer());
+        if (allNumberPickersZero()) {
+            setTimerButton.setClickable(false);
+        } else setTimerButton.setClickable(true);
         return timer;
+    }
+
+    private Boolean allNumberPickersZero() {
+        if (numberPickerHours.getValue() == 0 && numberPickerMinutes.getValue() == 0 && numberPickerSeconds.getValue() == 0)
+            return true;
+        return false;
     }
 }

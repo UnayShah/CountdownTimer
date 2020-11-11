@@ -33,6 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         layoutInflater = LayoutInflater.from(parent.getContext());
         final View view = layoutInflater.inflate(R.layout.add_timer, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        TimerActivityRecycler.setListTimers(listTimers);
         return viewHolder;
     }
 
@@ -82,6 +83,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.itemView.setVisibility(View.GONE);
         holder.timerText.setText(new Timer().toString());
         editTimer(holder.itemView, position, holder.timerText, true);
+        TimerActivityRecycler.setListTimers(listTimers);
         holder.dragImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -103,7 +105,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onRowMoved(int fromPosition, int toPosition) {
         Collections.swap(listTimers, fromPosition, toPosition);
         this.notifyItemMoved(fromPosition, toPosition);
-//        printListTimers();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

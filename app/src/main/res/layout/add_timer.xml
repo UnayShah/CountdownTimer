@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/blueGray100">
+    android:padding="@dimen/padding_small">
 
     <ImageView
         android:id="@+id/drag"
@@ -18,7 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="@dimen/padding_small"
+        android:layout_gravity="center"
+        android:padding="@dimen/padding_vsmall"
         android:textSize="@dimen/timer_list_text" />
 
     <ImageButton

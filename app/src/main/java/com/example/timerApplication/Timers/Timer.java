@@ -19,8 +19,12 @@ public class Timer {
         this(ConstantsClass.NUMBER_PICKER_HOURS_START, ConstantsClass.NUMBER_PICKER_MINUTES_START, ConstantsClass.NUMBER_PICKER_SECONDS_START);
     }
 
-    public Timer(String timer){
+    public Timer(String timer) {
         this(Integer.valueOf(timer.split(":")[0]), Integer.valueOf(timer.split(":")[1]), Integer.valueOf(timer.split(":")[2]));
+    }
+
+    public Timer(Long timeInMillis) {
+        this((int)(timeInMillis.doubleValue()/3600000), (int)((double)((timeInMillis/1000l)%60l)/60.0), ((int)Math.ceil(timeInMillis.doubleValue() / 1000.0)) % 60);
     }
 
     public Integer getHours() {
@@ -45,6 +49,10 @@ public class Timer {
 
     public void setSeconds(Integer seconds) {
         this.seconds = seconds;
+    }
+
+    public Long getTimeInMilliseconds() {
+        return (long)(((getHours() * 3600) + (getMinutes() * 60) + getSeconds()) * 1000);
     }
 
     @NonNull

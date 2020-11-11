@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,11 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
     RecyclerView recyclerView;
     RecyclerAdapter recyclerViewAdapter;
     ItemTouchHelper itemTouchHelper;
+    TextView timerTextView;
+    CountdownTimer countdownTimer;
+    Boolean timerRunning;
+    Long pauseTimeInMillis;
+    Integer indexOfTimer;
     static List<Timer> listTimers = new ArrayList<>();
 
     @Override
@@ -52,6 +58,7 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
      */
     public void init(View view) {
         linearLayoutTimers = view.findViewById(R.id.timers_scrollView_linearLayout);
+        timerTextView = view.findViewById(R.id.timer_textView);
         addTimerButton = view.findViewById(R.id.add_button);
         startPauseTimerButton = view.findViewById(R.id.start_pause_button);
         scrollViewTimers = view.findViewById(R.id.timers_scrollView);
@@ -65,10 +72,15 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
         recyclerView.setAdapter(recyclerViewAdapter);
         startPauseTimerButton.setOnClickListener(this);
         stopTimerButton.setOnClickListener(this);
+        stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
+        countdownTimer = new CountdownTimer(listTimers, timerTextView, this);
+        timerRunning = false;
+        pauseTimeInMillis = 0l;
+        indexOfTimer = 0;
     }
 
-    public void requestDrag(RecyclerAdapter.ViewHolder viewHolder){
+    public void requestDrag(RecyclerAdapter.ViewHolder viewHolder) {
         itemTouchHelper.startDrag(viewHolder);
     }
 
@@ -90,6 +102,7 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
                 break;
             case R.id.stop_button:
                 System.out.println("Stop");
+                stopTimer();
                 break;
             default:
                 System.out.println("None");
@@ -105,9 +118,36 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
     }
 
     private void startPauseTimer() {
-        for (Timer t : listTimers) {
-            System.out.println(t.toString());
+        if (listTimers.size() > 0) {
+            if (timerRunning) {
+                setTimerPaused();
+            } else {
+                timerStarted();
+            }
+            timerRunning = !timerRunning;
         }
+    }
+
+    public void timerStarted() {
+        countdownTimer.setListTimers(listTimers);
+        startPauseTimerButton.setText(R.string.pause);
+        stopTimerButton.setVisibility(View.VISIBLE);
+        countdownTimer.startTimer(indexOfTimer, pauseTimeInMillis);
+    }
+
+    public void setTimerPaused() {
+        startPauseTimerButton.setText(R.string.start);
+        pauseTimeInMillis = countdownTimer.pauseTimer();
+        indexOfTimer = countdownTimer.getIndexOfTimer();
+    }
+
+    public void stopTimer() {
+        startPauseTimerButton.setText(R.string.start);
+        stopTimerButton.setVisibility(View.INVISIBLE);
+        timerRunning = false;
+        pauseTimeInMillis = 0l;
+        indexOfTimer = 0;
+        countdownTimer.stopTimer();
     }
 
     public static void setListTimers(List<Timer> listTimersExt) {
