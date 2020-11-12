@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.timerApplication.popupactivity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,9 +12,11 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.timerApplication.Timers.Timer;
-
-import java.util.List;
+import com.example.timerApplication.R;
+import com.example.timerApplication.RecyclerAdapter;
+import com.example.timerApplication.TimerActivity;
+import com.example.timerApplication.timers.Timer;
+import com.example.timerApplication.common.ConstantsClass;
 
 public class PopupActivity implements View.OnClickListener {
 
@@ -32,7 +34,6 @@ public class PopupActivity implements View.OnClickListener {
     Boolean newTimer;
     Integer position;
     RecyclerAdapter recyclerAdapter;
-    List<Timer> listTimers;
 
     /**
      * Popup view to get layout from main activity.
@@ -48,14 +49,13 @@ public class PopupActivity implements View.OnClickListener {
      * @param position
      * @param recyclerAdapter
      */
-    public PopupActivity(View popupView, View timersView, TextView timerText, Boolean newTimer, List<Timer> listTimers, Integer position, RecyclerAdapter recyclerAdapter) {
+    public PopupActivity(View popupView, View timersView, TextView timerText, Boolean newTimer, Integer position, RecyclerAdapter recyclerAdapter) {
         this.timersView = timersView;
         this.popupView = popupView;
         this.timerText = timerText;
         this.newTimer = newTimer;
         this.position = position;
         this.recyclerAdapter = recyclerAdapter;
-        this.listTimers = listTimers;
         init();
         this.timer = new Timer(timerText.getText().toString());
     }
@@ -116,8 +116,7 @@ public class PopupActivity implements View.OnClickListener {
         timer.setSeconds(numberPickerSeconds.getValue());
         popupWindow.dismiss();
         timerText.setText(timer.toString());
-        listTimers.set(position, timer);
-        recyclerAdapter.setListTimers(listTimers);
+        TimerActivity.listTimers.set(position, timer);
         timersView.setVisibility(View.VISIBLE);
         return timer;
     }
@@ -132,12 +131,7 @@ public class PopupActivity implements View.OnClickListener {
     private void numberPickerInit(NumberPicker numberPicker, int min, int max) {
         numberPicker.setMaxValue(max);
         numberPicker.setMinValue(min);
-        numberPicker.setFormatter(new NumberPicker.Formatter() {
-            @Override
-            public String format(int value) {
-                return String.format("%02d", value);
-            }
-        });
+        numberPicker.setFormatter(value -> String.format("%02d", value));
     }
 
     public Timer editTimer() {
@@ -159,34 +153,24 @@ public class PopupActivity implements View.OnClickListener {
 
         numberPickerHours.setOnScrollListener((view, scrollState) -> {
             vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
-            if (allNumberPickersZero())
-                setTimerButton.setClickable(false);
-            else setTimerButton.setClickable(true);
+            setTimerButton.setEnabled(!allNumberPickersZero());
         });
         numberPickerMinutes.setOnScrollListener((view, scrollState) -> {
             vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
-            if (allNumberPickersZero())
-                setTimerButton.setClickable(false);
-            else setTimerButton.setClickable(true);
+            setTimerButton.setEnabled(!allNumberPickersZero());
         });
-        numberPickerSeconds.setOnScrollListener((view, scrollState) -> {
+        numberPickerSeconds.setOnScrollListener((view, scrollState) ->  {
             vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
-            if (allNumberPickersZero())
-                setTimerButton.setClickable(false);
-            else setTimerButton.setClickable(true);
+            setTimerButton.setEnabled(!allNumberPickersZero());
         });
         setTimerButton.setOnClickListener(v -> timerText.setText(setTimer().toString()));
 
         cancelSetTimerButton.setOnClickListener(v -> cancelSetTimer());
-        if (allNumberPickersZero()) {
-            setTimerButton.setClickable(false);
-        } else setTimerButton.setClickable(true);
+        setTimerButton.setEnabled(!allNumberPickersZero());
         return timer;
     }
 
     private Boolean allNumberPickersZero() {
-        if (numberPickerHours.getValue() == 0 && numberPickerMinutes.getValue() == 0 && numberPickerSeconds.getValue() == 0)
-            return true;
-        return false;
+        return numberPickerHours.getValue() == 0 && numberPickerMinutes.getValue() == 0 && numberPickerSeconds.getValue() == 0;
     }
 }

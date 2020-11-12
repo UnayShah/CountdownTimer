@@ -1,8 +1,8 @@
-package com.example.timerApplication.Timers;
+package com.example.timerApplication.timers;
 
 import androidx.annotation.NonNull;
 
-import com.example.timerApplication.ConstantsClass;
+import com.example.timerApplication.common.ConstantsClass;
 
 public class Timer {
     Integer hours;
@@ -24,7 +24,7 @@ public class Timer {
     }
 
     public Timer(Long timeInMillis) {
-        this((int)(timeInMillis.doubleValue()/3600000), (int)((double)((timeInMillis/1000l)%60l)/60.0), ((int)Math.ceil(timeInMillis.doubleValue() / 1000.0)) % 60);
+        this((int) ((timeInMillis + ConstantsClass.ONE_SECOND_IN_MILLIS) / ConstantsClass.ONE_HOUR_IN_MILLIS), (int) ((timeInMillis + ConstantsClass.ONE_SECOND_IN_MILLIS) / ConstantsClass.ONE_MINUTE_IN_MILLIS) % ConstantsClass.MINUTES_IN_ONE_HOUR, ((int) Math.ceil(timeInMillis.doubleValue() / ConstantsClass.ONE_SECOND_IN_MILLIS)) % ConstantsClass.SECONDS_IN_ONE_MINUTE);
     }
 
     public Integer getHours() {
@@ -52,7 +52,7 @@ public class Timer {
     }
 
     public Long getTimeInMilliseconds() {
-        return (long)(((getHours() * 3600) + (getMinutes() * 60) + getSeconds()) * 1000);
+        return (long) (((getHours() * 3600) + (getMinutes() * 60) + getSeconds()) * 1000);
     }
 
     @NonNull

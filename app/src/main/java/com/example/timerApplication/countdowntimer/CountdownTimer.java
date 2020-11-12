@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.timerApplication.countdowntimer;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -7,39 +7,33 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.TextView;
 
-import com.example.timerApplication.Timers.Timer;
-
-import java.util.List;
+import com.example.timerApplication.TimerActivity;
+import com.example.timerApplication.timers.Timer;
+import com.example.timerApplication.common.ConstantsClass;
 
 public class CountdownTimer {
     private TextView timerTextView;
-    private List<Timer> listTimers;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
-    private TimerActivityRecycler timerActivityRecycler;
-    private Boolean timerPaused;
+    private TimerActivity timerActivity;
+    public static Boolean timerPaused;
     private Integer indexOfTimer;
 
-    public CountdownTimer(List<Timer> listTimers, TextView timerTextView, TimerActivityRecycler timerActivityRecycler) {
-        this.listTimers = listTimers;
+    public CountdownTimer(TextView timerTextView, TimerActivity timerActivity) {
         this.timerTextView = timerTextView;
-        this.timerActivityRecycler = timerActivityRecycler;
+        this.timerActivity = timerActivity;
         this.timerPaused = false;
         indexOfTimer = 0;
-    }
-
-    public void setListTimers(List<Timer> listTimers) {
-        this.listTimers = listTimers;
     }
 
     public void startTimer(Integer indexOfTimer, Long pauseTimeInMillis) {
         this.indexOfTimer = indexOfTimer;
         if (!timerPaused)
-            timeInMillis = listTimers.get(indexOfTimer).getTimeInMilliseconds();
+            timeInMillis = TimerActivity.listTimers.getListTimers().get(indexOfTimer).getTimeInMilliseconds();
         else
             timeInMillis = pauseTimeInMillis;
         timerPaused = false;
-        countDownTimer = new CountDownTimer(timeInMillis, 1000) {
+        countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.ONE_SECOND_IN_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeInMillis = millisUntilFinished;
@@ -49,14 +43,14 @@ public class CountdownTimer {
             @Override
             public void onFinish() {
                 ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP,100);
-                Vibrator vibrator = (Vibrator) timerActivityRecycler.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP,ConstantsClass.SOUND_MEDIUM);
+                Vibrator vibrator = (Vibrator) timerActivity.getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
-                if (indexOfTimer + 1 == listTimers.size()) {
-                    timerActivityRecycler.stopTimer();
+                if (indexOfTimer + 1 == TimerActivity.listTimers.size()) {
+                    timerActivity.stopTimer();
                     return;
                 } else {
-                    startTimer(indexOfTimer + 1, 0l);
+                    startTimer(indexOfTimer + ConstantsClass.ONE, ConstantsClass.ZERO.longValue());
                 }
             }
         }.start();

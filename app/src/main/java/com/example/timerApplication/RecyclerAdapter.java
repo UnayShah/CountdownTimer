@@ -7,24 +7,24 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.timerApplication.Timers.Timer;
-
-import java.util.Collections;
-import java.util.List;
+import com.example.timerApplication.countdowntimer.CountdownTimer;
+import com.example.timerApplication.popupactivity.PopupActivityFactory;
+import com.example.timerApplication.timers.Timer;
+import com.example.timerApplication.common.ConstantsClass;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
-    private static String TAG = "Recycler";
-    List<Timer> listTimers;
     LayoutInflater layoutInflater;
     IStartDragListener startDragListener;
+    Boolean boolRemove;
 
-    public RecyclerAdapter(List<Timer> listTimers, IStartDragListener startDragListener) {
-        this.listTimers = listTimers;
+    public RecyclerAdapter(IStartDragListener startDragListener) {
         this.startDragListener = startDragListener;
+        boolRemove = false;
     }
 
     @NonNull
@@ -33,7 +33,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         layoutInflater = LayoutInflater.from(parent.getContext());
         final View view = layoutInflater.inflate(R.layout.add_timer, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        TimerActivityRecycler.setListTimers(listTimers);
         return viewHolder;
     }
 
@@ -43,25 +42,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
      * @param position
      */
     public void deleteTimer(int position) {
-        listTimers.remove(position);
+        boolRemove = true;
         this.notifyItemRemoved(position);
-        TimerActivityRecycler.setListTimers(listTimers);
-    }
-
-    public void setListTimers(List<Timer> listTimers) {
-        this.listTimers = listTimers;
-        TimerActivityRecycler.setListTimers(listTimers);
-    }
-
-    /**
-     * print list of timers
-     */
-    public void printListTimers() {
-        System.out.println("START:");
-        for (Timer t : listTimers) {
-            System.out.println(t.toString());
-        }
-        System.out.println("END");
+        TimerActivity.listTimers.remove(TimerActivity.listTimers.getListTimers().get(position));
+        boolRemove = false;
     }
 
     /**
@@ -74,36 +58,33 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
      */
     public void editTimer(View view, int position, TextView timerText, Boolean newTimer) {
         View popupView = layoutInflater.inflate(R.layout.timer_picker, null, false);
-        listTimers.set(position, PopupActivityFactory.getInstance(popupView, view, timerText, newTimer, listTimers, position, this).editTimer(timerText.getText().toString()));
-        TimerActivityRecycler.setListTimers(listTimers);
+        TimerActivity.listTimers.set(position, PopupActivityFactory.getInstance(popupView, view, timerText, newTimer, position, this).editTimer(timerText.getText().toString()));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.itemView.setVisibility(View.GONE);
-        holder.timerText.setText(new Timer().toString());
-        editTimer(holder.itemView, position, holder.timerText, true);
-        TimerActivityRecycler.setListTimers(listTimers);
-        holder.dragImage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        if (!boolRemove) {
+            holder.itemView.setVisibility(View.GONE);
+            holder.timerText.setText(new Timer().toString());
+            editTimer(holder.itemView, position, holder.timerText, true);
+            holder.dragImage.setOnTouchListener((v, event) -> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     startDragListener.requestDrag(holder);
                 }
                 return false;
-            }
-        });
+            });
+        }
+        boolRemove = false;
     }
 
     @Override
     public int getItemCount() {
-        TimerActivityRecycler.setListTimers(listTimers);
-        return listTimers.size();
+        return TimerActivity.listTimers.size();
     }
 
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
-        Collections.swap(listTimers, fromPosition, toPosition);
+        TimerActivity.listTimers.swap(TimerActivity.listTimers, fromPosition, toPosition);
         this.notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -125,14 +106,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.edit_timer:
-                    editTimer(view, getAdapterPosition(), timerText, false);
-                    break;
-                case R.id.delete_timer:
-                    deleteTimer(getAdapterPosition());
-                    break;
-            }
+            if (!TimerActivity.timerRunning && !CountdownTimer.timerPaused)
+                switch (view.getId()) {
+                    case R.id.edit_timer:
+                        editTimer(view, getAdapterPosition(), timerText, false);
+                        break;
+                    case R.id.delete_timer:
+                        deleteTimer(getAdapterPosition());
+                        break;
+                }
+            else
+                Toast.makeText(itemView.getContext(), ConstantsClass.RUNNING_COUNTDOWN_UNEDITABLE_TOAST, Toast.LENGTH_SHORT).show();
         }
     }
 }

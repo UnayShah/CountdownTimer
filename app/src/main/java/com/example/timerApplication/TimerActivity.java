@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.timerApplication.Timers.Timer;
+import com.example.timerApplication.countdowntimer.CountdownTimer;
+import com.example.timerApplication.countdowntimer.CountdownTimerFactory;
+import com.example.timerApplication.timers.IListTimers;
+import com.example.timerApplication.timers.ListTimersImpl;
+import com.example.timerApplication.timers.Timer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TimerActivityRecycler extends Fragment implements View.OnClickListener, IStartDragListener {
+public class TimerActivity extends Fragment implements View.OnClickListener, IStartDragListener {
 
     LinearLayout linearLayoutTimers;
     Button addTimerButton;
@@ -32,10 +33,10 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
     ItemTouchHelper itemTouchHelper;
     TextView timerTextView;
     CountdownTimer countdownTimer;
-    Boolean timerRunning;
+    public static Boolean timerRunning;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
-    static List<Timer> listTimers = new ArrayList<>();
+    public static IListTimers listTimers;
 
     @Override
     public View onCreateView(
@@ -57,14 +58,16 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
      * @param view
      */
     public void init(View view) {
+        listTimers = new ListTimersImpl();
         linearLayoutTimers = view.findViewById(R.id.timers_scrollView_linearLayout);
         timerTextView = view.findViewById(R.id.timer_textView);
+        timerTextView.setText(new Timer().toString());
         addTimerButton = view.findViewById(R.id.add_button);
         startPauseTimerButton = view.findViewById(R.id.start_pause_button);
         scrollViewTimers = view.findViewById(R.id.timers_scrollView);
         stopTimerButton = view.findViewById(R.id.stop_button);
         recyclerView = view.findViewById(R.id.timers_scrollView_recyclerView);
-        recyclerViewAdapter = new RecyclerAdapter(listTimers, this);
+        recyclerViewAdapter = new RecyclerAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerViewAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
@@ -74,7 +77,7 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
         stopTimerButton.setOnClickListener(this);
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
-        countdownTimer = new CountdownTimer(listTimers, timerTextView, this);
+        countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
         timerRunning = false;
         pauseTimeInMillis = 0l;
         indexOfTimer = 0;
@@ -97,11 +100,9 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
                 addTimer();
                 break;
             case R.id.start_pause_button:
-                System.out.println("START");
                 startPauseTimer();
                 break;
             case R.id.stop_button:
-                System.out.println("Stop");
                 stopTimer();
                 break;
             default:
@@ -129,7 +130,6 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
     }
 
     public void timerStarted() {
-        countdownTimer.setListTimers(listTimers);
         startPauseTimerButton.setText(R.string.pause);
         stopTimerButton.setVisibility(View.VISIBLE);
         countdownTimer.startTimer(indexOfTimer, pauseTimeInMillis);
@@ -148,10 +148,6 @@ public class TimerActivityRecycler extends Fragment implements View.OnClickListe
         pauseTimeInMillis = 0l;
         indexOfTimer = 0;
         countdownTimer.stopTimer();
-    }
-
-    public static void setListTimers(List<Timer> listTimersExt) {
-        listTimers = listTimersExt;
     }
 
 }

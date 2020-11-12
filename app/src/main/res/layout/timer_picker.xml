@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PopupActivity"
+    tools:context=".popupactivity.PopupActivity"
     android:background="@drawable/number_picker_background">
 
     <LinearLayout
