@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:color="@color/accent" android:width="@dimen/padding_vvsmall"/>
     <solid android:color="@color/timerLayoutButtons" />
-    <stroke android:color="@color/accent" android:width="2dp"/>
-    <corners android:radius="@dimen/padding_large" />
+    <corners android:radius="@dimen/padding_small"/>
+
 </shape>

@@ -12,5 +12,11 @@
     <color name="blueGray600">#546E7A</color>
     <color name="blueGray700">#455A64</color>
     <color name="blueGray900">#263238</color>
-    <color name="blackTransparent22">#22000000</color>
+    <color name="blackTransparentAA">#AA000000</color>
+
+    <color name="background">#FF364156</color>
+    <color name="timerLayoutButtons">#FF11151C</color>
+    <color name="timerList">#FF212D40</color>
+    <color name="text">#FFF1F7ED</color>
+    <color name="accent">#FFD66853</color>
 </resources>

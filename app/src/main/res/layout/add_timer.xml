@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/padding_small">
+    android:padding="@dimen/padding_small"
+    android:background="@drawable/timer_list"
+    android:layout_marginTop="@dimen/padding_vvsmall"
+    android:layout_marginBottom="@dimen/padding_vvsmall">
 
     <ImageView
         android:id="@+id/drag"
@@ -20,7 +23,8 @@
         android:layout_weight="1"
         android:layout_gravity="center"
         android:padding="@dimen/padding_vsmall"
-        android:textSize="@dimen/timer_list_text" />
+        android:textSize="@dimen/timer_list_text"
+        android:textColor="@color/text"/>
 
     <ImageButton
         android:id="@+id/edit_timer"
@@ -30,7 +34,8 @@
         android:layout_marginRight="@dimen/padding_small"
         android:layout_weight="0"
         android:padding="@dimen/padding_small_medium"
-        android:src="@drawable/edit" />
+        android:src="@drawable/edit"
+        android:background="@drawable/timer_list_buttons" />
 
     <ImageButton
         android:id="@+id/delete_timer"
@@ -38,5 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:padding="@dimen/padding_small_medium"
-        android:src="@drawable/delete" />
+        android:src="@drawable/delete"
+        android:background="@drawable/timer_list_buttons"/>
 </LinearLayout>

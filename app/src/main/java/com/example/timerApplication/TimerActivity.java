@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,9 +24,10 @@ import com.example.timerApplication.timers.Timer;
 public class TimerActivity extends Fragment implements View.OnClickListener, IStartDragListener {
 
     LinearLayout linearLayoutTimers;
-    Button addTimerButton;
-    Button startPauseTimerButton;
-    Button stopTimerButton;
+    ImageButton addTimerButton;
+    ImageButton startPauseTimerButton;
+    ImageButton stopTimerButton;
+    ImageButton returnButton;
     ScrollView scrollViewTimers;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerViewAdapter;
@@ -64,6 +65,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         timerTextView.setText(new Timer().toString());
         addTimerButton = view.findViewById(R.id.add_button);
         startPauseTimerButton = view.findViewById(R.id.start_pause_button);
+        returnButton = view.findViewById(R.id.return_button);
         scrollViewTimers = view.findViewById(R.id.timers_scrollView);
         stopTimerButton = view.findViewById(R.id.stop_button);
         recyclerView = view.findViewById(R.id.timers_scrollView_recyclerView);
@@ -77,10 +79,18 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         stopTimerButton.setOnClickListener(this);
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
+        returnButton.setOnClickListener(this);
         countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
         timerRunning = false;
         pauseTimeInMillis = 0l;
         indexOfTimer = 0;
+        returnButton.setVisibility(View.GONE);
+        startPauseTimerButton.setVisibility(View.GONE);
+        addTimerButton.setVisibility(View.GONE);
+        stopTimerButton.setVisibility(View.GONE);
+        returnButton.setVisibility(View.VISIBLE);
+        startPauseTimerButton.setVisibility(View.VISIBLE);
+        addTimerButton.setVisibility(View.VISIBLE);
     }
 
     public void requestDrag(RecyclerAdapter.ViewHolder viewHolder) {
@@ -105,6 +115,8 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
             case R.id.stop_button:
                 stopTimer();
                 break;
+            case R.id.return_button:
+                System.exit(0);
             default:
                 System.out.println("None");
         }
@@ -130,20 +142,22 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     }
 
     public void timerStarted() {
-        startPauseTimerButton.setText(R.string.pause);
+        startPauseTimerButton.setImageResource(R.drawable.ic_round_pause);
         stopTimerButton.setVisibility(View.VISIBLE);
+        returnButton.setVisibility(View.GONE);
         countdownTimer.startTimer(indexOfTimer, pauseTimeInMillis);
     }
 
     public void setTimerPaused() {
-        startPauseTimerButton.setText(R.string.start);
+        startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
         pauseTimeInMillis = countdownTimer.pauseTimer();
         indexOfTimer = countdownTimer.getIndexOfTimer();
     }
 
     public void stopTimer() {
-        startPauseTimerButton.setText(R.string.start);
-        stopTimerButton.setVisibility(View.INVISIBLE);
+        returnButton.setVisibility(View.VISIBLE);
+        startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
+        stopTimerButton.setVisibility(View.GONE);
         timerRunning = false;
         pauseTimeInMillis = 0l;
         indexOfTimer = 0;

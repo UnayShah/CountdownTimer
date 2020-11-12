@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:centerColor="@color/blueGray500"
-        android:endColor="@color/blueGray900DF"
+        android:centerColor="@color/timerList"
+        android:endColor="@color/timerLayoutButtons"
         android:angle="90"
-        android:startColor="@color/blueGray900DF"
+        android:startColor="@color/timerLayoutButtons"
         />
     <corners android:radius="@dimen/padding_small" />
 </shape>
