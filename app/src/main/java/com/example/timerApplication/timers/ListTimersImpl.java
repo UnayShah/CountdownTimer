@@ -1,8 +1,5 @@
 package com.example.timerApplication.timers;
 
-import com.example.timerApplication.timers.IListTimers;
-import com.example.timerApplication.timers.Timer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,14 +32,12 @@ public class ListTimersImpl implements IListTimers {
 
     @Override
     public void remove(int index) {
-        System.out.println("REMOVED? " + listTimers.remove(index).toString());
-        System.out.println(listTimers.size());
+        listTimers.remove(index).toString();
     }
 
     @Override
     public void remove(Timer timer) {
-        System.out.println("REMOVED? " + listTimers.remove(timer));
-        System.out.println(listTimers.size());
+        listTimers.remove(timer);
     }
 
     @Override

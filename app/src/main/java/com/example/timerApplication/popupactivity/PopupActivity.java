@@ -1,10 +1,9 @@
 package com.example.timerApplication.popupactivity;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Vibrator;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,8 +14,8 @@ import android.widget.TextView;
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
 import com.example.timerApplication.TimerActivity;
-import com.example.timerApplication.timers.Timer;
 import com.example.timerApplication.common.ConstantsClass;
+import com.example.timerApplication.timers.Timer;
 
 public class PopupActivity implements View.OnClickListener {
 
@@ -33,6 +32,7 @@ public class PopupActivity implements View.OnClickListener {
     Vibrator vibrator;
     Boolean newTimer;
     Integer position;
+    Boolean setAndDismiss;
     RecyclerAdapter recyclerAdapter;
 
     /**
@@ -101,6 +101,7 @@ public class PopupActivity implements View.OnClickListener {
      * Delete from the recycler view
      */
     private void cancelSetTimer() {
+        setAndDismiss = true;
         if (newTimer) {
             recyclerAdapter.deleteTimer(position);
         }
@@ -111,6 +112,7 @@ public class PopupActivity implements View.OnClickListener {
      * Set value of a new timer or that of edited timer
      */
     private Timer setTimer() {
+        setAndDismiss = true;
         timer.setHours(numberPickerHours.getValue());
         timer.setMinutes(numberPickerMinutes.getValue());
         timer.setSeconds(numberPickerSeconds.getValue());
@@ -143,13 +145,14 @@ public class PopupActivity implements View.OnClickListener {
     }
 
     public Timer editTimer(Timer timer) {
+        setAndDismiss = false;
         numberPickerHours.setValue(timer.getHours());
         numberPickerMinutes.setValue(timer.getMinutes());
         numberPickerSeconds.setValue(timer.getSeconds());
         popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
         popupWindow.showAtLocation(timersView, Gravity.CENTER, 0, 0);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         numberPickerHours.setOnScrollListener((view, scrollState) -> {
             vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
@@ -159,13 +162,16 @@ public class PopupActivity implements View.OnClickListener {
             vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
             setTimerButton.setEnabled(!allNumberPickersZero());
         });
-        numberPickerSeconds.setOnScrollListener((view, scrollState) ->  {
+        numberPickerSeconds.setOnScrollListener((view, scrollState) -> {
             vibrator.vibrate(ConstantsClass.VIBRATE_VERY_SHORT);
             setTimerButton.setEnabled(!allNumberPickersZero());
         });
-        setTimerButton.setOnClickListener(v -> timerText.setText(setTimer().toString()));
 
+        setTimerButton.setOnClickListener(v -> timerText.setText(setTimer().toString()));
         cancelSetTimerButton.setOnClickListener(v -> cancelSetTimer());
+        popupWindow.setOnDismissListener(() -> {
+            if (!setAndDismiss) cancelSetTimer();
+        });
         setTimerButton.setEnabled(!allNumberPickersZero());
         return timer;
     }
