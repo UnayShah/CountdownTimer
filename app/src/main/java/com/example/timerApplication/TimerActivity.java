@@ -38,6 +38,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     Long pauseTimeInMillis;
     Integer indexOfTimer;
     public static IListTimers listTimers;
+    public static Boolean looped;
 
     @Override
     public View onCreateView(
@@ -59,6 +60,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
      * @param view
      */
     public void init(View view) {
+        looped = false;
         listTimers = new ListTimersImpl();
         linearLayoutTimers = view.findViewById(R.id.timers_scrollView_linearLayout);
         timerTextView = view.findViewById(R.id.timer_textView);

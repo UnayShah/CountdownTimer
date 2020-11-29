@@ -7,36 +7,56 @@
     android:background="@color/background"
     tools:context=".TimerActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timer_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_medium"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginRight="@dimen/padding_medium"
+        android:background="@drawable/timer_layout_countdown"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_small"
         app:layout_constraintBottom_toTopOf="@id/timers_scrollView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/timer_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/timer_layout_countdown"
-            android:gravity="center"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_small"
-            android:text="@string/timer_zero"
-            android:textColor="@color/text"
-            android:textSize="@dimen/timer_display_text" />
+        <fragment
+            android:id="@+id/timer_text_fragment"
+            android:name="com.example.timerApplication.fragmentsInflater.timerTextFragmentInflater"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/padding_vsmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/loop_fragment"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/timer_text" />
 
-    </LinearLayout>
+        <fragment
+            android:id="@+id/loop_fragment"
+            android:name="com.example.timerApplication.fragmentsInflater.loopSwitchFragmentInflater"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/padding_vsmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/timer_text_fragment"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/loop_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:id="@+id/timers_scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingLeft="@dimen/padding_medium"
-        android:paddingRight="@dimen/padding_medium"
+        android:padding="@dimen/padding_medium"
         app:layout_constraintBottom_toTopOf="@id/buttons_constraint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -54,7 +74,6 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
-
 
     <LinearLayout
         android:id="@+id/buttons_constraint"
@@ -75,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/timer_layout_buttons"
+                android:contentDescription="@string/returnButton"
                 android:padding="@dimen/padding_small_medium"
                 android:src="@drawable/ic_resource_return"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -115,6 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/timer_layout_buttons"
+                android:contentDescription="@string/addButton"
                 android:padding="@dimen/padding_small_medium"
                 android:src="@drawable/ic_round_add"
                 app:layout_constraintBottom_toBottomOf="parent"

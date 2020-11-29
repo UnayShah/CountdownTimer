@@ -30,4 +30,6 @@ public final class ConstantsClass {
     public static final Integer ZERO = 0;
     public static final Integer ONE = 1;
     public static final String RUNNING_COUNTDOWN_UNEDITABLE_TOAST = "Please stop timer to edit";
+    public static final String LOOPED_COUNTDOWN_TOAST = "All countdowns looped";
+    public static final String UNLOOPED_COUNTDOWN_TOAST = "Countdown will run only once";
 }

@@ -8,8 +8,8 @@ import android.os.Vibrator;
 import android.widget.TextView;
 
 import com.example.timerApplication.TimerActivity;
-import com.example.timerApplication.timers.Timer;
 import com.example.timerApplication.common.ConstantsClass;
+import com.example.timerApplication.timers.Timer;
 
 public class CountdownTimer {
     private TextView timerTextView;
@@ -43,12 +43,16 @@ public class CountdownTimer {
             @Override
             public void onFinish() {
                 ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP,ConstantsClass.SOUND_MEDIUM);
+                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
                 Vibrator vibrator = (Vibrator) timerActivity.getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
                 if (indexOfTimer + 1 == TimerActivity.listTimers.size()) {
-                    timerActivity.stopTimer();
-                    return;
+                    if (TimerActivity.looped) {
+                        startTimer(ConstantsClass.ZERO, ConstantsClass.ZERO.longValue());
+                    } else {
+                        timerActivity.stopTimer();
+                        return;
+                    }
                 } else {
                     startTimer(indexOfTimer + ConstantsClass.ONE, ConstantsClass.ZERO.longValue());
                 }
