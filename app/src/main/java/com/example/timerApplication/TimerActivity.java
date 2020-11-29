@@ -116,6 +116,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
                 stopTimer();
                 break;
             case R.id.return_button:
+                stopTimer();
                 System.exit(0);
             default:
                 System.out.println("None");
@@ -144,7 +145,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     public void timerStarted() {
         startPauseTimerButton.setImageResource(R.drawable.ic_round_pause);
         stopTimerButton.setVisibility(View.VISIBLE);
-        returnButton.setVisibility(View.GONE);
+        addTimerButton.setVisibility(View.GONE);
         countdownTimer.startTimer(indexOfTimer, pauseTimeInMillis);
     }
 
@@ -155,7 +156,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     }
 
     public void stopTimer() {
-        returnButton.setVisibility(View.VISIBLE);
+        addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
         stopTimerButton.setVisibility(View.GONE);
         timerRunning = false;

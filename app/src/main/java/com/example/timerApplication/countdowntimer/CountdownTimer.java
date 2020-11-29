@@ -33,7 +33,7 @@ public class CountdownTimer {
         else
             timeInMillis = pauseTimeInMillis;
         timerPaused = false;
-        countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.ONE_SECOND_IN_MILLIS) {
+        countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.ONE_MILLIS_IN_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeInMillis = millisUntilFinished;
