@@ -1,5 +1,5 @@
 package com.example.timerApplication;
 
 public interface IStartDragListener {
-    void requestDrag(RecyclerAdapter.ViewHolder viewHolder);
+    void requestDrag(RecyclerAdapterTimer.ViewHolder viewHolder);
 }

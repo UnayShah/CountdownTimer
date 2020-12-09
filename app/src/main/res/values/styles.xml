@@ -24,8 +24,12 @@
     </style>
 
     <style name="AppTheme.PopupButton">
-        <item name="android:background">@drawable/timer_list_buttons</item>
+        <item name="android:background">@drawable/popup_buttons</item>
         <item name="android:textColor">@color/text</item>
         <item name="colorAccent">@color/text</item>
+    </style>
+    <style name="timerNameEditText" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlNormal">@color/accent</item>
+        <item name="android:colorControlActivated">@color/text</item>
     </style>
 </resources>

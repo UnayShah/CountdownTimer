@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/timer_layout_buttons"
-        android:contentDescription="@string/returnButton"
+        android:contentDescription="@string/return_button"
         android:padding="@dimen/padding_small_medium"
         android:src="@drawable/ic_resource_return"
         app:layout_constraintTop_toTopOf="parent"

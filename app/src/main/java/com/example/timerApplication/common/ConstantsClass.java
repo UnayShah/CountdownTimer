@@ -29,7 +29,9 @@ public final class ConstantsClass {
     public static final Integer MINUTES_IN_ONE_HOUR = 60;
     public static final Integer ZERO = 0;
     public static final Integer ONE = 1;
+    public static final Long ZERO_LONG = 0L;
     public static final String RUNNING_COUNTDOWN_UNEDITABLE_TOAST = "Please stop timer to edit";
     public static final String LOOPED_COUNTDOWN_TOAST = "All countdowns looped";
     public static final String UNLOOPED_COUNTDOWN_TOAST = "Countdown will run only once";
+    public static final String NONE_STRING = "None";
 }

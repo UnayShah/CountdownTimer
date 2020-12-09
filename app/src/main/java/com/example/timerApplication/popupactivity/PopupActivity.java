@@ -3,7 +3,6 @@ package com.example.timerApplication.popupactivity;
 import android.content.Context;
 import android.os.Vibrator;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,12 +12,15 @@ import android.widget.TextView;
 
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
+import com.example.timerApplication.RecyclerAdapterTimer;
 import com.example.timerApplication.TimerActivity;
 import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.timers.Timer;
+import com.example.timerApplication.timers.TimerGroup;
 
 public class PopupActivity implements View.OnClickListener {
 
+    RecyclerAdapter recyclerAdapter;
     Button setTimerButton;
     Button cancelSetTimerButton;
     TextView timerText;
@@ -33,7 +35,7 @@ public class PopupActivity implements View.OnClickListener {
     Boolean newTimer;
     Integer position;
     Boolean setAndDismiss;
-    RecyclerAdapter recyclerAdapter;
+    RecyclerAdapterTimer recyclerAdapterTimer;
 
     /**
      * Popup view to get layout from main activity.
@@ -47,8 +49,18 @@ public class PopupActivity implements View.OnClickListener {
      * @param timerText
      * @param newTimer
      * @param position
-     * @param recyclerAdapter
+     * @param recyclerAdapterTimer
      */
+    public PopupActivity(View popupView, View timersView, TextView timerText, Boolean newTimer, Integer position, RecyclerAdapterTimer recyclerAdapterTimer) {
+        this.timersView = timersView;
+        this.popupView = popupView;
+        this.timerText = timerText;
+        this.newTimer = newTimer;
+        this.position = position;
+        this.recyclerAdapterTimer = recyclerAdapterTimer;
+        init();
+        this.timer = new Timer(timerText.getText().toString());
+    }
     public PopupActivity(View popupView, View timersView, TextView timerText, Boolean newTimer, Integer position, RecyclerAdapter recyclerAdapter) {
         this.timersView = timersView;
         this.popupView = popupView;
@@ -80,21 +92,19 @@ public class PopupActivity implements View.OnClickListener {
         //Route number picker buttons
         setTimerButton = popupView.findViewById(R.id.set_timer_button);
         cancelSetTimerButton = popupView.findViewById(R.id.cancel_set_timer_button);
-
+        setTimerButton.setOnClickListener(this);
+        cancelSetTimerButton.setOnClickListener(this);
         vibrator = (Vibrator) popupView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.cancel_set_timer_button:
-                cancelSetTimer();
-                break;
-            case R.id.set_timer_button:
-                setTimer();
-                break;
-        }
+        if (view.getId() == cancelSetTimerButton.getId())
+            cancelSetTimer();
+        else if (view.getId() == setTimerButton.getId())
+            timerText.setText(setTimer().toString());
     }
+
 
     /**
      * Cancel the setting of timer after add button is pressed
@@ -103,7 +113,7 @@ public class PopupActivity implements View.OnClickListener {
     private void cancelSetTimer() {
         setAndDismiss = true;
         if (newTimer) {
-            recyclerAdapter.deleteTimer(position);
+            recyclerAdapterTimer.deleteTimer(position);
         }
         popupWindow.dismiss();
     }
@@ -137,11 +147,7 @@ public class PopupActivity implements View.OnClickListener {
     }
 
     public Timer editTimer() {
-        return editTimer(new Timer(ConstantsClass.NUMBER_PICKER_HOURS_START, ConstantsClass.NUMBER_PICKER_MINUTES_START, ConstantsClass.NUMBER_PICKER_SECONDS_START));
-    }
-
-    public Timer editTimer(String timerText) {
-        return editTimer(new Timer(timerText));
+        return editTimer(new Timer(timerText.getText().toString()));
     }
 
     public Timer editTimer(Timer timer) {
@@ -167,8 +173,7 @@ public class PopupActivity implements View.OnClickListener {
             setTimerButton.setEnabled(!allNumberPickersZero());
         });
 
-        setTimerButton.setOnClickListener(v -> timerText.setText(setTimer().toString()));
-        cancelSetTimerButton.setOnClickListener(v -> cancelSetTimer());
+
         popupWindow.setOnDismissListener(() -> {
             if (!setAndDismiss) cancelSetTimer();
         });
