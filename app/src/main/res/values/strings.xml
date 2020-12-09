@@ -17,6 +17,6 @@
     <string name="add_button">Add</string>
 
     <string name="timer_name_popup">Enter new timer name:</string>
-    <string name="timer_text_placeholder">Enter Timer Name</string>
+    <string name="timer_text_placeholder">Timer Name</string>
     <string name="title_image">Title Image</string>
 </resources>

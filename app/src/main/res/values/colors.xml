@@ -18,6 +18,7 @@
     <color name="background">#FF364156</color>
     <color name="timerLayoutButtons">#FF11151C</color>
     <color name="timerList">#FF212D40</color>
-    <color name="text">#FFF1F7ED</color>
-    <color name="accent">#FF8A65</color>
+    <color name="text">#F1F7ED</color>
+    <color name="textTransparent55">#55F1F7ED</color>
+    <color name="accent">#D66853</color>
 </resources>

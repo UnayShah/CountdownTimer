@@ -1,22 +1,25 @@
 package com.example.timerApplication.popupactivity;
 
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
 import com.example.timerApplication.timers.TimerGroup;
-import com.example.timerApplication.timers.TimerGroupType;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocusChangeListener {
-    EditText editTextTimerName;
+    TextInputEditText editTextTimerName;
     TextView timerTextView;
     Button setTimerNameButton;
     Button cancelSetTimerNameButton;
@@ -58,6 +61,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
     }
 
     private TimerGroup setTimerName(){
+        setAndDismiss = true;
         timerGroup.setName(editTextTimerName.getText().toString());
         timerGroupView.setTimerText(editTextTimerName.getText().toString());
         timerGroupView.itemView.setVisibility(View.VISIBLE);
@@ -67,6 +71,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
 
     public TimerGroup editTimerGroup() {
+        setAndDismiss = false;
         popupWindow = new PopupWindow(timerPopupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
         popupWindow.showAtLocation(timerGroupView.itemView, Gravity.CENTER, 0, 0);
         editTextTimerName.addTextChangedListener(new TextWatcher() {
@@ -85,6 +90,10 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
             }
         });
+
+        popupWindow.setOnDismissListener(() -> {
+            if (!setAndDismiss) cancelSetTimerName();
+        });
         editTextTimerName.setText(timerGroupView.getTimerText().getText());
         return timerGroup;
     }
@@ -97,6 +106,11 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
-
+        if(hasFocus){
+            view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.edit_text_selected));
+        }
+        else {
+            view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.edit_text));
+        }
     }
 }

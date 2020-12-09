@@ -105,8 +105,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             this.onHomeScreen = onHomeScreen;
         }
 
-        public void setDragImageVisibility(){
-            if(onHomeScreen)dragImage.setVisibility(View.GONE);
+        public void setDragImageVisibility() {
+            if (onHomeScreen) dragImage.setVisibility(View.GONE);
             else dragImage.setVisibility(View.VISIBLE);
         }
 
