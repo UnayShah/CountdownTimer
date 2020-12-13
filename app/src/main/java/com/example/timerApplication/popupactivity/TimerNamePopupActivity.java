@@ -18,6 +18,8 @@ import com.example.timerApplication.RecyclerAdapter;
 import com.example.timerApplication.timers.TimerGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.regex.Pattern;
+
 public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocusChangeListener {
     TextInputEditText editTextTimerName;
     TextView timerTextView;
@@ -87,7 +89,11 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                String text = s.toString();
+                int length = s.length();
+                if(length > 0 && !text.matches("([\\w\\d]+ ?)+[A-zZ-z0-9]*")) {
+                    s.delete(length - 1, length);
+                }
             }
         });
 

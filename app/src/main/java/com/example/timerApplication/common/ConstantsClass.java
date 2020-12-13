@@ -34,4 +34,5 @@ public final class ConstantsClass {
     public static final String LOOPED_COUNTDOWN_TOAST = "All countdowns looped";
     public static final String UNLOOPED_COUNTDOWN_TOAST = "Countdown will run only once";
     public static final String NONE_STRING = "None";
+    public static final String HOME_LIST = "HOME_LIST";
 }

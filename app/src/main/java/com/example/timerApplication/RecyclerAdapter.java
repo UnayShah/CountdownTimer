@@ -23,6 +23,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     //    IStartDragListener startDragListener;
     Boolean boolRemove;
     Boolean fromHome;
+    Boolean fromStorage;
+
+    public void setFromStorage(Boolean fromStorage) {
+        this.fromStorage = fromStorage;
+    }
+
     View timerPopupView;
 
     public void setFromHome(Boolean fromHome) {
@@ -44,7 +50,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
     @Override
     public void onBindViewHolder(@NonNull ListItemViewHolder holder, int position) {
-        if (!boolRemove) {
+        if (fromStorage) {
+            holder.timerText.setText(HomeActivity.listTimerGroup.get(position).toString());
+            holder.setTimerGroupType(HomeActivity.listTimerGroup.get(position).getTimerGroupType());
+            holder.setOnHomeScreen(fromHome);
+            holder.setDragImageVisibility();
+        } else if (!boolRemove) {
             holder.itemView.setVisibility(View.GONE);
             holder.timerText.setText(HomeActivity.listTimerGroup.get(position).toString());
             holder.setTimerGroupType(HomeActivity.listTimerGroup.get(position).getTimerGroupType());
@@ -97,10 +108,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         Boolean onHomeScreen;
         TimerGroupType timerGroupType;
 
-        public Boolean getOnHomeScreen() {
-            return onHomeScreen;
-        }
-
         public void setOnHomeScreen(Boolean onHomeScreen) {
             this.onHomeScreen = onHomeScreen;
         }
@@ -108,10 +115,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public void setDragImageVisibility() {
             if (onHomeScreen) dragImage.setVisibility(View.GONE);
             else dragImage.setVisibility(View.VISIBLE);
-        }
-
-        public TimerGroupType getTimerGroupType() {
-            return timerGroupType;
         }
 
         public void setTimerGroupType(TimerGroupType timerGroupType) {
@@ -123,13 +126,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         }
 
         public void setTimerText(String timerText) {
-            this.timerText.setText(timerText);
+            String processedString = "";
+            for (String s : timerText.split(" "))
+                processedString += s + " ";
+            processedString = processedString.substring(0, processedString.length() - 1);
+            this.timerText.setText(processedString);
         }
 
         public ListItemViewHolder(@NonNull final View itemView) {
             super(itemView);
             dragImage = itemView.findViewById(R.id.drag);
-//            if(onHomeScreen)dragImage.setVisibility(View.GONE);
             timerText = itemView.findViewById(R.id.timer_textViewList);
             button1 = itemView.findViewById(R.id.edit_timer);
             button2 = itemView.findViewById(R.id.delete_timer);
