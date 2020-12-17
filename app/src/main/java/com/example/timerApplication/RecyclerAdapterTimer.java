@@ -30,7 +30,6 @@ public class RecyclerAdapterTimer extends RecyclerView.Adapter<RecyclerAdapterTi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        System.err.println("fjdfhiptrtri9iehfhlnkeu");
         layoutInflater = LayoutInflater.from(parent.getContext());
         final View view = layoutInflater.inflate(R.layout.add_timer, parent, false);
         return new ViewHolder(view);
@@ -73,7 +72,7 @@ public class RecyclerAdapterTimer extends RecyclerView.Adapter<RecyclerAdapterTi
             editTimer(holder, position, true);
             holder.dragImage.setOnTouchListener((v, event) -> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    startDragListener.requestDrag(holder);
+//                    startDragListener.requestDrag(holder);
                 }
                 return false;
             });

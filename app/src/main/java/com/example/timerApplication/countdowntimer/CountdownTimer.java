@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.TextView;
 
+import com.example.timerApplication.HomeActivity;
 import com.example.timerApplication.TimerActivity;
 import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.timers.Timer;
@@ -28,8 +29,10 @@ public class CountdownTimer {
 
     public void startTimer(Integer indexOfTimer, Long pauseTimeInMillis) {
         this.indexOfTimer = indexOfTimer;
-        if (!timerPaused)
-            timeInMillis = TimerActivity.listTimers.getListTimers().get(indexOfTimer).getTimeInMilliseconds();
+        if (!timerPaused) {
+            timeInMillis = HomeActivity.listTimerGroup.get(indexOfTimer).getTimer().getTimeInMilliseconds();
+//            timeInMillis = TimerActivity.listTimers.getListTimers().get(indexOfTimer).getTimeInMilliseconds();
+        }
         else
             timeInMillis = pauseTimeInMillis;
         timerPaused = false;
@@ -46,7 +49,7 @@ public class CountdownTimer {
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
                 Vibrator vibrator = (Vibrator) timerActivity.getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
-                if (indexOfTimer + 1 == TimerActivity.listTimers.size()) {
+                if (indexOfTimer + 1 == HomeActivity.listTimerGroup.size()) {
                     if (TimerActivity.looped) {
                         startTimer(ConstantsClass.ZERO, ConstantsClass.ZERO.longValue());
                     } else {

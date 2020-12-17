@@ -1,6 +1,5 @@
 package com.example.timerApplication.popupactivity;
 
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -11,14 +10,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
 import com.example.timerApplication.timers.TimerGroup;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.regex.Pattern;
 
 public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocusChangeListener {
     TextInputEditText editTextTimerName;
@@ -59,14 +55,16 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
         if (newTimerGroup) {
             recyclerAdapter.deleteTimerGroup(position);
         }
+        recyclerAdapter.setNewItem(false);
         popupWindow.dismiss();
     }
 
-    private TimerGroup setTimerName(){
+    private TimerGroup setTimerName() {
         setAndDismiss = true;
         timerGroup.setName(editTextTimerName.getText().toString());
         timerGroupView.setTimerText(editTextTimerName.getText().toString());
         timerGroupView.itemView.setVisibility(View.VISIBLE);
+        recyclerAdapter.setNewItem(false);
         popupWindow.dismiss();
         return timerGroup;
     }
@@ -83,7 +81,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()<=0 || s.charAt(0) == ' ')setTimerNameButton.setEnabled(false);
+                if (s.length() <= 0 || s.charAt(0) == ' ') setTimerNameButton.setEnabled(false);
                 else setTimerNameButton.setEnabled(true);
             }
 
@@ -91,7 +89,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
             public void afterTextChanged(Editable s) {
                 String text = s.toString();
                 int length = s.length();
-                if(length > 0 && !text.matches("([\\w\\d]+ ?)+[A-zZ-z0-9]*")) {
+                if (length > 0 && !text.matches("([\\w\\d]+ ?)+[A-zZ-z0-9]*")) {
                     s.delete(length - 1, length);
                 }
             }
@@ -106,16 +104,16 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == setTimerNameButton.getId()) timerGroup.setName(setTimerName().getName());
-        else if(view.getId()==cancelSetTimerNameButton.getId())cancelSetTimerName();
+        if (view.getId() == setTimerNameButton.getId())
+            timerGroup.setName(setTimerName().getName());
+        else if (view.getId() == cancelSetTimerNameButton.getId()) cancelSetTimerName();
     }
 
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
-        if(hasFocus){
+        if (hasFocus) {
             view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.edit_text_selected));
-        }
-        else {
+        } else {
             view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.edit_text));
         }
     }

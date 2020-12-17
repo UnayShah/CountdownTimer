@@ -10,6 +10,7 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.example.timerApplication.HomeActivity;
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
 import com.example.timerApplication.RecyclerAdapterTimer;
@@ -31,6 +32,7 @@ public class PopupActivity implements View.OnClickListener {
     View timersView;
     PopupWindow popupWindow;
     Timer timer;
+    TimerGroup timerGroup;
     Vibrator vibrator;
     Boolean newTimer;
     Integer position;
@@ -61,15 +63,15 @@ public class PopupActivity implements View.OnClickListener {
         init();
         this.timer = new Timer(timerText.getText().toString());
     }
-    public PopupActivity(View popupView, View timersView, TextView timerText, Boolean newTimer, Integer position, RecyclerAdapter recyclerAdapter) {
-        this.timersView = timersView;
+    public PopupActivity(View popupView, RecyclerAdapter.ListItemViewHolder viewHolder, TextView timerText, Boolean newTimer, Integer position, RecyclerAdapter recyclerAdapter) {
+        this.timersView = viewHolder.itemView;
         this.popupView = popupView;
         this.timerText = timerText;
         this.newTimer = newTimer;
         this.position = position;
         this.recyclerAdapter = recyclerAdapter;
         init();
-        this.timer = new Timer(timerText.getText().toString());
+        this.timerGroup = new TimerGroup(viewHolder.getTimerGroupType());
     }
 
     /**
@@ -113,7 +115,7 @@ public class PopupActivity implements View.OnClickListener {
     private void cancelSetTimer() {
         setAndDismiss = true;
         if (newTimer) {
-            recyclerAdapterTimer.deleteTimer(position);
+            recyclerAdapter.deleteTimerGroup(position);
         }
         popupWindow.dismiss();
     }
@@ -121,16 +123,16 @@ public class PopupActivity implements View.OnClickListener {
     /**
      * Set value of a new timer or that of edited timer
      */
-    private Timer setTimer() {
+    private TimerGroup setTimer() {
         setAndDismiss = true;
-        timer.setHours(numberPickerHours.getValue());
-        timer.setMinutes(numberPickerMinutes.getValue());
-        timer.setSeconds(numberPickerSeconds.getValue());
+        timerGroup.getTimer().setHours(numberPickerHours.getValue());
+        timerGroup.getTimer().setMinutes(numberPickerMinutes.getValue());
+        timerGroup.getTimer().setSeconds(numberPickerSeconds.getValue());
         popupWindow.dismiss();
-        timerText.setText(timer.toString());
-        TimerActivity.listTimers.set(position, timer);
+        timerText.setText(timerGroup.getTimer().toString());
+        HomeActivity.listTimerGroup.set(position, timerGroup);
         timersView.setVisibility(View.VISIBLE);
-        return timer;
+        return timerGroup;
     }
 
     /**

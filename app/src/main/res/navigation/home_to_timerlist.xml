@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_to_timerlist"
+    app:startDestination="@id/homeActivity">
+    <fragment
+        android:id="@+id/homeActivity"
+        android:name="com.example.timerApplication.HomeActivity"
+        android:label="home_screen"
+        tools:layout="@layout/home_screen">
+        <action
+            android:id="@+id/action_homeActivity_to_timerActivity"
+            app:destination="@id/timerActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerActivity"
+        android:name="com.example.timerApplication.TimerActivity"
+        android:label="timer_layout_recycler"
+        tools:layout="@layout/timer_layout_recycler">
+        <action
+            android:id="@+id/action_timerActivity_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+</navigation>

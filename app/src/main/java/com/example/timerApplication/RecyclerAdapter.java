@@ -1,6 +1,7 @@
 package com.example.timerApplication;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -18,12 +19,19 @@ import com.example.timerApplication.popupactivity.TimerNamePopupActivity;
 import com.example.timerApplication.timers.TimerGroup;
 import com.example.timerApplication.timers.TimerGroupType;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListItemViewHolder> {
+import java.util.Collections;
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListItemViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
     LayoutInflater layoutInflater;
-    //    IStartDragListener startDragListener;
+    IStartDragListener startDragListener;
     Boolean boolRemove;
     Boolean fromHome;
     Boolean fromStorage;
+    Boolean newItem;
+
+    public void setNewItem(Boolean newItem) {
+        this.newItem = newItem;
+    }
 
     public void setFromStorage(Boolean fromStorage) {
         this.fromStorage = fromStorage;
@@ -37,6 +45,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
 
     public RecyclerAdapter() {
+        boolRemove = false;
+    }
+
+    public RecyclerAdapter(IStartDragListener iStartDragListener) {
+        this.startDragListener = iStartDragListener;
         boolRemove = false;
     }
 
@@ -55,11 +68,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             holder.setTimerGroupType(HomeActivity.listTimerGroup.get(position).getTimerGroupType());
             holder.setOnHomeScreen(fromHome);
             holder.setDragImageVisibility();
-        } else if (!boolRemove) {
+        } else if (!boolRemove && newItem) {
             holder.itemView.setVisibility(View.GONE);
             holder.timerText.setText(HomeActivity.listTimerGroup.get(position).toString());
             holder.setTimerGroupType(HomeActivity.listTimerGroup.get(position).getTimerGroupType());
             holder.setOnHomeScreen(fromHome);
+            holder.dragImage.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    startDragListener.requestDrag(holder);
+                }
+                return false;
+            });
             editTimerGroup(holder, position, true);
         }
     }
@@ -67,6 +86,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     @Override
     public int getItemCount() {
         return HomeActivity.listTimerGroup.size();
+    }
+
+    @Override
+    public void onRowMoved(int fromPosition, int toPosition) {
+        Collections.swap(HomeActivity.listTimerGroup, fromPosition, toPosition);
+        this.notifyItemMoved(fromPosition, toPosition);
     }
 
     /**
@@ -77,10 +102,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
      * @param newTimerGroup
      */
     public void editTimerGroup(ListItemViewHolder viewHolder, int position, Boolean newTimerGroup) {
-        if (HomeActivity.listTimerGroup.get(position).equals(TimerGroupType.TIMER)) {
+        if (HomeActivity.listTimerGroup.get(position).getTimerGroupType().equals(TimerGroupType.TIMER)) {
             timerPopupView = layoutInflater.inflate(R.layout.timer_picker_popup, null, false);
-            HomeActivity.listTimerGroup.set(position, new TimerGroup(PopupActivityFactory.getInstance(timerPopupView, viewHolder.itemView, viewHolder.timerText, true, position, this).editTimer()));
-        } else {
+            HomeActivity.listTimerGroup.set(position, new TimerGroup(PopupActivityFactory.getInstance(timerPopupView, viewHolder, viewHolder.timerText, true, position, this).editTimer()));
+        } else if (HomeActivity.listTimerGroup.get(position).getTimerGroupType().equals(TimerGroupType.TIMER_GROUP)) {
             timerPopupView = layoutInflater.inflate(R.layout.timer_name_popup, null, false);
             HomeActivity.listTimerGroup.set(position, new TimerNamePopupActivity(timerPopupView, viewHolder, HomeActivity.listTimerGroup.get(position), newTimerGroup, position, this).editTimerGroup());
             viewHolder.setDragImageVisibility();
@@ -106,6 +131,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         ImageButton button1;
         ImageButton button2;
         Boolean onHomeScreen;
+
+        public TimerGroupType getTimerGroupType() {
+            return timerGroupType;
+        }
+
         TimerGroupType timerGroupType;
 
         public void setOnHomeScreen(Boolean onHomeScreen) {

@@ -19,7 +19,7 @@
         android:paddingTop="@dimen/padding_small"
         android:paddingRight="@dimen/padding_medium"
         android:paddingBottom="@dimen/padding_small"
-        app:layout_constraintBottom_toTopOf="@id/timers_scrollView"
+        app:layout_constraintBottom_toTopOf="@id/timers_scrollView_recyclerView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -51,28 +51,18 @@
             tools:layout="@layout/loop_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/timers_scrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timers_scrollView_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="@dimen/padding_small"
-        app:layout_constraintBottom_toTopOf="@id/buttons_constraint"
+        android:layout_marginLeft="@dimen/padding_small_medium"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_marginBottom="@dimen/padding_small"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer_constraint">
-
-        <LinearLayout
-            android:id="@+id/timers_scrollView_linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/timers_scrollView_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@id/timer_constraint"
+        app:layout_constraintBottom_toTopOf="@id/buttons_constraint"/>
 
     <LinearLayout
         android:id="@+id/buttons_constraint"
@@ -81,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timers_scrollView">
+        app:layout_constraintTop_toBottomOf="@id/timers_scrollView_recyclerView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

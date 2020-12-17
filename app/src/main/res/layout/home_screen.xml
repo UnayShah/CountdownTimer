@@ -8,40 +8,30 @@
     tools:context=".HomeActivity">
 
     <ImageView
-        android:contentDescription="@string/title_image"
         android:id="@+id/title_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/title_image"
         android:paddingLeft="@dimen/padding_large"
         android:paddingRight="@dimen/padding_large"
         android:src="@drawable/ic_countdown_app_title"
-        app:layout_constraintBottom_toTopOf="@id/timer_group_scrollView"
+        app:layout_constraintBottom_toTopOf="@id/timerGroupScrollViewRecyclerView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/timer_group_scrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timerGroupScrollViewRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="@dimen/padding_medium"
+        android:layout_marginLeft="@dimen/padding_small_medium"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_marginBottom="@dimen/padding_small"
         app:layout_constraintBottom_toTopOf="@id/home_buttons_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_image">
-
-        <LinearLayout
-            android:id="@+id/timers_scrollView_linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/timerGroupScrollViewRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@id/title_image" />
 
     <LinearLayout
         android:id="@+id/home_buttons_layout"
@@ -52,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer_group_scrollView">
+        app:layout_constraintTop_toBottomOf="@id/timerGroupScrollViewRecyclerView">
 
         <ImageButton
             android:id="@+id/home_add_button"

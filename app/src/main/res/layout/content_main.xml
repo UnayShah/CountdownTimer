@@ -8,12 +8,12 @@
 
     <fragment
         android:id="@+id/content_main"
-        android:name="com.example.timerApplication.HomeActivity"
+        android:name="com.example.timerApplication.TimerActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/home_screen" />
+        tools:layout="@layout/timer_layout_recycler" />
 </androidx.constraintlayout.widget.ConstraintLayout>

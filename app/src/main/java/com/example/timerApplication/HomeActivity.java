@@ -25,8 +25,6 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     final Gson gson = new Gson();
 
     public static ArrayList<TimerGroup> listTimerGroup = new ArrayList<>();
@@ -63,18 +61,20 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     public void addTimerGroup() {
         listTimerGroup.add(new TimerGroup(TimerGroupType.TIMER_GROUP));
         recyclerAdapter.setFromHome(true);
+        recyclerAdapter.setNewItem(true);
         recyclerAdapter.notifyItemInserted(listTimerGroup.size());
         recyclerAdapter.setFromStorage(false);
         System.out.println("Saving: " + gson.toJson(listTimerGroup));
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(ConstantsClass.HOME_LIST, gson.toJson(listTimerGroup));
         editor.apply();
     }
 
-    private void loadData(){
+    private void loadData() {
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
-        gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new ArrayList<TimerGroup>() {}.getClass());
+        gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new ArrayList<TimerGroup>() {
+        }.getClass());
         System.out.println("Loading: " + gson.toJson(listTimerGroup));
         recyclerAdapter.setFromStorage(true);
         recyclerAdapter.setFromHome(true);

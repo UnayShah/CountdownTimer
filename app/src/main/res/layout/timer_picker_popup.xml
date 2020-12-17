@@ -18,6 +18,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/padding_small_medium"
+            style="@style/AppTheme.PopupButton"
+            android:text="Add Timer Group"
+            android:background="@color/timerLayoutButtons"/>
 
         <LinearLayout
             android:id="@+id/timer_picker_numbers"
@@ -57,6 +64,9 @@
             android:id="@+id/timer_picker_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_vvsmall"
+            android:layout_marginRight="@dimen/padding_vvsmall"
+            android:layout_marginBottom="@dimen/padding_vvsmall"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -71,8 +81,8 @@
             <View
                 android:layout_width="@dimen/padding_vvsmall"
                 android:layout_height="match_parent"
-                android:background="@color/timerLayoutButtons"
-                android:layout_marginBottom="@dimen/padding_vvsmall"/>
+                android:layout_marginBottom="@dimen/padding_vvsmall"
+                android:background="@color/timerLayoutButtons" />
 
             <Button
                 android:id="@+id/cancel_set_timer_button"

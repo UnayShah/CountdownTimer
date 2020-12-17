@@ -26,6 +26,7 @@
             android:layout_marginBottom="@dimen/padding_huge"
             android:background="@drawable/edit_text"
             android:hint="@string/timer_text_placeholder"
+            android:inputType="textCapSentences"
             android:maxLength="20"
             android:minWidth="250dp"
             android:minHeight="54dp"
@@ -70,7 +71,6 @@
             <Button
                 android:id="@+id/cancelSetTimerNameButton"
                 style="@style/AppTheme.PopupButton"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

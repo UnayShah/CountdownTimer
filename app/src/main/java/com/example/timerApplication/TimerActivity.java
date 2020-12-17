@@ -20,6 +20,11 @@ import com.example.timerApplication.countdowntimer.CountdownTimerFactory;
 import com.example.timerApplication.timers.IListTimers;
 import com.example.timerApplication.timers.ListTimersImpl;
 import com.example.timerApplication.timers.Timer;
+import com.example.timerApplication.timers.TimerGroup;
+import com.example.timerApplication.timers.TimerGroupType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimerActivity extends Fragment implements View.OnClickListener, IStartDragListener {
 
@@ -29,6 +34,8 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     ImageButton returnButton;
     ScrollView scrollViewTimers;
     RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
+    RecyclerView recyclerViewTimer;
     RecyclerAdapterTimer recyclerViewAdapter;
     ItemTouchHelper itemTouchHelper;
     TextView timerTextView;
@@ -60,6 +67,12 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
      */
     public void init(View view) {
         looped = false;
+        HomeActivity.listTimerGroup = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.timers_scrollView_recyclerView);
+        recyclerAdapter = new RecyclerAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(recyclerAdapter);
+
         listTimers = new ListTimersImpl();
         timerTextView = view.findViewById(R.id.timer_textView);
         timerTextView.setText(new Timer().toString());
@@ -68,13 +81,13 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         returnButton = view.findViewById(R.id.return_button);
         scrollViewTimers = view.findViewById(R.id.timers_scrollView);
         stopTimerButton = view.findViewById(R.id.stop_button);
-        recyclerView = view.findViewById(R.id.timers_scrollView_recyclerView);
-        recyclerViewAdapter = new RecyclerAdapterTimer(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerViewAdapter);
+//        recyclerViewTimer = view.findViewById(R.id.timers_scrollView_recyclerView);
+//        recyclerViewAdapter = new RecyclerAdapterTimer(this);
+//        recyclerViewTimer.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(recyclerViewAdapter);
+//        recyclerViewTimer.setAdapter(recyclerViewAdapter);
         startPauseTimerButton.setOnClickListener(this);
         stopTimerButton.setOnClickListener(this);
         stopTimerButton.setVisibility(View.INVISIBLE);
@@ -93,7 +106,8 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         addTimerButton.setVisibility(View.VISIBLE);
     }
 
-    public void requestDrag(RecyclerAdapterTimer.ViewHolder viewHolder) {
+    public void requestDrag(RecyclerAdapter.ListItemViewHolder viewHolder) {
+        System.out.println("HERE");
         itemTouchHelper.startDrag(viewHolder);
     }
 
@@ -116,12 +130,18 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
      * Create and add new timer in list
      */
     private void addTimer() {
-        listTimers.add(new Timer());
-        recyclerViewAdapter.notifyItemInserted(listTimers.size());
+//        listTimers.add(new Timer());
+        recyclerAdapter.setFromHome(false);
+        recyclerAdapter.setNewItem(true);
+        recyclerAdapter.setFromStorage(false);
+        HomeActivity.listTimerGroup.add(new TimerGroup(TimerGroupType.TIMER));
+        System.out.println(HomeActivity.listTimerGroup.get(HomeActivity.listTimerGroup.size()-1).toString()+" "+HomeActivity.listTimerGroup.size());
+        recyclerAdapter.notifyItemInserted(HomeActivity.listTimerGroup.size());
+//        recyclerViewAdapter.notifyItemInserted(listTimers.size());
     }
 
     private void startPauseTimer() {
-        if (listTimers.size() > 0) {
+        if (HomeActivity.listTimerGroup.size() > 0) {
             if (timerRunning) {
                 setTimerPaused();
             } else {
@@ -129,6 +149,14 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
             }
             timerRunning = !timerRunning;
         }
+//        if (listTimers.size() > 0) {
+//            if (timerRunning) {
+//                setTimerPaused();
+//            } else {
+//                timerStarted();
+//            }
+//            timerRunning = !timerRunning;
+//        }
     }
 
     public void timerStarted() {
