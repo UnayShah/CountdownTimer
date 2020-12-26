@@ -7,9 +7,9 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.TextView;
 
-import com.example.timerApplication.HomeActivity;
 import com.example.timerApplication.TimerActivity;
 import com.example.timerApplication.common.ConstantsClass;
+import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.Timer;
 
 public class CountdownTimer {
@@ -17,7 +17,7 @@ public class CountdownTimer {
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
     private TimerActivity timerActivity;
-    public static Boolean timerPaused;
+    public static Boolean timerPaused = true;
     private Integer indexOfTimer;
 
     public CountdownTimer(TextView timerTextView, TimerActivity timerActivity) {
@@ -30,10 +30,9 @@ public class CountdownTimer {
     public void startTimer(Integer indexOfTimer, Long pauseTimeInMillis) {
         this.indexOfTimer = indexOfTimer;
         if (!timerPaused) {
-            timeInMillis = HomeActivity.listTimerGroup.get(indexOfTimer).getTimer().getTimeInMilliseconds();
+            timeInMillis = DataHolder.getInstance().getListTimerGroup().get(indexOfTimer).getTimer().getTimeInMilliseconds();
 //            timeInMillis = TimerActivity.listTimers.getListTimers().get(indexOfTimer).getTimeInMilliseconds();
-        }
-        else
+        } else
             timeInMillis = pauseTimeInMillis;
         timerPaused = false;
         countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.ONE_MILLIS_IN_MILLIS) {
@@ -49,7 +48,7 @@ public class CountdownTimer {
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
                 Vibrator vibrator = (Vibrator) timerActivity.getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
-                if (indexOfTimer + 1 == HomeActivity.listTimerGroup.size()) {
+                if (indexOfTimer + 1 == DataHolder.getInstance().getListTimerGroup().size()) {
                     if (TimerActivity.looped) {
                         startTimer(ConstantsClass.ZERO, ConstantsClass.ZERO.longValue());
                     } else {
@@ -76,6 +75,9 @@ public class CountdownTimer {
     public void stopTimer() {
         timerPaused = false;
         timerTextView.setText(new Timer().toString());
-        countDownTimer.cancel();
+        try {
+            countDownTimer.cancel();
+        } catch (Exception ignored) {;
+        }
     }
 }

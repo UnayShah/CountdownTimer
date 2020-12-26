@@ -1,64 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/number_picker_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="1"
     tools:context=".popupactivity.PopupActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/padding_huge"
+        android:layout_marginRight="@dimen/padding_huge"
+        android:layout_weight=".6"
         android:background="@drawable/number_picker_dialog"
+        android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="@dimen/padding_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingTop="@dimen/padding_medium">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/padding_small_medium"
+            android:id="@+id/toggle_numberpicker_timergroup"
             style="@style/AppTheme.PopupButton"
-            android:text="Add Timer Group"
-            android:background="@color/timerLayoutButtons"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small_medium"
+            android:background="@drawable/timer_list_buttons"
+            android:padding="@dimen/padding_small_medium"
+            android:text="@string/toggle_timer_group_picker"
+            android:textSize="@dimen/button_text"
+            app:layout_constraintBottom_toTopOf="@id/timer_group_picker"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/timer_picker_numbers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_medium"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <NumberPicker
-                android:id="@+id/number_picker_hours"
-                style="@style/AppTheme.PopupNumberPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <ScrollView
+                android:id="@+id/timer_group_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_medium"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/timer_picker_numbers"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toggle_numberpicker_timergroup">
 
-            <NumberPicker
-                android:id="@+id/number_picker_minutes"
-                style="@style/AppTheme.PopupNumberPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/new_timer_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:orientation="horizontal">
 
-            <NumberPicker
-                android:id="@+id/number_picker_seconds"
-                style="@style/AppTheme.PopupNumberPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <include layout="@layout/add_new_timer_group"/>
+
+                </LinearLayout>
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/timer_picker_numbers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_medium"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/popup_hr"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timer_group_picker">
+
+                <NumberPicker
+                    android:id="@+id/number_picker_hours"
+                    style="@style/AppTheme.PopupNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <NumberPicker
+                    android:id="@+id/number_picker_minutes"
+                    style="@style/AppTheme.PopupNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <NumberPicker
+                    android:id="@+id/number_picker_seconds"
+                    style="@style/AppTheme.PopupNumberPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/popup_hr"
             android:layout_width="match_parent"
             android:layout_height="@dimen/padding_vvsmall"
             android:layout_marginLeft="@dimen/padding_vvsmall"
             android:layout_marginRight="@dimen/padding_vvsmall"
-            android:background="@color/timerLayoutButtons" />
+            android:background="@color/timerLayoutButtons"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/timer_picker_buttons"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timer_group_picker" />
 
         <LinearLayout
             android:id="@+id/timer_picker_buttons"
@@ -67,8 +119,12 @@
             android:layout_marginLeft="@dimen/padding_vvsmall"
             android:layout_marginRight="@dimen/padding_vvsmall"
             android:layout_marginBottom="@dimen/padding_vvsmall"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/popup_hr">
 
             <Button
                 android:id="@+id/set_timer_button"
@@ -95,4 +151,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.timerApplication.common.ConstantsClass;
+import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.TimerGroup;
 import com.example.timerApplication.timers.TimerGroupType;
 import com.google.gson.Gson;
@@ -24,10 +25,11 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     ImageButton homeAddButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
-
     final Gson gson = new Gson();
 
-    public static ArrayList<TimerGroup> listTimerGroup = new ArrayList<>();
+    public HomeActivity returnThis() {
+        return this;
+    }
 
     @Override
     public View onCreateView(
@@ -55,30 +57,45 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == homeAddButton.getId()) addTimerGroup();
+        if (!DataHolder.getInstance().getDisableButtonClick()) {
+            DataHolder.getInstance().setDisableButtonClick(true);
+            if (view.getId() == homeAddButton.getId()) addTimerGroup();
+        }
     }
 
     public void addTimerGroup() {
-        listTimerGroup.add(new TimerGroup(TimerGroupType.TIMER_GROUP));
+        DataHolder.getInstance().getListTimerGroup().add(new TimerGroup(TimerGroupType.TIMER_GROUP));
         recyclerAdapter.setFromHome(true);
         recyclerAdapter.setNewItem(true);
-        recyclerAdapter.notifyItemInserted(listTimerGroup.size());
         recyclerAdapter.setFromStorage(false);
-        System.out.println("Saving: " + gson.toJson(listTimerGroup));
+        recyclerAdapter.notifyItemInserted(DataHolder.getInstance().getListTimerGroup().size());
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(ConstantsClass.HOME_LIST, gson.toJson(listTimerGroup));
-        editor.apply();
+        editor.remove(ConstantsClass.HOME_LIST);
+        editor.clear();
+        editor.putString(ConstantsClass.HOME_LIST, gson.toJson(DataHolder.getInstance().getAllTimerGroups()));
+        editor.commit();
+
     }
 
     private void loadData() {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
-        gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new ArrayList<TimerGroup>() {
-        }.getClass());
-        System.out.println("Loading: " + gson.toJson(listTimerGroup));
+        if (DataHolder.getInstance().getAllTimerGroups() != null && DataHolder.getInstance().getAllTimerGroups().size() > 0)
+            DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
+        else {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+            ArrayList<TimerGroup> list = gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new ArrayList<TimerGroup>() {
+            }.getClass());
+            if (list != null && list.size() > 0) {
+                DataHolder.getInstance().setListTimerGroup(list);
+                DataHolder.getInstance().setAllTimerGroups(list);
+            } else {
+                DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
+                DataHolder.getInstance().setAllTimerGroups(new ArrayList<>());
+            }
+        }
         recyclerAdapter.setFromStorage(true);
         recyclerAdapter.setFromHome(true);
-        recyclerAdapter.notifyItemInserted(listTimerGroup.size());
+        recyclerAdapter.notifyDataSetChanged();
 //        recyclerAdapter.setFromStorage(false);
 
     }

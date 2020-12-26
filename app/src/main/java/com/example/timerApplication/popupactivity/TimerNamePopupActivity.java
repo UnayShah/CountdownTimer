@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
+import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.TimerGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -64,11 +65,22 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
         timerGroup.setName(editTextTimerName.getText().toString());
         timerGroupView.setTimerText(editTextTimerName.getText().toString());
         timerGroupView.itemView.setVisibility(View.VISIBLE);
+        if (newTimerGroup) {
+            if (!DataHolder.getInstance().getAllTimerGroups().contains(timerGroup))
+                DataHolder.getInstance().getAllTimerGroups().add(timerGroup);
+            DataHolder.getInstance().getListTimerGroup().set(position, timerGroup);
+            DataHolder.getInstance().getMapTimerGroups().put(timerGroup.toString(),
+                    DataHolder.getInstance().getAllTimerGroups().indexOf(timerGroup));
+        } else {
+            DataHolder.getInstance().getMapTimerGroups().remove(DataHolder.getInstance().getAllTimerGroups().get(position));
+            DataHolder.getInstance().getMapTimerGroups().put(timerGroup.toString(), position);
+            DataHolder.getInstance().getAllTimerGroups().set(DataHolder.getInstance().getMapTimerGroups().get(timerGroup.getName()), timerGroup);
+        }
         recyclerAdapter.setNewItem(false);
+
         popupWindow.dismiss();
         return timerGroup;
     }
-
 
     public TimerGroup editTimerGroup() {
         setAndDismiss = false;
@@ -92,6 +104,9 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
                 if (length > 0 && !text.matches("([\\w\\d]+ ?)+[A-zZ-z0-9]*")) {
                     s.delete(length - 1, length);
                 }
+                if (DataHolder.getInstance().getMapTimerGroups().containsKey(s.toString())) {
+                    setTimerNameButton.setEnabled(false);
+                } else setTimerNameButton.setEnabled(true);
             }
         });
 
@@ -104,6 +119,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
     @Override
     public void onClick(View view) {
+        DataHolder.getInstance().setDisableButtonClick(false);
         if (view.getId() == setTimerNameButton.getId())
             timerGroup.setName(setTimerName().getName());
         else if (view.getId() == cancelSetTimerNameButton.getId()) cancelSetTimerName();

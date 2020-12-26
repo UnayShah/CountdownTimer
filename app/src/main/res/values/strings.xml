@@ -19,4 +19,7 @@
     <string name="timer_name_popup">Enter new timer name:</string>
     <string name="timer_text_placeholder">Timer Name</string>
     <string name="title_image">Title Image</string>
+    <string name="toggle_timer_group_picker">Add Timer Group</string>
+    <string name="toggle_number_picker">Set Timer</string>
+    <string name="new_timer_group">New Timer Group</string>
 </resources>

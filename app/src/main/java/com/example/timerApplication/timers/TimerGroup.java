@@ -23,13 +23,13 @@ public class TimerGroup {
     public TimerGroup() {
         setName("");
         looped = false;
-        setTimer(new Timer());
         listTimerGroup = new ArrayList<>();
     }
 
     public TimerGroup(TimerGroupType timerGroupType) {
         this();
         this.setTimerGroupType(timerGroupType);
+        if (timerGroupType.equals(TimerGroupType.TIMER)) setTimer(new Timer());
     }
 
     public TimerGroup(Timer timer) {

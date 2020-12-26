@@ -1,0 +1,4 @@
+Not saving permanently
+Hidden return button
+Back navigation when timer running crashes app
+Have to add timergroup option in pop up
