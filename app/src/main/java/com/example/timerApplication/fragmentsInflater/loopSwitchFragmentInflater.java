@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.example.timerApplication.R;
 import com.example.timerApplication.TimerActivity;
 import com.example.timerApplication.common.ConstantsClass;
+import com.example.timerApplication.model.DataHolder;
 
 public class loopSwitchFragmentInflater extends Fragment implements View.OnClickListener {
 
@@ -40,7 +41,8 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
     @Override
     public void onClick(View v) {
         TimerActivity.looped = !TimerActivity.looped;
-        loopButton.setImageDrawable(TimerActivity.looped ? AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop_accent) : AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop));
-        Toast.makeText(getContext(), TimerActivity.looped ? ConstantsClass.LOOPED_COUNTDOWN_TOAST : ConstantsClass.UNLOOPED_COUNTDOWN_TOAST, Toast.LENGTH_SHORT).show();
+        DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).setLooped(!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped());
+        loopButton.setImageDrawable(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() ? AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop_accent) : AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop));
+        Toast.makeText(getContext(), DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() ? ConstantsClass.LOOPED_COUNTDOWN_TOAST : ConstantsClass.UNLOOPED_COUNTDOWN_TOAST, Toast.LENGTH_SHORT).show();
     }
 }

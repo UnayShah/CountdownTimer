@@ -39,16 +39,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/padding_vvsmall"
+            android:layout_marginBottom="@dimen/padding_small"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="center_horizontal|top"
             android:orientation="vertical">
+
+            <include
+                android:id="@+id/add_new_timer_group"
+                layout="@layout/add_new_timer_group"
+                android:visibility="gone" />
 
             <ScrollView
                 android:id="@+id/timer_group_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_medium"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/timer_picker_numbers"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -59,18 +65,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal">
-
-                    <include layout="@layout/add_new_timer_group"/>
-
-                </LinearLayout>
+                    android:orientation="vertical"
+                    android:visibility="gone" />
             </ScrollView>
 
             <LinearLayout
                 android:id="@+id/timer_picker_numbers"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_medium"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -79,23 +81,68 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timer_group_picker">
 
-                <NumberPicker
-                    android:id="@+id/number_picker_hours"
-                    style="@style/AppTheme.PopupNumberPicker"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <NumberPicker
-                    android:id="@+id/number_picker_minutes"
-                    style="@style/AppTheme.PopupNumberPicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_vsmall"
+                        android:gravity="center_horizontal"
+                        android:text="@string/popup_hours_label"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/timer_list_text" />
 
-                <NumberPicker
-                    android:id="@+id/number_picker_seconds"
-                    style="@style/AppTheme.PopupNumberPicker"
+                    <NumberPicker
+                        android:id="@+id/number_picker_hours"
+                        style="@style/AppTheme.PopupNumberPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_vsmall"
+                        android:gravity="center_horizontal"
+                        android:text="@string/popup_minutes_label"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/timer_list_text" />
+
+                    <NumberPicker
+                        android:id="@+id/number_picker_minutes"
+                        style="@style/AppTheme.PopupNumberPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/padding_vsmall"
+                        android:gravity="center_horizontal"
+                        android:text="@string/popup_seconds_label"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/timer_list_text" />
+
+                    <NumberPicker
+                        android:id="@+id/number_picker_seconds"
+                        style="@style/AppTheme.PopupNumberPicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

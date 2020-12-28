@@ -3,12 +3,12 @@ package com.example.timerApplication.popupactivity;
 import android.content.Context;
 import android.os.Vibrator;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.timerApplication.R;
@@ -17,6 +17,7 @@ import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.Timer;
 import com.example.timerApplication.timers.TimerGroup;
+import com.example.timerApplication.timers.TimerGroupType;
 
 public class PopupActivity implements View.OnClickListener {
 
@@ -30,6 +31,7 @@ public class PopupActivity implements View.OnClickListener {
     NumberPicker numberPickerSeconds;
     View popupView;
     View timersView;
+    View addNewTimerGroupView;
     PopupWindow popupWindow;
     TimerGroup timerGroup;
     Vibrator vibrator;
@@ -37,7 +39,9 @@ public class PopupActivity implements View.OnClickListener {
     Integer position;
     Boolean setAndDismiss;
     LinearLayout numberPickerLayout;
-    ScrollView timerGroupPickerLayout;
+    LinearLayout timerGroupPickerLayout;
+    RecyclerAdapter.ListItemViewHolder viewHolder;
+
 
     /**
      * Popup view to get layout from main activity.
@@ -60,6 +64,7 @@ public class PopupActivity implements View.OnClickListener {
         this.recyclerAdapter = recyclerAdapter;
         init();
         this.timerGroup = new TimerGroup(viewHolder.getTimerGroupType());
+        this.viewHolder = viewHolder;
     }
 
     /**
@@ -79,14 +84,17 @@ public class PopupActivity implements View.OnClickListener {
         numberPickerInit(numberPickerMinutes, ConstantsClass.NUMBER_PICKER_MINUTES_START, ConstantsClass.NUMBER_PICKER_MINUTES_END);
         numberPickerInit(numberPickerSeconds, ConstantsClass.NUMBER_PICKER_SECONDS_START, ConstantsClass.NUMBER_PICKER_SECONDS_END);
 
+        addNewTimerGroupView = popupView.findViewById(R.id.add_new_timer_group);
         numberPickerLayout = popupView.findViewById(R.id.timer_picker_numbers);
-        timerGroupPickerLayout = popupView.findViewById(R.id.timer_group_picker);
+        timerGroupPickerLayout = popupView.findViewById(R.id.new_timer_group);
         timerGroupPickerLayout.setVisibility(View.GONE);
+        addNewTimerGroupView.setVisibility(View.GONE);
         numberPickerLayout.setVisibility(View.VISIBLE);
 
         //Route number picker buttons
         setTimerButton = popupView.findViewById(R.id.set_timer_button);
         cancelSetTimerButton = popupView.findViewById(R.id.cancel_set_timer_button);
+        addNewTimerGroupView.setOnClickListener(this);
         toggleNumberPickerTimerGroup = popupView.findViewById(R.id.toggle_numberpicker_timergroup);
         setTimerButton.setOnClickListener(this);
         cancelSetTimerButton.setOnClickListener(this);
@@ -103,17 +111,48 @@ public class PopupActivity implements View.OnClickListener {
             timerText.setText(setTimer().toString());
         else if (view.getId() == toggleNumberPickerTimerGroup.getId())
             toggleView();
+        else if (view.getId() == addNewTimerGroupView.getId()) {
+            DataHolder.getInstance().getListTimerGroup().add(new TimerGroup(TimerGroupType.TIMER_GROUP));
+            recyclerAdapter.setFromHome(false);
+            recyclerAdapter.setNewItem(true);
+            recyclerAdapter.setFromStorage(false);
+            recyclerAdapter.notifyItemInserted(DataHolder.getInstance().getListTimerGroup().size());
+            popupWindow.dismiss();
+        }
     }
 
     public void toggleView() {
         if (numberPickerLayout.getVisibility() == View.VISIBLE) {
             numberPickerLayout.setVisibility(View.GONE);
+            addNewTimerGroupView.setVisibility(View.VISIBLE);
             timerGroupPickerLayout.setVisibility(View.VISIBLE);
+            addNewTimerGroupView.setVisibility(View.VISIBLE);
             toggleNumberPickerTimerGroup.setText(R.string.toggle_number_picker);
+            for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups()) {
+                if (!tg.getName().equals(DataHolder.getInstance().getStackNavigation().peek())) {
+                    View view = LayoutInflater.from(popupView.getContext()).inflate(R.layout.timergroup_picker_item, null, false);
+                    TextView textView = view.findViewById(R.id.timer_group_picker_name);
+                    textView.setText(tg.getName());
+                    view.setVisibility(View.VISIBLE);
+                    view.setOnClickListener(v -> {
+                        setAndDismiss = true;
+                        popupWindow.dismiss();
+                        DataHolder.getInstance().getListTimerGroup().set(position, DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())));
+                        DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).setListTimerGroup(DataHolder.getInstance().getListTimerGroup());
+                        viewHolder.setTimerGroupType(TimerGroupType.TIMER_GROUP);
+                        timerText.setText(tg.getName());
+                        timersView.setVisibility(View.VISIBLE);
+                        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
+                    });
+                    timerGroupPickerLayout.addView(view);
+                }
+            }
         } else {
             numberPickerLayout.setVisibility(View.VISIBLE);
             timerGroupPickerLayout.setVisibility(View.GONE);
+            addNewTimerGroupView.setVisibility(View.GONE);
             toggleNumberPickerTimerGroup.setText(R.string.toggle_timer_group_picker);
+            timerGroupPickerLayout.removeAllViewsInLayout();
         }
     }
 
@@ -142,6 +181,7 @@ public class PopupActivity implements View.OnClickListener {
         DataHolder.getInstance().getListTimerGroup().set(position, timerGroup);
         if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
             DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).setListTimerGroup(DataHolder.getInstance().getListTimerGroup());
+        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
         timersView.setVisibility(View.VISIBLE);
         return timerGroup;
     }

@@ -24,9 +24,13 @@ import com.example.timerApplication.timers.TimerGroup;
 import com.example.timerApplication.timers.TimerGroupType;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 
 public class TimerActivity extends Fragment implements View.OnClickListener, IStartDragListener {
 
+    public static Boolean timerRunning;
+    public static Boolean looped;
     ImageButton addTimerButton;
     ImageButton startPauseTimerButton;
     ImageButton stopTimerButton;
@@ -37,10 +41,8 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     ItemTouchHelper itemTouchHelper;
     TextView timerTextView;
     CountdownTimer countdownTimer;
-    public static Boolean timerRunning;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
-    public static Boolean looped;
 
     @Override
     public View onCreateView(
@@ -91,7 +93,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         startPauseTimerButton.setVisibility(View.GONE);
         addTimerButton.setVisibility(View.GONE);
         stopTimerButton.setVisibility(View.GONE);
-        returnButton.setVisibility(View.INVISIBLE);
+        returnButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.VISIBLE);
         recyclerAdapter.setFromStorage(true);
@@ -106,6 +108,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
             recyclerAdapter.notifyDataSetChanged();
         }
     }
+
 
     public void requestDrag(RecyclerAdapter.ListItemViewHolder viewHolder) {
         itemTouchHelper.startDrag(viewHolder);
@@ -155,7 +158,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         startPauseTimerButton.setImageResource(R.drawable.ic_round_pause);
         stopTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.GONE);
-        countdownTimer.startTimer(indexOfTimer, pauseTimeInMillis);
+        countdownTimer.startTimer(pauseTimeInMillis);
     }
 
     public void setTimerPaused() {
@@ -177,6 +180,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
 
     private void returnButton() {
         stopTimer();
+        DataHolder.getInstance().getQueueTimers().removeAll(new LinkedList<Timer>());
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
             DataHolder.getInstance().getStackNavigation().pop();
             if (DataHolder.getInstance().getStackNavigation().empty()) {

@@ -30,6 +30,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     Boolean fromHome;
     Boolean fromStorage;
     Boolean newItem;
+    View timerPopupView;
+
+    public RecyclerAdapter() {
+        boolRemove = false;
+    }
+
+    public RecyclerAdapter(IStartDragListener iStartDragListener) {
+        this.startDragListener = iStartDragListener;
+        boolRemove = false;
+    }
 
     public void setNewItem(Boolean newItem) {
         this.newItem = newItem;
@@ -39,20 +49,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         this.fromStorage = fromStorage;
     }
 
-    View timerPopupView;
-
     public void setFromHome(Boolean fromHome) {
         this.fromHome = fromHome;
-    }
-
-
-    public RecyclerAdapter() {
-        boolRemove = false;
-    }
-
-    public RecyclerAdapter(IStartDragListener iStartDragListener) {
-        this.startDragListener = iStartDragListener;
-        boolRemove = false;
     }
 
     private void navigate(String timerText) {
@@ -90,6 +88,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
         Collections.swap(DataHolder.getInstance().getListTimerGroup(), fromPosition, toPosition);
+        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
         this.notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -133,28 +132,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
 
         Boolean onHomeScreen;
+        TimerGroupType timerGroupType;
+
+        public ListItemViewHolder(@NonNull final View itemView) {
+            super(itemView);
+            dragImage = itemView.findViewById(R.id.drag);
+            timerText = itemView.findViewById(R.id.timer_textViewList);
+            button1 = itemView.findViewById(R.id.edit_timer);
+            button2 = itemView.findViewById(R.id.delete_timer);
+            button1.setOnClickListener(this);
+            button2.setOnClickListener(this);
+            timerText.setOnClickListener(this);
+            dragImage.setOnTouchListener(this);
+        }
 
         public Boolean getOnHomeScreen() {
             return onHomeScreen;
+        }
+
+        public void setOnHomeScreen(Boolean onHomeScreen) {
+            this.onHomeScreen = onHomeScreen;
         }
 
         public TimerGroupType getTimerGroupType() {
             return timerGroupType;
         }
 
-        TimerGroupType timerGroupType;
-
-        public void setOnHomeScreen(Boolean onHomeScreen) {
-            this.onHomeScreen = onHomeScreen;
+        public void setTimerGroupType(TimerGroupType timerGroupType) {
+            this.timerGroupType = timerGroupType;
         }
 
         public void setDragImageVisibility() {
             if (onHomeScreen) dragImage.setVisibility(View.GONE);
             else dragImage.setVisibility(View.VISIBLE);
-        }
-
-        public void setTimerGroupType(TimerGroupType timerGroupType) {
-            this.timerGroupType = timerGroupType;
         }
 
         public TextView getTimerText() {
@@ -167,18 +177,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 processedString += s + " ";
             processedString = processedString.substring(0, processedString.length() - 1);
             this.timerText.setText(processedString);
-        }
-
-        public ListItemViewHolder(@NonNull final View itemView) {
-            super(itemView);
-            dragImage = itemView.findViewById(R.id.drag);
-            timerText = itemView.findViewById(R.id.timer_textViewList);
-            button1 = itemView.findViewById(R.id.edit_timer);
-            button2 = itemView.findViewById(R.id.delete_timer);
-            button1.setOnClickListener(this);
-            button2.setOnClickListener(this);
-            timerText.setOnClickListener(this);
-            dragImage.setOnTouchListener(this);
         }
 
         @Override

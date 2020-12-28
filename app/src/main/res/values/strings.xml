@@ -22,4 +22,7 @@
     <string name="toggle_timer_group_picker">Add Timer Group</string>
     <string name="toggle_number_picker">Set Timer</string>
     <string name="new_timer_group">New Timer Group</string>
+    <string name="popup_hours_label">HH</string>
+    <string name="popup_minutes_label">MM</string>
+    <string name="popup_seconds_label">SS</string>
 </resources>

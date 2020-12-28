@@ -3,7 +3,9 @@ package com.example.timerApplication.timers;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class TimerGroup {
     String name;
@@ -11,14 +13,6 @@ public class TimerGroup {
     Timer timer;
     List<TimerGroup> listTimerGroup;
     Boolean looped;
-
-    public Boolean getLooped() {
-        return looped;
-    }
-
-    public void setLooped(Boolean looped) {
-        this.looped = looped;
-    }
 
     public TimerGroup() {
         setName("");
@@ -48,6 +42,14 @@ public class TimerGroup {
         }
     }
 
+    public Boolean getLooped() {
+        return looped;
+    }
+
+    public void setLooped(Boolean looped) {
+        this.looped = looped;
+    }
+
     public String getName() {
         return name;
     }
@@ -74,6 +76,23 @@ public class TimerGroup {
 
     public void setTimer(String timerString) {
         this.timer = new Timer(timerString);
+    }
+
+    public Queue<Timer> getTimersQueue() {
+        return getTimersQueue(this);
+    }
+
+    public Queue<Timer> getTimersQueue(TimerGroup timerGroup) {
+        Queue<Timer> queueTimer = new LinkedList<>();
+        for (TimerGroup tg : timerGroup.getListTimerGroup()) {
+            if (tg.getTimerGroupType().equals(TimerGroupType.TIMER))
+                queueTimer.add(tg.getTimer());
+            else {
+                if(!tg.getName().equals(this.getName()))
+                    queueTimer.addAll(getTimersQueue(tg));
+            }
+        }
+        return queueTimer;
     }
 
     public List<TimerGroup> getListTimerGroup() {

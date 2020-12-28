@@ -1,4 +1,3 @@
 Not saving permanently
-Hidden return button
 Back navigation when timer running crashes app
-Have to add timergroup option in pop up
+Have to add code to prevent deletion of timer in use inside other timer
