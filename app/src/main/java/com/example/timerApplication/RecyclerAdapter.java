@@ -35,6 +35,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
     public RecyclerAdapter() {
         boolRemove = false;
+        newItem = false;
     }
 
     public RecyclerAdapter(IStartDragListener iStartDragListener) {

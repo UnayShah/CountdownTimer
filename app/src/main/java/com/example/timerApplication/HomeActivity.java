@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +21,9 @@ import com.example.timerApplication.timers.TimerGroupType;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class HomeActivity extends Fragment implements View.OnClickListener {
+public class HomeActivity extends Fragment implements View.OnClickListener, FragmentManager.OnBackStackChangedListener {
     final Gson gson = new Gson();
     ImageButton homeAddButton;
     RecyclerView recyclerView;
@@ -44,10 +46,12 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     private void init(View view) {
         homeAddButton = view.findViewById(R.id.home_add_button);
         homeAddButton.setOnClickListener(this);
+        DataHolder.getInstance().setQueueTimers(new LinkedList<>());
         recyclerView = view.findViewById(R.id.timerGroupScrollViewRecyclerView);
         recyclerAdapter = new RecyclerAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.setNewItem(false);
         loadData();
     }
 
@@ -75,9 +79,10 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     }
 
     private void loadData() {
-        if (DataHolder.getInstance().getAllTimerGroups() != null && DataHolder.getInstance().getAllTimerGroups().size() > 0)
+        if (DataHolder.getInstance().getAllTimerGroups() != null && DataHolder.getInstance().getAllTimerGroups().size() > 0) {
             DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
-        else {
+            System.out.println(DataHolder.getInstance().getAllTimerGroups());
+        } else {
             SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
             ArrayList<TimerGroup> list = gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new ArrayList<TimerGroup>() {
             }.getClass());
@@ -88,9 +93,15 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
                 DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 DataHolder.getInstance().setAllTimerGroups(new ArrayList<>());
             }
+            DataHolder.getInstance().updateMap();
         }
         recyclerAdapter.setFromStorage(true);
         recyclerAdapter.setFromHome(true);
         recyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        System.exit(ConstantsClass.ZERO);
     }
 }
