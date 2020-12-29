@@ -36,6 +36,7 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
     private void init(View view) {
         loopButton = view.findViewById(R.id.loop_button);
         loopButton.setOnClickListener(this);
+        loopButton.setImageDrawable(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() ? AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop_accent) : AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop));
     }
 
     @Override

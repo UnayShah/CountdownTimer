@@ -35,4 +35,5 @@ public final class ConstantsClass {
     public static final String UNLOOPED_COUNTDOWN_TOAST = "Countdown will run only once";
     public static final String NONE_STRING = "None";
     public static final String HOME_LIST = "HOME_LIST";
+    public static final String COUNTER_IN_USE_ELSEWHERE = "Cannot delete timer group.\nIn use elsewhere.";
 }

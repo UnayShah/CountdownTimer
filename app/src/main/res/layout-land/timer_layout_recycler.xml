@@ -23,7 +23,6 @@
             android:id="@+id/landscape_timer_constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/timer_layout_countdown"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/padding_large"
             android:paddingTop="@dimen/padding_small"

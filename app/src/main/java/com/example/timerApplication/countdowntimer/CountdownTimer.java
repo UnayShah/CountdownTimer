@@ -25,11 +25,8 @@ public class CountdownTimer {
         this.timerActivity = timerActivity;
         this.timerPaused = false;
         indexOfTimer = 0;
-        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
-        while (!DataHolder.getInstance().getQueueTimers().isEmpty()) {
-            System.out.println(DataHolder.getInstance().getQueueTimers().peek().toString());
-            DataHolder.getInstance().getQueueTimers().remove();
-        }
+        System.out.println(DataHolder.getInstance().getAllTimerGroups());
+        System.out.println(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()));
         DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
     }
 
@@ -66,41 +63,6 @@ public class CountdownTimer {
             }
         }.start();
     }
-
-//    public void startTimer(Integer indexOfTimer, Long pauseTimeInMillis) {
-//        this.indexOfTimer = indexOfTimer;
-//        if (!timerPaused) {
-//            timeInMillis = DataHolder.getInstance().getListTimerGroup().get(indexOfTimer).getTimer().getTimeInMilliseconds();
-////            timeInMillis = TimerActivity.listTimers.getListTimers().get(indexOfTimer).getTimeInMilliseconds();
-//        } else
-//            timeInMillis = pauseTimeInMillis;
-//        timerPaused = false;
-//        countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.ONE_MILLIS_IN_MILLIS) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//                timeInMillis = millisUntilFinished;
-//                timerTextView.setText(new Timer(millisUntilFinished).toString());
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-//                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
-//                Vibrator vibrator = (Vibrator) timerActivity.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-//                vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
-//                if (indexOfTimer + 1 == DataHolder.getInstance().getListTimerGroup().size()) {
-//                    if (TimerActivity.looped) {
-//                        startTimer(ConstantsClass.ZERO, ConstantsClass.ZERO.longValue());
-//                    } else {
-//                        timerActivity.stopTimer();
-//                        return;
-//                    }
-//                } else {
-//                    startTimer(indexOfTimer + ConstantsClass.ONE, ConstantsClass.ZERO.longValue());
-//                }
-//            }
-//        }.start();
-//    }
 
     public Integer getIndexOfTimer() {
         return indexOfTimer;

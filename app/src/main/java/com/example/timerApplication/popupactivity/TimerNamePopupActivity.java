@@ -76,8 +76,9 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
             DataHolder.getInstance().getMapTimerGroups().put(timerGroup.toString(), position);
             DataHolder.getInstance().getAllTimerGroups().set(DataHolder.getInstance().getMapTimerGroups().get(timerGroup.getName()), timerGroup);
         }
+        if (!recyclerAdapter.getFromHome())
+            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(timerGroup.getName())).incrementInternalUsageCount();
         recyclerAdapter.setNewItem(false);
-
         popupWindow.dismiss();
         return timerGroup;
     }

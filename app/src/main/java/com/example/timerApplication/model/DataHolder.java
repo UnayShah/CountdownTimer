@@ -71,6 +71,13 @@ public class DataHolder {
 
     private static final DataHolder dataHolder = new DataHolder();
 
+    public void updateMap(){
+        mapTimerGroups.clear();
+        for(int i = 0; i<allTimerGroups.size(); i++){
+            mapTimerGroups.put(allTimerGroups.get(i).getName(), i);
+        }
+    }
+
     public static DataHolder getInstance() {
         return dataHolder;
     }

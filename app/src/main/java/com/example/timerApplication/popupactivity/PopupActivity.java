@@ -137,6 +137,7 @@ public class PopupActivity implements View.OnClickListener {
                     view.setOnClickListener(v -> {
                         setAndDismiss = true;
                         popupWindow.dismiss();
+                        tg.incrementInternalUsageCount();
                         DataHolder.getInstance().getListTimerGroup().set(position, DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())));
                         DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).setListTimerGroup(DataHolder.getInstance().getListTimerGroup());
                         viewHolder.setTimerGroupType(TimerGroupType.TIMER_GROUP);

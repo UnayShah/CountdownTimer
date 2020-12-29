@@ -13,10 +13,12 @@ public class TimerGroup {
     Timer timer;
     List<TimerGroup> listTimerGroup;
     Boolean looped;
+    Integer internalUsageCount;
 
     public TimerGroup() {
         setName("");
         looped = false;
+        internalUsageCount = 0;
         listTimerGroup = new ArrayList<>();
     }
 
@@ -40,6 +42,22 @@ public class TimerGroup {
         } else {
             this.name = text;
         }
+    }
+
+    public Integer getInternalUsageCount() {
+        return internalUsageCount;
+    }
+
+    public void setInternalUsageCount(Integer internalUsageCount) {
+        this.internalUsageCount = internalUsageCount;
+    }
+
+    public void incrementInternalUsageCount() {
+        this.internalUsageCount++;
+    }
+
+    public void decrementInternalUsageCount() {
+        this.internalUsageCount--;
     }
 
     public Boolean getLooped() {
@@ -88,7 +106,7 @@ public class TimerGroup {
             if (tg.getTimerGroupType().equals(TimerGroupType.TIMER))
                 queueTimer.add(tg.getTimer());
             else {
-                if(!tg.getName().equals(this.getName()))
+                if (!tg.getName().equals(this.getName()))
                     queueTimer.addAll(getTimersQueue(tg));
             }
         }

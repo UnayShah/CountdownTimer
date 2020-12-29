@@ -101,7 +101,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
 
         if (!DataHolder.getInstance().getStackNavigation().isEmpty()) {
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
-                DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
+                DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()).intValue()).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
             recyclerAdapter.setFromHome(false);
             recyclerAdapter.setFromStorage(true);
@@ -175,19 +175,23 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
         countdownTimer.stopTimer();
+        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
     private void returnButton() {
         stopTimer();
         DataHolder.getInstance().getQueueTimers().removeAll(new LinkedList<Timer>());
+        recyclerAdapter.setFromStorage(true);
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
             DataHolder.getInstance().getStackNavigation().pop();
             if (DataHolder.getInstance().getStackNavigation().empty()) {
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
+                recyclerAdapter.setFromHome(true);
                 getParentFragmentManager().popBackStack();
                 Navigation.createNavigateOnClickListener(R.id.action_timerActivity_to_homeActivity).onClick(returnButton);
             } else {
+                recyclerAdapter.setFromHome(false);
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
                     DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
