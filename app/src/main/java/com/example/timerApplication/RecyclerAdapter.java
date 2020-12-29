@@ -123,8 +123,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
      */
     public void deleteTimerGroup(int position) {
         boolRemove = true;
-        if (fromHome) {
-            System.out.println(fromHome + " " + position + " " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(position).getName()).intValue()) + " " + DataHolder.getInstance().getAllTimerGroups().remove(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(position).getName()).intValue()));
+        if (fromHome && !newItem) {
+            if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(position).getName())) {
+                System.out.println(DataHolder.getInstance().getAllTimerGroups().remove(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(position).getName()).intValue()));
+            }
             DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
         } else {
             DataHolder.getInstance().getListTimerGroup().remove(position);

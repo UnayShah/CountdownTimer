@@ -8,22 +8,34 @@ import android.os.Vibrator;
 import android.widget.TextView;
 
 import com.example.timerApplication.TimerActivity;
+import com.example.timerApplication.TimerActivityActivity;
 import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.Timer;
 
 public class CountdownTimer {
     public static Boolean timerPaused = true;
-    private TextView timerTextView;
+    private final TextView timerTextView;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
     private TimerActivity timerActivity;
-    private Integer indexOfTimer;
+    private final Integer indexOfTimer;
+    private TimerActivityActivity timerActivityActivity;
 
     public CountdownTimer(TextView timerTextView, TimerActivity timerActivity) {
         this.timerTextView = timerTextView;
         this.timerActivity = timerActivity;
-        this.timerPaused = false;
+        timerPaused = false;
+        indexOfTimer = 0;
+        System.out.println(DataHolder.getInstance().getAllTimerGroups());
+        System.out.println(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()));
+        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
+    }
+
+    public CountdownTimer(TextView timerTextView, TimerActivityActivity timerActivityActivity) {
+        this.timerTextView = timerTextView;
+        this.timerActivityActivity = timerActivityActivity;
+        timerPaused = false;
         indexOfTimer = 0;
         System.out.println(DataHolder.getInstance().getAllTimerGroups());
         System.out.println(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()));
@@ -80,7 +92,6 @@ public class CountdownTimer {
         try {
             countDownTimer.cancel();
         } catch (Exception ignored) {
-            ;
         }
     }
 }

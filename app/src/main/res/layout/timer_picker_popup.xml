@@ -73,6 +73,8 @@
                 android:id="@+id/timer_picker_numbers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginBottom="@dimen/padding_medium"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"

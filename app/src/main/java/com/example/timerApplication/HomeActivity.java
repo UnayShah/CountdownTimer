@@ -22,14 +22,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class HomeActivity extends Fragment implements View.OnClickListener {
+    final Gson gson = new Gson();
     ImageButton homeAddButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
-    final Gson gson = new Gson();
-
-    public HomeActivity returnThis() {
-        return this;
-    }
 
     @Override
     public View onCreateView(
@@ -74,8 +70,8 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
         editor.remove(ConstantsClass.HOME_LIST);
         editor.clear();
         editor.putString(ConstantsClass.HOME_LIST, gson.toJson(DataHolder.getInstance().getAllTimerGroups()));
+        editor.apply();
         editor.commit();
-
     }
 
     private void loadData() {
@@ -96,7 +92,5 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
         recyclerAdapter.setFromStorage(true);
         recyclerAdapter.setFromHome(true);
         recyclerAdapter.notifyDataSetChanged();
-//        recyclerAdapter.setFromStorage(false);
-
     }
 }
