@@ -87,6 +87,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
         setAndDismiss = false;
         popupWindow = new PopupWindow(timerPopupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
         popupWindow.showAtLocation(timerGroupView.itemView, Gravity.CENTER, 0, 0);
+        setTimerNameButton.setEnabled(false);
         editTextTimerName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -94,8 +95,6 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() <= 0 || s.charAt(0) == ' ') setTimerNameButton.setEnabled(false);
-                else setTimerNameButton.setEnabled(true);
             }
 
             @Override
@@ -105,9 +104,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
                 if (length > 0 && !text.matches("([\\w\\d]+ ?)+[A-zZ-z0-9]*")) {
                     s.delete(length - 1, length);
                 }
-                if (DataHolder.getInstance().getMapTimerGroups().containsKey(s.toString())) {
-                    setTimerNameButton.setEnabled(false);
-                } else setTimerNameButton.setEnabled(true);
+                setTimerNameButton.setEnabled(!DataHolder.getInstance().getMapTimerGroups().containsKey(s.toString()) && length > 0);
             }
         });
 
