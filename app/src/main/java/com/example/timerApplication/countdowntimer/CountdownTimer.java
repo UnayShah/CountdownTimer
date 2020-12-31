@@ -8,7 +8,6 @@ import android.os.Vibrator;
 import android.widget.TextView;
 
 import com.example.timerApplication.TimerActivity;
-import com.example.timerApplication.TimerActivityActivity;
 import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.Timer;
@@ -16,29 +15,16 @@ import com.example.timerApplication.timers.Timer;
 public class CountdownTimer {
     public static Boolean timerPaused = true;
     private final TextView timerTextView;
+    private final Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
-    private TimerActivity timerActivity;
-    private final Integer indexOfTimer;
-    private TimerActivityActivity timerActivityActivity;
+    private final TimerActivity timerActivity;
 
     public CountdownTimer(TextView timerTextView, TimerActivity timerActivity) {
         this.timerTextView = timerTextView;
         this.timerActivity = timerActivity;
         timerPaused = false;
         indexOfTimer = 0;
-        System.out.println(DataHolder.getInstance().getAllTimerGroups());
-        System.out.println(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()));
-        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
-    }
-
-    public CountdownTimer(TextView timerTextView, TimerActivityActivity timerActivityActivity) {
-        this.timerTextView = timerTextView;
-        this.timerActivityActivity = timerActivityActivity;
-        timerPaused = false;
-        indexOfTimer = 0;
-        System.out.println(DataHolder.getInstance().getAllTimerGroups());
-        System.out.println(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()));
         DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
     }
 
@@ -58,7 +44,7 @@ public class CountdownTimer {
             public void onFinish() {
                 ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
-                Vibrator vibrator = (Vibrator) timerActivity.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                Vibrator vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                 vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
                 DataHolder.getInstance().getQueueTimers().remove();
                 if (DataHolder.getInstance().getQueueTimers().isEmpty()) {
@@ -67,7 +53,6 @@ public class CountdownTimer {
                         startTimer(ConstantsClass.ZERO.longValue());
                     } else {
                         timerActivity.stopTimer();
-                        return;
                     }
                 } else {
                     startTimer(ConstantsClass.ZERO.longValue());

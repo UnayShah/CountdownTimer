@@ -3,14 +3,11 @@ package com.example.timerApplication;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,39 +16,39 @@ import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.TimerGroup;
 import com.example.timerApplication.timers.TimerGroupType;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
-public class HomeActivity extends Fragment implements View.OnClickListener, FragmentManager.OnBackStackChangedListener {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+
     final Gson gson = new Gson();
     ImageButton homeAddButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.home_screen, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.home_screen);
+        init();
     }
 
-    public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init(view);
+    @Override
+    protected void onResume() {
+        recyclerAdapter.notifyDataSetChanged();
+        super.onResume();
     }
 
-    private void init(View view) {
-        homeAddButton = view.findViewById(R.id.home_add_button);
+    private void init() {
+        homeAddButton = findViewById(R.id.home_add_button);
         homeAddButton.setOnClickListener(this);
-        DataHolder.getInstance().setQueueTimers(new LinkedList<>());
-        recyclerView = view.findViewById(R.id.timerGroupScrollViewRecyclerView);
+        recyclerView = findViewById(R.id.timerGroupScrollViewRecyclerView);
         recyclerAdapter = new RecyclerAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerAdapter.setNewItem(false);
+        recyclerAdapter.notifyDataSetChanged();
         loadData();
     }
 
@@ -69,9 +66,9 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Frag
         recyclerAdapter.setNewItem(true);
         recyclerAdapter.setFromStorage(false);
         recyclerAdapter.notifyItemInserted(DataHolder.getInstance().getListTimerGroup().size());
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(ConstantsClass.HOME_LIST);
+//        editor.remove(ConstantsClass.HOME_LIST);
         editor.clear();
         editor.putString(ConstantsClass.HOME_LIST, gson.toJson(DataHolder.getInstance().getAllTimerGroups()));
         editor.apply();
@@ -81,11 +78,10 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Frag
     private void loadData() {
         if (DataHolder.getInstance().getAllTimerGroups() != null && DataHolder.getInstance().getAllTimerGroups().size() > 0) {
             DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
-            System.out.println(DataHolder.getInstance().getAllTimerGroups());
         } else {
-            SharedPreferences sharedPreferences = getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
-            ArrayList<TimerGroup> list = gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new ArrayList<TimerGroup>() {
-            }.getClass());
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+            ArrayList<TimerGroup> list = gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new TypeToken<List<TimerGroup>>() {
+            }.getType());
             if (list != null && list.size() > 0) {
                 DataHolder.getInstance().setListTimerGroup(list);
                 DataHolder.getInstance().setAllTimerGroups(list);
@@ -93,15 +89,10 @@ public class HomeActivity extends Fragment implements View.OnClickListener, Frag
                 DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 DataHolder.getInstance().setAllTimerGroups(new ArrayList<>());
             }
-            DataHolder.getInstance().updateMap();
         }
+        DataHolder.getInstance().updateMap();
         recyclerAdapter.setFromStorage(true);
         recyclerAdapter.setFromHome(true);
         recyclerAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        System.exit(ConstantsClass.ZERO);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.timerApplication.model;
 
-import androidx.navigation.NavController;
-
 import com.example.timerApplication.timers.Timer;
 import com.example.timerApplication.timers.TimerGroup;
 import com.google.gson.Gson;
@@ -16,7 +14,7 @@ import java.util.Stack;
 public class DataHolder {
     private List<TimerGroup> listTimerGroup;
     private List<TimerGroup> allTimerGroups;
-    private Stack<String> stackNavigation;
+    private final Stack<String> stackNavigation;
     private Boolean disableButtonClick;
     private Map<String, Integer> mapTimerGroups;
     private Queue<Timer> queueTimers;

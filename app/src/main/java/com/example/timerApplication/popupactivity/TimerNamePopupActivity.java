@@ -1,5 +1,7 @@
 package com.example.timerApplication.popupactivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -13,9 +15,11 @@ import androidx.core.content.ContextCompat;
 
 import com.example.timerApplication.R;
 import com.example.timerApplication.RecyclerAdapter;
+import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.TimerGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocusChangeListener {
     TextInputEditText editTextTimerName;
@@ -57,6 +61,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
             recyclerAdapter.deleteTimerGroup(position);
         }
         recyclerAdapter.setNewItem(false);
+        save();
         popupWindow.dismiss();
     }
 
@@ -79,6 +84,7 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
         if (!recyclerAdapter.getFromHome())
             DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(timerGroup.getName())).incrementInternalUsageCount();
         recyclerAdapter.setNewItem(false);
+        save();
         popupWindow.dismiss();
         return timerGroup;
     }
@@ -130,5 +136,14 @@ public class TimerNamePopupActivity implements View.OnClickListener, View.OnFocu
         } else {
             view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.edit_text));
         }
+    }
+
+    private void save() {
+        SharedPreferences sharedPreferences = timerPopupView.getContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putString(ConstantsClass.HOME_LIST, new Gson().toJson(DataHolder.getInstance().getAllTimerGroups()));
+        editor.apply();
+        editor.commit();
     }
 }

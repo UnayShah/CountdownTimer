@@ -1,5 +1,6 @@
 package com.example.timerApplication;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.timerApplication.common.ConstantsClass;
@@ -126,7 +126,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         boolRemove = true;
         if (fromHome && !newItem) {
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(position).getName())) {
-                System.out.println(DataHolder.getInstance().getAllTimerGroups().remove(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(position).getName()).intValue()));
             }
             DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
         } else {
@@ -143,8 +142,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         TextView timerText;
         ImageButton button1;
         ImageButton button2;
-
-
         Boolean onHomeScreen;
         TimerGroupType timerGroupType;
 
@@ -206,6 +203,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
         @Override
         public void onClick(View view) {
+            final Intent intent;
             if (timerGroupType == TimerGroupType.TIMER && !TimerActivity.timerRunning && !CountdownTimer.timerPaused && !DataHolder.getInstance().getDisableButtonClick()) {
                 DataHolder.getInstance().setDisableButtonClick(true);
                 if (view.getId() == button1.getId())
@@ -221,30 +219,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                     editTimerGroup(this, getAdapterPosition(), false);
                 } else if (view.getId() == button2.getId()) {
                     if (onHomeScreen) {
-                        System.out.println("Count: " + DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount());
                         if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
                             for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(timerText.getText())).getListTimerGroup()) {
                                 if (tg.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP)) {
                                     DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
                                 }
                             }
-//                                DataHolder.getInstance().getAllTimerGroups().remove(DataHolder.getInstance().getMapTimerGroups().remove(timerText.getText()).intValue());
                             deleteTimerGroup(getAdapterPosition());
                         } else
                             Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();
 
                     } else {
                         DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(getAdapterPosition()).getName())).decrementInternalUsageCount();
-                        System.out.println("Count: " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(getAdapterPosition()).getName())).getInternalUsageCount());
                         deleteTimerGroup(getAdapterPosition());
                     }
                     DataHolder.getInstance().updateMap();
                 } else if (view.getId() == timerText.getId()) {
                     DataHolder.getInstance().getStackNavigation().push(String.valueOf(timerText.getText()));
-                    System.out.println(DataHolder.getInstance().getStackNavigation().peek() + " " + DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()));
                     if (onHomeScreen) {
                         fromStorage = true;
-                        Navigation.createNavigateOnClickListener(R.id.action_homeActivity_to_timerActivity).onClick(timerText);
+                        intent = new Intent(itemView.getContext(), TimerActivity.class);
+                        itemView.getContext().startActivity(intent);
                     } else {
                         fromStorage = true;
                         fromHome = false;

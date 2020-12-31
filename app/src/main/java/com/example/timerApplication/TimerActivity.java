@@ -1,17 +1,13 @@
 package com.example.timerApplication;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.Navigation;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,11 +23,8 @@ import com.example.timerApplication.timers.TimerGroupType;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-
-public class TimerActivity extends Fragment implements View.OnClickListener, IStartDragListener, FragmentManager.OnBackStackChangedListener {
-
+public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning;
-    public static Boolean looped;
     ImageButton addTimerButton;
     ImageButton startPauseTimerButton;
     ImageButton stopTimerButton;
@@ -46,38 +39,24 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     Integer indexOfTimer;
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.timer_layout_recycler, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.timer_layout_recycler);
+        init();
     }
 
-    public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init(view);
-    }
-
-    /**
-     * Initialize view objects
-     *
-     * @param view of layout
-     */
-    public void init(View view) {
-        looped = false;
-        recyclerView = view.findViewById(R.id.timers_scrollView_recyclerView);
+    public void init() {
+        recyclerView = findViewById(R.id.timers_scrollView_recyclerView);
         recyclerAdapter = new RecyclerAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(recyclerAdapter);
-
-        timerTextView = view.findViewById(R.id.timer_textView);
+        timerTextView = findViewById(R.id.timer_textView);
         timerTextView.setText(new Timer().toString());
-        addTimerButton = view.findViewById(R.id.add_button);
-        startPauseTimerButton = view.findViewById(R.id.start_pause_button);
-        returnButton = view.findViewById(R.id.return_button);
-        scrollViewTimers = view.findViewById(R.id.timers_scrollView);
-        stopTimerButton = view.findViewById(R.id.stop_button);
+        addTimerButton = findViewById(R.id.add_button);
+        startPauseTimerButton = findViewById(R.id.start_pause_button);
+        returnButton = findViewById(R.id.return_button);
+        scrollViewTimers = findViewById(R.id.timers_scrollView);
+        stopTimerButton = findViewById(R.id.stop_button);
         ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -86,7 +65,11 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
         returnButton.setOnClickListener(this);
-        countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
+        try {
+            countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         timerRunning = false;
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
@@ -144,19 +127,15 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
     }
 
     private void startPauseTimer() {
-        if (DataHolder.getInstance().getQueueTimers().isEmpty() || DataHolder.getInstance().getQueueTimers().peek() == null) {
-            DataHolder.getInstance().setDisableButtonClick(false);
-        } else {
-            if (DataHolder.getInstance().getListTimerGroup().size() > 0) {
-                if (timerRunning) {
-                    setTimerPaused();
-                } else {
-                    timerStarted();
-                }
-                timerRunning = !timerRunning;
+        if (DataHolder.getInstance().getListTimerGroup().size() > 0) {
+            if (timerRunning) {
+                setTimerPaused();
+            } else {
+                timerStarted();
             }
-            DataHolder.getInstance().setDisableButtonClick(false);
+            timerRunning = !timerRunning;
         }
+        DataHolder.getInstance().setDisableButtonClick(false);
     }
 
     public void timerStarted() {
@@ -170,6 +149,11 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
         startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
         pauseTimeInMillis = countdownTimer.pauseTimer();
         indexOfTimer = countdownTimer.getIndexOfTimer();
+    }
+
+    @Override
+    public void onBackPressed() {
+        returnButton();
     }
 
     public void stopTimer() {
@@ -193,31 +177,7 @@ public class TimerActivity extends Fragment implements View.OnClickListener, ISt
             if (DataHolder.getInstance().getStackNavigation().empty()) {
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
                 recyclerAdapter.setFromHome(true);
-                getParentFragmentManager().popBackStack();
-                Navigation.createNavigateOnClickListener(R.id.action_timerActivity_to_homeActivity).onClick(returnButton);
-            } else {
-                recyclerAdapter.setFromHome(false);
-                if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
-                    DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
-                else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
-                recyclerAdapter.notifyDataSetChanged();
-            }
-        }
-        DataHolder.getInstance().setDisableButtonClick(false);
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        stopTimer();
-        DataHolder.getInstance().getQueueTimers().removeAll(new LinkedList<Timer>());
-        recyclerAdapter.setFromStorage(true);
-        if (!DataHolder.getInstance().getStackNavigation().empty()) {
-            DataHolder.getInstance().getStackNavigation().pop();
-            if (DataHolder.getInstance().getStackNavigation().empty()) {
-                DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
-                recyclerAdapter.setFromHome(true);
-                getParentFragmentManager().popBackStack();
-                Navigation.createNavigateOnClickListener(R.id.action_timerActivity_to_homeActivity).onClick(returnButton);
+                super.onBackPressed();
             } else {
                 recyclerAdapter.setFromHome(false);
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
