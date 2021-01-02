@@ -1,8 +1,10 @@
 package com.example.timerApplication;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -16,15 +18,14 @@ import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.countdowntimer.CountdownTimer;
 import com.example.timerApplication.countdowntimer.CountdownTimerFactory;
 import com.example.timerApplication.model.DataHolder;
+import com.example.timerApplication.popupactivity.TimePickerPopup;
 import com.example.timerApplication.timers.Timer;
-import com.example.timerApplication.timers.TimerGroup;
-import com.example.timerApplication.timers.TimerGroupType;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
-    public static Boolean timerRunning;
+    public static Boolean timerRunning = false;
     ImageButton addTimerButton;
     ImageButton startPauseTimerButton;
     ImageButton stopTimerButton;
@@ -37,6 +38,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     CountdownTimer countdownTimer;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
+    View timerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,11 +67,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
         returnButton.setOnClickListener(this);
-        try {
-            countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
         timerRunning = false;
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
@@ -80,17 +78,14 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         returnButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.VISIBLE);
-        recyclerAdapter.setFromStorage(true);
-        recyclerAdapter.setFromHome(false);
-
+        timerLayout = findViewById(R.id.timer_layout);
         if (!DataHolder.getInstance().getStackNavigation().isEmpty()) {
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()).intValue()).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
-            recyclerAdapter.setFromHome(false);
-            recyclerAdapter.setFromStorage(true);
             recyclerAdapter.notifyDataSetChanged();
         }
+        DataHolder.getInstance().setDisableButtonClick(false);
     }
 
 
@@ -109,9 +104,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         if (!DataHolder.getInstance().getDisableButtonClick()) {
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == addTimerButton.getId()) addTimer();
-            else if (view.getId() == startPauseTimerButton.getId()) startPauseTimer();
+            else if (view.getId() == startPauseTimerButton.getId() && !DataHolder.getInstance().getQueueTimers().isEmpty())
+                startPauseTimer();
             else if (view.getId() == stopTimerButton.getId()) stopTimer();
             else if (view.getId() == returnButton.getId()) returnButton();
+            else DataHolder.getInstance().setDisableButtonClick(false);
         }
     }
 
@@ -119,11 +116,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
      * Create and add new timer in list
      */
     private void addTimer() {
-        recyclerAdapter.setFromHome(false);
-        recyclerAdapter.setNewItem(true);
-        recyclerAdapter.setFromStorage(false);
-        DataHolder.getInstance().getListTimerGroup().add(new TimerGroup(TimerGroupType.TIMER));
-        recyclerAdapter.notifyItemInserted(DataHolder.getInstance().getListTimerGroup().size());
+        View timePickerPopupWindowView = getLayoutInflater().inflate(R.layout.timer_picker_popup, null, false);
+        PopupWindow timePickerPopupWindow = new TimePickerPopup(timePickerPopupWindowView, recyclerAdapter);
+        timePickerPopupWindow.showAtLocation(findViewById(R.id.timer_layout), Gravity.CENTER, 0, 0);
     }
 
     private void startPauseTimer() {
@@ -171,15 +166,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     private void returnButton() {
         stopTimer();
         DataHolder.getInstance().getQueueTimers().removeAll(new LinkedList<Timer>());
-        recyclerAdapter.setFromStorage(true);
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
             DataHolder.getInstance().getStackNavigation().pop();
             if (DataHolder.getInstance().getStackNavigation().empty()) {
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
-                recyclerAdapter.setFromHome(true);
                 super.onBackPressed();
             } else {
-                recyclerAdapter.setFromHome(false);
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
                     DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());

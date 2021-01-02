@@ -1,25 +1,20 @@
 package com.example.timerApplication;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.timerApplication.common.ConstantsClass;
 import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.timers.TimerGroup;
-import com.example.timerApplication.timers.TimerGroupType;
+import com.example.timerApplication.popupactivity.TimerNamePopup;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,38 +56,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void addTimerGroup() {
-        DataHolder.getInstance().getListTimerGroup().add(new TimerGroup(TimerGroupType.TIMER_GROUP));
-        recyclerAdapter.setFromHome(true);
-        recyclerAdapter.setNewItem(true);
-        recyclerAdapter.setFromStorage(false);
-        recyclerAdapter.notifyItemInserted(DataHolder.getInstance().getListTimerGroup().size());
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.remove(ConstantsClass.HOME_LIST);
-        editor.clear();
-        editor.putString(ConstantsClass.HOME_LIST, gson.toJson(DataHolder.getInstance().getAllTimerGroups()));
-        editor.apply();
-        editor.commit();
+        View timerNamePopupWindowView = getLayoutInflater().inflate(R.layout.timer_name_popup, null, false);
+        PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, recyclerAdapter);
+        timerNamePopupWindow.showAtLocation(findViewById(R.id.home_screen), Gravity.CENTER, 0, 0);
     }
 
     private void loadData() {
-        if (DataHolder.getInstance().getAllTimerGroups() != null && DataHolder.getInstance().getAllTimerGroups().size() > 0) {
-            DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
-        } else {
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
-            ArrayList<TimerGroup> list = gson.fromJson(sharedPreferences.getString(ConstantsClass.HOME_LIST, gson.toJson(new ArrayList<TimerGroup>())), new TypeToken<List<TimerGroup>>() {
-            }.getType());
-            if (list != null && list.size() > 0) {
-                DataHolder.getInstance().setListTimerGroup(list);
-                DataHolder.getInstance().setAllTimerGroups(list);
-            } else {
-                DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
-                DataHolder.getInstance().setAllTimerGroups(new ArrayList<>());
-            }
-        }
-        DataHolder.getInstance().updateMap();
-        recyclerAdapter.setFromStorage(true);
-        recyclerAdapter.setFromHome(true);
+        DataHolder.getInstance().loadData(getApplicationContext());
         recyclerAdapter.notifyDataSetChanged();
     }
 }

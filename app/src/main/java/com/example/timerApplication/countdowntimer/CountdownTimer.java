@@ -13,7 +13,7 @@ import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.Timer;
 
 public class CountdownTimer {
-    public static Boolean timerPaused = true;
+    public static Boolean timerPaused = false;
     private final TextView timerTextView;
     private final Integer indexOfTimer;
     private CountDownTimer countDownTimer;

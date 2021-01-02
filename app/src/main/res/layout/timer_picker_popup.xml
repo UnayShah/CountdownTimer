@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/number_picker_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical"
-    android:weightSum="1"
-    tools:context=".popupactivity.PopupActivity">
+    android:id="@+id/timer_picker_layout"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/padding_huge"
-        android:layout_marginRight="@dimen/padding_huge"
-        android:layout_weight=".6"
+        android:layout_height="match_parent"
         android:background="@drawable/number_picker_dialog"
         android:gravity="center"
         android:orientation="vertical"
@@ -24,9 +18,12 @@
         <Button
             android:id="@+id/toggle_numberpicker_timergroup"
             style="@style/AppTheme.PopupButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_small_medium"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/padding_small_medium"
+            android:layout_marginRight="@dimen/padding_medium"
+            android:layout_marginBottom="@dimen/padding_small_medium"
             android:background="@drawable/timer_list_buttons"
             android:padding="@dimen/padding_small_medium"
             android:text="@string/toggle_timer_group_picker"
@@ -39,16 +36,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/padding_medium"
             android:layout_marginTop="@dimen/padding_vvsmall"
+            android:layout_marginRight="@dimen/padding_medium"
             android:layout_marginBottom="@dimen/padding_small"
             android:layout_weight="1"
             android:gravity="center_horizontal|top"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_medium"
+            android:paddingRight="@dimen/padding_medium">
 
             <include
                 android:id="@+id/add_new_timer_group"
                 layout="@layout/add_new_timer_group"
-                android:visibility="gone" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:visibility="visible" />
 
             <ScrollView
                 android:id="@+id/timer_group_picker"
@@ -66,18 +70,20 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="vertical"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </ScrollView>
 
             <LinearLayout
                 android:id="@+id/timer_picker_numbers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_medium"
                 android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_medium"
                 android:layout_marginBottom="@dimen/padding_medium"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/popup_hr"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

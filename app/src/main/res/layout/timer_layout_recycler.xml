@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:id="@+id/timer_layout"
     tools:context=".TimerActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
