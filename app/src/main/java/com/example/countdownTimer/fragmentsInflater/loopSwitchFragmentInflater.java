@@ -1,4 +1,4 @@
-package com.example.timerApplication.fragmentsInflater;
+package com.example.countdownTimer.fragmentsInflater;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
-import com.example.timerApplication.R;
-import com.example.timerApplication.common.ConstantsClass;
-import com.example.timerApplication.model.DataHolder;
+import com.example.countdownTimer.R;
+import com.example.countdownTimer.common.ConstantsClass;
+import com.example.countdownTimer.model.DataHolder;
 
 public class loopSwitchFragmentInflater extends Fragment implements View.OnClickListener {
 

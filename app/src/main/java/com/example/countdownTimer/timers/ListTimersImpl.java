@@ -1,4 +1,4 @@
-package com.example.timerApplication.timers;
+package com.example.countdownTimer.timers;
 
 import java.util.ArrayList;
 import java.util.Collections;

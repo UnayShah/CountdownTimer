@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.countdownTimer;
 
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.popupactivity.TimerNamePopup;
+import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.popupactivity.TimerNamePopup;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 

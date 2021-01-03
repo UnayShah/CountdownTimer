@@ -1,8 +1,8 @@
-package com.example.timerApplication.timers;
+package com.example.countdownTimer.timers;
 
 import androidx.annotation.NonNull;
 
-import com.example.timerApplication.common.ConstantsClass;
+import com.example.countdownTimer.common.ConstantsClass;
 
 public class Timer {
     Integer hours;

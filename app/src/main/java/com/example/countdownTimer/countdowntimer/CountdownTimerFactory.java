@@ -1,8 +1,8 @@
-package com.example.timerApplication.countdowntimer;
+package com.example.countdownTimer.countdowntimer;
 
 import android.widget.TextView;
 
-import com.example.timerApplication.TimerActivity;
+import com.example.countdownTimer.TimerActivity;
 
 public class CountdownTimerFactory {
 

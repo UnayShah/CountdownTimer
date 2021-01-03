@@ -1,4 +1,4 @@
-package com.example.timerApplication.popupactivity;
+package com.example.countdownTimer.popupactivity;
 
 import android.content.Context;
 import android.text.Editable;
@@ -11,11 +11,11 @@ import android.widget.PopupWindow;
 
 import androidx.core.content.ContextCompat;
 
-import com.example.timerApplication.R;
-import com.example.timerApplication.RecyclerAdapter;
-import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.timers.TimerGroup;
-import com.example.timerApplication.timers.TimerGroupType;
+import com.example.countdownTimer.R;
+import com.example.countdownTimer.RecyclerAdapter;
+import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.timers.TimerGroup;
+import com.example.countdownTimer.timers.TimerGroupType;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class TimerNamePopup extends PopupWindow implements View.OnClickListener, View.OnFocusChangeListener, PopupWindow.OnDismissListener, TextWatcher {
@@ -95,8 +95,11 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         DataHolder.getInstance().setDisableButtonClick(true);
-        if (view.getId() == setTimerNameButton.getId()) setTimerName();
+        if (view.getId() == setTimerNameButton.getId() && !editTextTimerName.getText().toString().equals(""))
+            setTimerName();
         else if (view.getId() == cancelSetTimerNameButton.getId()) cancelSetTimerName();
+        else DataHolder.getInstance().setDisableButtonClick(false);
+
     }
 
     @Override

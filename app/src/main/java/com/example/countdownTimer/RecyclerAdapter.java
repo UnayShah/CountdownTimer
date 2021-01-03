@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.countdownTimer;
 
 import android.content.Intent;
 import android.view.Gravity;
@@ -15,13 +15,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.timerApplication.common.ConstantsClass;
-import com.example.timerApplication.countdowntimer.CountdownTimer;
-import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.popupactivity.TimePickerPopup;
-import com.example.timerApplication.popupactivity.TimerNamePopup;
-import com.example.timerApplication.timers.TimerGroup;
-import com.example.timerApplication.timers.TimerGroupType;
+import com.example.countdownTimer.common.ConstantsClass;
+import com.example.countdownTimer.countdowntimer.CountdownTimer;
+import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.popupactivity.TimePickerPopup;
+import com.example.countdownTimer.popupactivity.TimerNamePopup;
+import com.example.countdownTimer.timers.TimerGroup;
+import com.example.countdownTimer.timers.TimerGroupType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,13 +66,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     }
 
     private void timerNamePopup(int position, View itemView) {
-        View timerNamePopupWindowView = layoutInflater.inflate(R.layout.timer_name_popup, (ViewGroup) ((ViewGroup) itemView.findViewById(android.R.id.content)).getChildAt(0), false);
+        View timerNamePopupWindowView = layoutInflater.inflate(R.layout.timer_name_popup, null, false);
         PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, this, position);
         timerNamePopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }
 
     private void timerPickerPopup(int position, View itemView) {
-        View timePickerPopupWindowView = layoutInflater.inflate(R.layout.timer_picker_popup, (ViewGroup) ((ViewGroup) itemView.findViewById(android.R.id.content)).getChildAt(0), false);
+        View timePickerPopupWindowView = layoutInflater.inflate(R.layout.timer_picker_popup, null, false);
         PopupWindow timePickerPopupWindow = new TimePickerPopup(timePickerPopupWindowView, this, position);
         timePickerPopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }

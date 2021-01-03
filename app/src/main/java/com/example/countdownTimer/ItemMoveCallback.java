@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.countdownTimer;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;

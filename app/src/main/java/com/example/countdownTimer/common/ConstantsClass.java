@@ -1,4 +1,4 @@
-package com.example.timerApplication.common;
+package com.example.countdownTimer.common;
 
 public final class ConstantsClass {
     public static final Integer VIBRATE_VERY_SHORT = 20;

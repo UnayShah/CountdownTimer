@@ -31,7 +31,7 @@
 
             <fragment
                 android:id="@+id/timer_text_fragment"
-                android:name="com.example.timerApplication.fragmentsInflater.timerTextFragmentInflater"
+                android:name="com.example.countdownTimer.fragmentsInflater.timerTextFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/padding_vsmall"
@@ -39,7 +39,7 @@
 
             <fragment
                 android:id="@+id/loop_fragment"
-                android:name="com.example.timerApplication.fragmentsInflater.loopSwitchFragmentInflater"
+                android:name="com.example.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/padding_vsmall"

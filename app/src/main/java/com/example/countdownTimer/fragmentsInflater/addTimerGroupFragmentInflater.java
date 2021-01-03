@@ -1,4 +1,4 @@
-package com.example.timerApplication.fragmentsInflater;
+package com.example.countdownTimer.fragmentsInflater;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.timerApplication.R;
+import com.example.countdownTimer.R;
 
 public class addTimerGroupFragmentInflater extends Fragment {
     @Nullable

@@ -55,6 +55,7 @@
             android:padding="@dimen/padding_small"
             android:scaleX="1.5"
             android:scaleY="1.5"
+            android:transitionName="timer_name_popup_transition"
             android:src="@drawable/ic_round_add"
             android:tint="@color/accent" />
     </LinearLayout>

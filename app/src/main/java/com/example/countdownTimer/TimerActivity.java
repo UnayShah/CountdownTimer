@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.countdownTimer;
 
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.timerApplication.common.ConstantsClass;
-import com.example.timerApplication.countdowntimer.CountdownTimer;
-import com.example.timerApplication.countdowntimer.CountdownTimerFactory;
-import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.popupactivity.TimePickerPopup;
-import com.example.timerApplication.timers.Timer;
+import com.example.countdownTimer.common.ConstantsClass;
+import com.example.countdownTimer.countdowntimer.CountdownTimer;
+import com.example.countdownTimer.countdowntimer.CountdownTimerFactory;
+import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.popupactivity.TimePickerPopup;
+import com.example.countdownTimer.timers.Timer;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

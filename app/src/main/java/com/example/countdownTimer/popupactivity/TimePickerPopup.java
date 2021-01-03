@@ -1,4 +1,4 @@
-package com.example.timerApplication.popupactivity;
+package com.example.countdownTimer.popupactivity;
 
 import android.content.Context;
 import android.os.Vibrator;
@@ -13,13 +13,13 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.timerApplication.R;
-import com.example.timerApplication.RecyclerAdapter;
-import com.example.timerApplication.common.ConstantsClass;
-import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.timers.Timer;
-import com.example.timerApplication.timers.TimerGroup;
-import com.example.timerApplication.timers.TimerGroupType;
+import com.example.countdownTimer.R;
+import com.example.countdownTimer.RecyclerAdapter;
+import com.example.countdownTimer.common.ConstantsClass;
+import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.timers.Timer;
+import com.example.countdownTimer.timers.TimerGroup;
+import com.example.countdownTimer.timers.TimerGroupType;
 
 import java.util.Locale;
 

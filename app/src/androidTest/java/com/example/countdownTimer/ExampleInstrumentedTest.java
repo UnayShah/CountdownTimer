@@ -1,4 +1,4 @@
-package com.example.timerApplication;
+package com.example.countdownTimer;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.example.timerApplication.countdowntimer;
+package com.example.countdownTimer.countdowntimer;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -7,10 +7,10 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.TextView;
 
-import com.example.timerApplication.TimerActivity;
-import com.example.timerApplication.common.ConstantsClass;
-import com.example.timerApplication.model.DataHolder;
-import com.example.timerApplication.timers.Timer;
+import com.example.countdownTimer.TimerActivity;
+import com.example.countdownTimer.common.ConstantsClass;
+import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.timers.Timer;
 
 public class CountdownTimer {
     public static Boolean timerPaused = false;

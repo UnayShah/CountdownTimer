@@ -1,11 +1,11 @@
-package com.example.timerApplication.model;
+package com.example.countdownTimer.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.timerApplication.common.ConstantsClass;
-import com.example.timerApplication.timers.Timer;
-import com.example.timerApplication.timers.TimerGroup;
+import com.example.countdownTimer.common.ConstantsClass;
+import com.example.countdownTimer.timers.Timer;
+import com.example.countdownTimer.timers.TimerGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
