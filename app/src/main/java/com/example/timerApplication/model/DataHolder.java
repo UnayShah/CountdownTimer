@@ -11,7 +11,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -67,6 +66,19 @@ public class DataHolder {
         setListTimerGroup();
     }
 
+    public void updateName(int position, String newName) {
+        for (TimerGroup timerGroup : allTimerGroups) {
+            for (TimerGroup tg : timerGroup.getListTimerGroup()) {
+                if (tg.getName().equals(allTimerGroups.get(position).getName())) {
+                    tg.setName(newName);
+                }
+            }
+        }
+        allTimerGroups.get(position).setName(newName);
+        updateMap();
+        updateQueue();
+    }
+
     private void setListTimerGroup() {
         if (stackNavigation.empty())
             listTimerGroup = allTimerGroups;
@@ -102,10 +114,6 @@ public class DataHolder {
 
     public Map<String, Integer> getMapTimerGroups() {
         return mapTimerGroups;
-    }
-
-    public void setMapTimerGroups(Map<String, Integer> mapTimerGroups) {
-        this.mapTimerGroups = mapTimerGroups;
     }
 
     public Boolean getDisableButtonClick() {

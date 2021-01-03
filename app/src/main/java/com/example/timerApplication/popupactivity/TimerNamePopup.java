@@ -1,9 +1,11 @@
 package com.example.timerApplication.popupactivity;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
@@ -42,6 +44,12 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
+        View container = (View) getContentView().getParent();
+        WindowManager wm = (WindowManager) getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.5f;
+        wm.updateViewLayout(container, p);
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
@@ -74,7 +82,7 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
             DataHolder.getInstance().getAllTimerGroups().add(timerGroup);
         } else {
             if (DataHolder.getInstance().getStackNavigation().empty()) {
-                DataHolder.getInstance().getAllTimerGroups().set(position, timerGroup);
+                DataHolder.getInstance().updateName(position, timerGroup.getName());
             } else {
                 DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().set(position, timerGroup);
             }

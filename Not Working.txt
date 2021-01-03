@@ -1,1 +1,2 @@
-Rename of timer on homescreen creates new timer instead of modifying.
+Locked layout to portrait.
+Need to update countdown queue logic.

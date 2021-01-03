@@ -1,9 +1,9 @@
 package com.example.timerApplication;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 
@@ -14,11 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.popupactivity.TimerNamePopup;
-import com.google.gson.Gson;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    final Gson gson = new Gson();
     ImageButton homeAddButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -56,7 +54,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void addTimerGroup() {
-        View timerNamePopupWindowView = getLayoutInflater().inflate(R.layout.timer_name_popup, null, false);
+        View timerNamePopupWindowView = getLayoutInflater().inflate(R.layout.timer_name_popup, (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), false);
         PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, recyclerAdapter);
         timerNamePopupWindow.showAtLocation(findViewById(R.id.home_screen), Gravity.CENTER, 0, 0);
     }

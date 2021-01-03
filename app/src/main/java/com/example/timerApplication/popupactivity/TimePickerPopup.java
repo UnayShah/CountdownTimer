@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -19,6 +20,8 @@ import com.example.timerApplication.model.DataHolder;
 import com.example.timerApplication.timers.Timer;
 import com.example.timerApplication.timers.TimerGroup;
 import com.example.timerApplication.timers.TimerGroupType;
+
+import java.util.Locale;
 
 public class TimePickerPopup extends PopupWindow implements View.OnClickListener, NumberPicker.OnValueChangeListener, PopupWindow.OnDismissListener, NumberPicker.OnScrollListener {
 
@@ -59,6 +62,12 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
     public void showAtLocation(View parent, int gravity, int x, int y) {
         this.parent = parent;
         super.showAtLocation(parent, gravity, x, y);
+        View container = (View) getContentView().getParent();
+        WindowManager wm = (WindowManager) getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.5f;
+        wm.updateViewLayout(container, p);
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
@@ -95,6 +104,13 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         toggleNumberPickerTimerGroup.setOnClickListener(this);
         vibrator = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         setOnDismissListener(this);
+        numberPickerHours.setOnValueChangedListener(this);
+        numberPickerMinutes.setOnValueChangedListener(this);
+        numberPickerSeconds.setOnValueChangedListener(this);
+        numberPickerHours.setOnScrollListener(this);
+        numberPickerMinutes.setOnScrollListener(this);
+        numberPickerSeconds.setOnScrollListener(this);
+
         if (position != null) {
             if (DataHolder.getInstance().getListTimerGroup().get(position).getTimerGroupType().equals(TimerGroupType.TIMER_GROUP))
                 toggleView();
@@ -118,7 +134,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
             toggleNumberPickerTimerGroup.setText(R.string.toggle_number_picker);
             for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups()) {
                 if (!tg.getName().equals(DataHolder.getInstance().getStackNavigation().peek())) {
-                    View timergroupPickerView = LayoutInflater.from(view.getContext()).inflate(R.layout.timergroup_picker_item, null, false);
+                    View timergroupPickerView = LayoutInflater.from(view.getContext()).inflate(R.layout.timergroup_picker_item, (ViewGroup)view, false);
                     TextView textView = timergroupPickerView.findViewById(R.id.timer_group_picker_name);
                     textView.setText(tg.getName());
                     timergroupPickerView.setVisibility(View.VISIBLE);
@@ -139,6 +155,19 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
             timerGroupPickerLayout.removeAllViewsInLayout();
         }
         DataHolder.getInstance().setDisableButtonClick(false);
+    }
+
+    /**
+     * Set number picker range
+     *
+     * @param numberPicker number picker to initialize
+     * @param min minimum value for picker
+     * @param max maximum value for picker
+     */
+    private void numberPickerInit(NumberPicker numberPicker, int min, int max) {
+        numberPicker.setMaxValue(max);
+        numberPicker.setMinValue(min);
+        numberPicker.setFormatter(value -> String.format(Locale.US, "%02d", value));
     }
 
     /**
@@ -184,7 +213,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
             else if (view.getId() == setTimerButton.getId() && !allNumberPickersZero()) setTimer();
             else if (view.getId() == toggleNumberPickerTimerGroup.getId()) toggleView();
             else if (view.getId() == addNewTimerGroupView.getId()) {
-                View timerNamePopupWindowView = LayoutInflater.from(getContentView().getContext()).inflate(R.layout.timer_name_popup, null, false);
+                View timerNamePopupWindowView = LayoutInflater.from(getContentView().getContext()).inflate(R.layout.timer_name_popup, (ViewGroup)this.view, false);
                 PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, recyclerAdapter);
                 timerNamePopupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 //                DataHolder.getInstance().getListTimerGroup().add(new TimerGroup(TimerGroupType.TIMER_GROUP));
@@ -196,19 +225,6 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                 DataHolder.getInstance().setDisableButtonClick(false);
             }
         }
-    }
-
-    /**
-     * Set number picker range
-     *
-     * @param numberPicker
-     * @param min
-     * @param max
-     */
-    private void numberPickerInit(NumberPicker numberPicker, int min, int max) {
-        numberPicker.setMaxValue(max);
-        numberPicker.setMinValue(min);
-        numberPicker.setFormatter(value -> String.format("%02d", value));
     }
 
     @Override

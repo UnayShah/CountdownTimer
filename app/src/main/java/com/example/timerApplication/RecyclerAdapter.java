@@ -29,7 +29,6 @@ import java.util.Collections;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListItemViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
     LayoutInflater layoutInflater;
     IStartDragListener startDragListener;
-    View timerPopupView;
 
     public RecyclerAdapter() {
     }
@@ -67,13 +66,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     }
 
     private void timerNamePopup(int position, View itemView) {
-        View timerNamePopupWindowView = layoutInflater.inflate(R.layout.timer_name_popup, null, false);
+        View timerNamePopupWindowView = layoutInflater.inflate(R.layout.timer_name_popup, (ViewGroup) ((ViewGroup) itemView.findViewById(android.R.id.content)).getChildAt(0), false);
         PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, this, position);
         timerNamePopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }
 
     private void timerPickerPopup(int position, View itemView) {
-        View timePickerPopupWindowView = layoutInflater.inflate(R.layout.timer_picker_popup, null, false);
+        View timePickerPopupWindowView = layoutInflater.inflate(R.layout.timer_picker_popup, (ViewGroup) ((ViewGroup) itemView.findViewById(android.R.id.content)).getChildAt(0), false);
         PopupWindow timePickerPopupWindow = new TimePickerPopup(timePickerPopupWindowView, this, position);
         timePickerPopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }
@@ -104,30 +103,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             setDragImageVisibility();
         }
 
-        public TimerGroupType getTimerGroupType() {
-            return timerGroupType;
-        }
-
-        public void setTimerGroupType(TimerGroupType timerGroupType) {
-            this.timerGroupType = timerGroupType;
-        }
-
         public void setDragImageVisibility() {
             if (DataHolder.getInstance().getStackNavigation().empty())
                 dragImage.setVisibility(View.GONE);
             else dragImage.setVisibility(View.VISIBLE);
-        }
-
-        public TextView getTimerText() {
-            return timerText;
-        }
-
-        public void setTimerText(String timerText) {
-            String processedString = "";
-            for (String s : timerText.split(" "))
-                processedString += s + " ";
-            processedString = processedString.substring(0, processedString.length() - 1);
-            this.timerText.setText(processedString);
         }
 
         private void button1() {
@@ -140,16 +119,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
         private void button2() {
             if (!DataHolder.getInstance().getStackNavigation().empty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) >= 0 && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) < DataHolder.getInstance().getAllTimerGroups().size() && getAdapterPosition() >= 0 && getAdapterPosition() < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size()) {
-                System.out.println(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).getName() + " " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).getInternalUsageCount());
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString()))
                     DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).decrementInternalUsageCount();
                 DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().remove(getAdapterPosition());
             } else if (DataHolder.getInstance().getStackNavigation().empty()) {
-                System.out.println(DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getName() + " " + DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount());
                 if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
-                    for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup())
-                        if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName()))
+                    for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup()) {
+                        if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName())) {
+                            System.out.println(tg.getName() + " " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).getInternalUsageCount());
                             DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
+                            System.out.println(tg.getName() + " " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).getInternalUsageCount());
+                        }
+                    }
                     DataHolder.getInstance().getAllTimerGroups().remove(getAdapterPosition());
                 } else
                     Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();

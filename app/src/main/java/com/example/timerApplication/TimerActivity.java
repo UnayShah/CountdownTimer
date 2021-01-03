@@ -3,6 +3,7 @@ package com.example.timerApplication;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
@@ -81,7 +82,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         timerLayout = findViewById(R.id.timer_layout);
         if (!DataHolder.getInstance().getStackNavigation().isEmpty()) {
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
-                DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()).intValue()).getListTimerGroup());
+                DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
             recyclerAdapter.notifyDataSetChanged();
         }
@@ -116,7 +117,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
      * Create and add new timer in list
      */
     private void addTimer() {
-        View timePickerPopupWindowView = getLayoutInflater().inflate(R.layout.timer_picker_popup, null, false);
+        View timePickerPopupWindowView = getLayoutInflater().inflate(R.layout.timer_picker_popup, (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), false);
         PopupWindow timePickerPopupWindow = new TimePickerPopup(timePickerPopupWindowView, recyclerAdapter);
         timePickerPopupWindow.showAtLocation(findViewById(R.id.timer_layout), Gravity.CENTER, 0, 0);
     }
