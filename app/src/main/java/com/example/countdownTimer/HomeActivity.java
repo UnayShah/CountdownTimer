@@ -1,6 +1,8 @@
 package com.example.countdownTimer;
 
+import android.app.ActivityOptions;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         homeAddButton = findViewById(R.id.home_add_button);
         homeAddButton.setOnClickListener(this);
         recyclerView = findViewById(R.id.timerGroupScrollViewRecyclerView);
-        recyclerAdapter = new RecyclerAdapter();
+        recyclerAdapter = new RecyclerAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(recyclerAdapter);
         recyclerAdapter.notifyDataSetChanged();

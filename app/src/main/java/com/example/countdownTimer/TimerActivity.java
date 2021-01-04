@@ -50,7 +50,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     public void init() {
         recyclerView = findViewById(R.id.timers_scrollView_recyclerView);
-        recyclerAdapter = new RecyclerAdapter(this);
+        recyclerAdapter = new RecyclerAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(recyclerAdapter);
         timerTextView = findViewById(R.id.timer_textView);
@@ -165,9 +165,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void returnButton() {
-        stopTimer();
         DataHolder.getInstance().getQueueTimers().removeAll(new LinkedList<Timer>());
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
+            stopTimer();
             DataHolder.getInstance().getStackNavigation().pop();
             if (DataHolder.getInstance().getStackNavigation().empty()) {
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());

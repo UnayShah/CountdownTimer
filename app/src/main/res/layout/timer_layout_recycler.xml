@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timer_layout"
+    android:transitionName="timer_expand"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -25,17 +26,32 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/timer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_vvsmall"
+            android:textColor="@color/text"
+            android:textSize="@dimen/padding_medium"
+            android:transitionName="timer_name_transition"
+            app:layout_constraintBottom_toTopOf="@id/timer_text_fragment"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <fragment
             android:id="@+id/timer_text_fragment"
             android:name="com.example.countdownTimer.fragmentsInflater.timerTextFragmentInflater"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/padding_vsmall"
+            android:layout_marginEnd="@dimen/padding_vsmall"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/loop_fragment"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timer_name"
             tools:layout="@layout/timer_text" />
 
         <fragment
@@ -48,7 +64,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/timer_text_fragment"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timer_name"
             tools:layout="@layout/loop_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -128,7 +144,7 @@
                 android:contentDescription="@string/add_button"
                 android:padding="@dimen/padding_small_medium"
                 android:src="@drawable/ic_round_add"
-                android:transitionName="timer_picker_popup_transition"
+                android:transitionName="timer_name_popup_transition"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/stop_button"
                 app:layout_constraintRight_toRightOf="parent"
