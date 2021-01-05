@@ -17,15 +17,10 @@ public class TimerGroup {
 
     public TimerGroup() {
         setName("");
+        timer = new Timer();
         looped = false;
         internalUsageCount = 0;
         listTimerGroup = new ArrayList<>();
-    }
-
-    public TimerGroup(TimerGroupType timerGroupType) {
-        this();
-        this.setTimerGroupType(timerGroupType);
-        if (timerGroupType.equals(TimerGroupType.TIMER)) setTimer(new Timer());
     }
 
     public TimerGroup(Timer timer) {
@@ -46,10 +41,6 @@ public class TimerGroup {
 
     public Integer getInternalUsageCount() {
         return internalUsageCount;
-    }
-
-    public void setInternalUsageCount(Integer internalUsageCount) {
-        this.internalUsageCount = internalUsageCount;
     }
 
     public void incrementInternalUsageCount() {
@@ -78,10 +69,6 @@ public class TimerGroup {
 
     public TimerGroupType getTimerGroupType() {
         return timerGroupType;
-    }
-
-    public void setTimerGroupType(TimerGroupType timerGroupType) {
-        this.timerGroupType = timerGroupType;
     }
 
     public Timer getTimer() {
@@ -113,12 +100,38 @@ public class TimerGroup {
         return queueTimer;
     }
 
+    public Long totalTimerGroupDuration() {
+        Long time = 0L;
+        for (Timer timer : getTimersQueue()) {
+            time += timer.getTimeInMilliseconds();
+        }
+        return time;
+    }
+
+    public Timer setTimer(Long timeInMillis) {
+        return timer.setTimer(timeInMillis);
+    }
+
     public List<TimerGroup> getListTimerGroup() {
         return listTimerGroup;
     }
 
     public void setListTimerGroup(List<TimerGroup> listTimerGroup) {
         this.listTimerGroup = listTimerGroup;
+    }
+
+    public Long getTimeInMilliseconds() {
+        switch (timerGroupType) {
+            case TIMER:
+                return timer.getTimeInMilliseconds();
+            case TIMER_GROUP:
+                Long time = 0L;
+                for (TimerGroup timerGroup : listTimerGroup)
+                    time += timerGroup.getTimeInMilliseconds();
+                return time;
+            default:
+                return 0L;
+        }
     }
 
     @NonNull

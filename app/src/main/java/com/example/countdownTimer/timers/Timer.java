@@ -27,24 +27,31 @@ public class Timer {
         this((int) ((timeInMillis + ConstantsClass.ONE_SECOND_IN_MILLIS) / ConstantsClass.ONE_HOUR_IN_MILLIS), (int) ((timeInMillis + ConstantsClass.ONE_SECOND_IN_MILLIS) / ConstantsClass.ONE_MINUTE_IN_MILLIS) % ConstantsClass.MINUTES_IN_ONE_HOUR, ((int) Math.ceil(timeInMillis.doubleValue() / ConstantsClass.ONE_SECOND_IN_MILLIS)) % ConstantsClass.SECONDS_IN_ONE_MINUTE);
     }
 
+    public Timer setTimer(Long timeInMillis) {
+        hours = (int) ((timeInMillis + ConstantsClass.ONE_SECOND_IN_MILLIS) / ConstantsClass.ONE_HOUR_IN_MILLIS);
+        minutes = (int) ((timeInMillis + ConstantsClass.ONE_SECOND_IN_MILLIS) / ConstantsClass.ONE_MINUTE_IN_MILLIS) % ConstantsClass.MINUTES_IN_ONE_HOUR;
+        seconds = ((int) Math.ceil(timeInMillis.doubleValue() / ConstantsClass.ONE_SECOND_IN_MILLIS)) % ConstantsClass.SECONDS_IN_ONE_MINUTE;
+        return this;
+    }
+
     public Integer getHours() {
         return hours;
-    }
-
-    public Integer getMinutes() {
-        return minutes;
-    }
-
-    public Integer getSeconds() {
-        return seconds;
     }
 
     public void setHours(Integer hours) {
         this.hours = hours;
     }
 
+    public Integer getMinutes() {
+        return minutes;
+    }
+
     public void setMinutes(Integer minutes) {
         this.minutes = minutes;
+    }
+
+    public Integer getSeconds() {
+        return seconds;
     }
 
     public void setSeconds(Integer seconds) {

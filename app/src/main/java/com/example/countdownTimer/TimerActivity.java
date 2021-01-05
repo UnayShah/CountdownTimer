@@ -165,7 +165,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void returnButton() {
-        DataHolder.getInstance().getQueueTimers().removeAll(new LinkedList<Timer>());
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
             stopTimer();
             DataHolder.getInstance().getStackNavigation().pop();
