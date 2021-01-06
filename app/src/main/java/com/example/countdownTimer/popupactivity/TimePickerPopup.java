@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.countdownTimer.R;
 import com.example.countdownTimer.RecyclerAdapter;
@@ -132,18 +133,34 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
             addNewTimerGroupView.setVisibility(View.VISIBLE);
             timerGroupPickerLayout.setVisibility(View.VISIBLE);
             toggleNumberPickerTimerGroup.setText(R.string.toggle_number_picker);
+            int loopingTimers = 0;
             for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups()) {
-                if (!tg.getName().equals(DataHolder.getInstance().getStackNavigation().peek())) {
-                    View timergroupPickerView = LayoutInflater.from(view.getContext()).inflate(R.layout.timergroup_picker_item, (ViewGroup)view, false);
+                boolean looped = false;
+                for (String s : DataHolder.getInstance().getStackNavigation()) {
+                    if (tg.getName().equals(s)) {
+                        looped = true;
+                        loopingTimers++;
+                        break;
+                    }
+                }
+                if (!looped) {
+                    View timergroupPickerView = LayoutInflater.from(view.getContext()).inflate(R.layout.timergroup_picker_item, (ViewGroup) view, false);
                     TextView textView = timergroupPickerView.findViewById(R.id.timer_group_picker_name);
                     textView.setText(tg.getName());
                     timergroupPickerView.setVisibility(View.VISIBLE);
-                    timergroupPickerView.setOnClickListener(v -> {
-                        tg.incrementInternalUsageCount();
-                        setTimerInRecyclerView(tg);
-                    });
+                    try {
+                        timergroupPickerView.setOnClickListener(v -> {
+                            tg.incrementInternalUsageCount();
+                            setTimerInRecyclerView(tg);
+                        });
+                    } catch (Exception e) {
+                        System.out.println("Here" + tg.getName());
+                    }
                     timerGroupPickerLayout.addView(timergroupPickerView);
                 }
+            }
+            if (loopingTimers > 0) {
+                Toast.makeText(view.getContext(), "Removed " + loopingTimers + " groups which could be looped", Toast.LENGTH_SHORT).show();
             }
         } else {
             hr.setVisibility(View.VISIBLE);
@@ -161,8 +178,8 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
      * Set number picker range
      *
      * @param numberPicker number picker to initialize
-     * @param min minimum value for picker
-     * @param max maximum value for picker
+     * @param min          minimum value for picker
+     * @param max          maximum value for picker
      */
     private void numberPickerInit(NumberPicker numberPicker, int min, int max) {
         numberPicker.setMaxValue(max);
@@ -213,10 +230,9 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
             else if (view.getId() == setTimerButton.getId() && !allNumberPickersZero()) setTimer();
             else if (view.getId() == toggleNumberPickerTimerGroup.getId()) toggleView();
             else if (view.getId() == addNewTimerGroupView.getId()) {
-                View timerNamePopupWindowView = LayoutInflater.from(getContentView().getContext()).inflate(R.layout.timer_name_popup, (ViewGroup)this.view, false);
+                View timerNamePopupWindowView = LayoutInflater.from(getContentView().getContext()).inflate(R.layout.timer_name_popup, (ViewGroup) this.view, false);
                 PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, recyclerAdapter);
                 timerNamePopupWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
-//                DataHolder.getInstance().getListTimerGroup().add(new TimerGroup(TimerGroupType.TIMER_GROUP));
                 recyclerAdapter.notifyItemInserted(DataHolder.getInstance().getListTimerGroup().size());
                 timerNamePopupWindow.setOnDismissListener(() -> {
                     toggleView();
