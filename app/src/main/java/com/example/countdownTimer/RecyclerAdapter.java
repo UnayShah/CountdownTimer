@@ -69,8 +69,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     @Override
     public void onRowMoved(int fromPosition, int toPosition) {
         Collections.swap(DataHolder.getInstance().getListTimerGroup(), fromPosition, toPosition);
-        if (DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) != null)
-            DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
         this.notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -106,7 +104,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             button2.setOnClickListener(this);
             timerText.setOnClickListener(this);
             dragImage.setOnTouchListener(this);
-
         }
 
         public void init() {
@@ -138,9 +135,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
                     for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup()) {
                         if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName())) {
-                            System.out.println(tg.getName() + " " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).getInternalUsageCount());
                             DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
-                            System.out.println(tg.getName() + " " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).getInternalUsageCount());
                         }
                     }
                     DataHolder.getInstance().getAllTimerGroups().remove(getAdapterPosition());

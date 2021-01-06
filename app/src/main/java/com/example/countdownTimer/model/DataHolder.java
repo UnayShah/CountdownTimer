@@ -23,7 +23,6 @@ public class DataHolder {
     private List<TimerGroup> allTimerGroups;
     private Boolean disableButtonClick = false;
     private Map<String, Integer> mapTimerGroups;
-    private Queue<Timer> queueTimers;
 
     public DataHolder() {
         this.listTimerGroup = new ArrayList<>();
@@ -44,7 +43,6 @@ public class DataHolder {
         editor.apply();
         editor.commit();
         updateMap();
-        updateQueue();
         setListTimerGroup();
     }
 
@@ -62,7 +60,6 @@ public class DataHolder {
             }
         }
         updateMap();
-        updateQueue();
         setListTimerGroup();
     }
 
@@ -76,7 +73,6 @@ public class DataHolder {
         }
         allTimerGroups.get(position).setName(newName);
         updateMap();
-        updateQueue();
     }
 
     private void setListTimerGroup() {
@@ -86,11 +82,6 @@ public class DataHolder {
             listTimerGroup = allTimerGroups.get(mapTimerGroups.get(stackNavigation.peek())).getListTimerGroup();
     }
 
-    private void updateQueue() {
-        if (!stackNavigation.empty() && mapTimerGroups.containsKey(stackNavigation.peek()) && mapTimerGroups.get(stackNavigation.peek()) != null)
-            queueTimers = allTimerGroups.get(mapTimerGroups.get(stackNavigation.peek())).getTimersQueue();
-    }
-
     public List<TimerGroup> getAllTimerGroups() {
         if (allTimerGroups == null) allTimerGroups = new ArrayList<>();
         return allTimerGroups;
@@ -98,14 +89,6 @@ public class DataHolder {
 
     public void setAllTimerGroups(List<TimerGroup> allTimerGroups) {
         this.allTimerGroups = allTimerGroups;
-    }
-
-    public Queue<Timer> getQueueTimers() {
-        return queueTimers;
-    }
-
-    public void setQueueTimers(Queue<Timer> queueTimers) {
-        this.queueTimers = queueTimers;
     }
 
     public String printAllList() {

@@ -1,12 +1,15 @@
 package com.example.countdownTimer.countdowntimer;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.TextView;
 
+import com.example.countdownTimer.R;
 import com.example.countdownTimer.TimerActivity;
 import com.example.countdownTimer.common.ConstantsClass;
 import com.example.countdownTimer.model.DataHolder;
@@ -18,11 +21,13 @@ import java.util.Stack;
 public class CountdownTimer {
     private static final TimerGroup timerGroup = new TimerGroup();
     public static Boolean timerPaused = false;
+    public static Long timePassed;
+    public static Long totalTime;
     private final TextView timerTextView;
     private final TimerActivity timerActivity;
     private final Stack<TimerGroup> countdownStack;
-    public Long timePassed;
-    public Long totalTime;
+    Canvas progressBar;
+    Paint paint;
     private Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
@@ -35,20 +40,24 @@ public class CountdownTimer {
         timerPaused = false;
         indexOfTimer = 0;
         countdownStack = new Stack<>();
+        progressBar = new Canvas();
+        paint = new Paint();
+        progressBar.drawColor(timerTextView.getResources().getColor(R.color.blueGray600));
     }
 
     public void startTimer(Long pauseTimeInMillis) {
         if (countdownStack.isEmpty() && !DataHolder.getInstance().getStackNavigation().isEmpty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size() > indexOfTimer) {
-            if (!DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString()) || DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString())).getListTimerGroup().size() > 0) {
+            if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString()))
+                countdownStack.push(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString())));
+            else
                 countdownStack.push(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer));
-            } else {
-                indexOfTimer++;
-                startTimer(pauseTimeInMillis);
-            }
-        } else if (DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size() <= indexOfTimer) {
-            timerActivity.stopTimer();
         }
-        if (!countdownStack.isEmpty() && countdownStack.peek() != null && countdownStack.peek().getTimerGroupType().equals(TimerGroupType.TIMER)) {
+        if (!countdownStack.isEmpty() && countdownStack.peek() == null) {
+            countdownStack.pop();
+            countdownStack.pop();
+            if (countdownStack.isEmpty()) indexOfTimer++;
+            startTimer(pauseTimeInMillis);
+        } else if (!countdownStack.isEmpty() && countdownStack.peek() != null && countdownStack.peek().getTimerGroupType().equals(TimerGroupType.TIMER)) {
             if (!timerPaused) {
                 timeInMillis = countdownStack.peek().getTimeInMilliseconds();
             } else timeInMillis = pauseTimeInMillis;
@@ -58,6 +67,16 @@ public class CountdownTimer {
                 public void onTick(long millisUntilFinished) {
                     timeInMillis = millisUntilFinished;
                     timerTextView.setText(timerGroup.setTimer(millisUntilFinished).toString());
+//                    timePassed += ConstantsClass.ONE_HOUR_IN_MILLIS;
+//                    float width = ((float) timePassed) / ((float) totalTime);
+//                    width *= timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth();
+//                    paint.setColor(timerTextView.getResources().getColor(R.color.blueGray700));
+//                    progressBar.drawRect(0, 0, width, timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight(), paint);
+//                    paint.setColor(timerTextView.getResources().getColor(R.color.background));
+//                    progressBar.drawRect(width, 0, timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight(), paint);
+//                    Drawable drawable = new DrawableContainer();
+//                    drawable.draw(progressBar);
+//                    timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(drawable);
                 }
 
                 @Override
@@ -68,11 +87,6 @@ public class CountdownTimer {
                     vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
                     if (!countdownStack.isEmpty())
                         countdownStack.pop();
-                    while (!countdownStack.isEmpty() && countdownStack.peek() == null) {
-                        countdownStack.pop();
-                        if (!countdownStack.isEmpty())
-                            countdownStack.pop();
-                    }
                     if (countdownStack.isEmpty())
                         indexOfTimer++;
                     if (DataHolder.getInstance().getListTimerGroup().size() <= indexOfTimer) {
@@ -88,43 +102,47 @@ public class CountdownTimer {
                 }
             }.start();
         } else if (!countdownStack.isEmpty() && countdownStack.peek() != null && countdownStack.peek().getTimerGroupType().equals(TimerGroupType.TIMER_GROUP)) {
-            if (countdownStack.peek().getListTimerGroup().size() == 0) countdownStack.pop();
-            else {
-                timerGroup.setListTimerGroup(countdownStack.peek().getListTimerGroup());
-                countdownStack.push(null);
-                for (int i = timerGroup.getListTimerGroup().size() - 1; i >= 0; i--) {
-                    countdownStack.push(timerGroup.getListTimerGroup().get(i));
+            String name = countdownStack.peek().getName();
+            timerGroup.setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(name)).getListTimerGroup());
+            for (TimerGroup tg1 : countdownStack) {
+                if (tg1 != null && tg1.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP)) {
+                    for (TimerGroup tg2 : timerGroup.getListTimerGroup()) {
+                        if (tg2.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && (tg1.getName().equals(tg2.getName()) || name.equals(tg2.getName()))) {
+                            timerGroup.getListTimerGroup().remove(tg2);
+                        }
+                    }
                 }
             }
-            startTimer(timeInMillis);
-        } else if (!countdownStack.isEmpty() && countdownStack.peek() == null) {
-            countdownStack.pop();
-            if (!countdownStack.isEmpty()) countdownStack.pop();
-            startTimer(timeInMillis);
+            for (int i = 0; i < timerGroup.getListTimerGroup().size(); i++) {
+                if (timerGroup.getListTimerGroup().get(i).getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && name.equals(timerGroup.getListTimerGroup().get(i).getName())) {
+                    timerGroup.getListTimerGroup().remove(i);
+                    i--;
+                }
+            }
+            countdownStack.push(null);
+            for (int i = timerGroup.getListTimerGroup().size() - 1; i >= 0; i--) {
+                countdownStack.push(timerGroup.getListTimerGroup().get(i));
+            }
+            if (countdownStack.isEmpty()) {
+                indexOfTimer++;
+            }
+            startTimer(ConstantsClass.ZERO_LONG);
+        } else if (countdownStack.isEmpty() && indexOfTimer > DataHolder.getInstance().getListTimerGroup().size()) {
+            timerActivity.stopTimer();
         } else {
-            stopTimer();
+            indexOfTimer++;
+            startTimer(ConstantsClass.ZERO_LONG);
         }
-
-//        if (countdownStack.peek().getTimerGroupType().equals(TimerGroupType.TIMER)) {
-//            timeInMillis = countdownStack.peek().getTimeInMilliseconds();
-//        } else {
-
-//        }
-
-
     }
 
     public Integer getIndexOfTimer() {
         return indexOfTimer;
     }
 
-    public void setIndexOfTimer(Integer indexOfTimer) {
-        this.indexOfTimer = indexOfTimer;
-    }
-
     public Long pauseTimer() {
         timerPaused = true;
-        countDownTimer.cancel();
+        if (countDownTimer != null)
+            countDownTimer.cancel();
         return timeInMillis;
     }
 
@@ -133,9 +151,7 @@ public class CountdownTimer {
         timerPaused = false;
         indexOfTimer = 0;
         timerTextView.setText(timerGroup.setTimer(0L).toString());
-        try {
+        if (countDownTimer != null)
             countDownTimer.cancel();
-        } catch (Exception ignored) {
-        }
     }
 }

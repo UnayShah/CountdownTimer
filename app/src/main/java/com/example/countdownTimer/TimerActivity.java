@@ -23,7 +23,6 @@ import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.timers.Timer;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning = false;
@@ -40,6 +39,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Long pauseTimeInMillis;
     Integer indexOfTimer;
     View timerLayout;
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,7 +108,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         if (!DataHolder.getInstance().getDisableButtonClick()) {
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == addTimerButton.getId()) addTimer();
-            else if (view.getId() == startPauseTimerButton.getId() && !DataHolder.getInstance().getQueueTimers().isEmpty())
+            else if (view.getId() == startPauseTimerButton.getId())
                 startPauseTimer();
             else if (view.getId() == stopTimerButton.getId()) stopTimer();
             else if (view.getId() == returnButton.getId()) returnButton();
@@ -123,28 +126,30 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void startPauseTimer() {
-        if (DataHolder.getInstance().getListTimerGroup().size() > 0) {
-            if (timerRunning) {
-                setTimerPaused();
-            } else {
-                timerStarted();
-            }
-            timerRunning = !timerRunning;
+        if (timerRunning) {
+            setTimerPaused();
+        } else {
+            timerStarted();
         }
-        DataHolder.getInstance().setDisableButtonClick(false);
     }
 
     public void timerStarted() {
+        timerRunning = true;
         startPauseTimerButton.setImageResource(R.drawable.ic_round_pause);
         stopTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.GONE);
         countdownTimer.startTimer(pauseTimeInMillis);
+        DataHolder.getInstance().setDisableButtonClick(false);
     }
 
     public void setTimerPaused() {
         startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
+        stopTimerButton.setVisibility(View.VISIBLE);
+        addTimerButton.setVisibility(View.GONE);
         pauseTimeInMillis = countdownTimer.pauseTimer();
         indexOfTimer = countdownTimer.getIndexOfTimer();
+        timerRunning = false;
+        DataHolder.getInstance().setDisableButtonClick(false);
     }
 
     @Override
@@ -156,11 +161,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
         stopTimerButton.setVisibility(View.GONE);
-        timerRunning = false;
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
         countdownTimer.stopTimer();
-        DataHolder.getInstance().setQueueTimers(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getTimersQueue());
+        timerRunning = false;
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 

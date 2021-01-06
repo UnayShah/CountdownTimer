@@ -3,6 +3,7 @@ package com.example.countdownTimer.timers;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -89,6 +90,7 @@ public class TimerGroup {
 
     public Queue<Timer> getTimersQueue(TimerGroup timerGroup) {
         Queue<Timer> queueTimer = new LinkedList<>();
+        if (timerGroup.getListTimerGroup().size() == 0) return queueTimer;
         for (TimerGroup tg : timerGroup.getListTimerGroup()) {
             if (tg.getTimerGroupType().equals(TimerGroupType.TIMER))
                 queueTimer.add(tg.getTimer());
@@ -117,7 +119,7 @@ public class TimerGroup {
     }
 
     public void setListTimerGroup(List<TimerGroup> listTimerGroup) {
-        this.listTimerGroup = listTimerGroup;
+        this.listTimerGroup = new ArrayList<>(listTimerGroup);
     }
 
     public Long getTimeInMilliseconds() {
