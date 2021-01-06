@@ -106,9 +106,10 @@ public class CountdownTimer {
             timerGroup.setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(name)).getListTimerGroup());
             for (TimerGroup tg1 : countdownStack) {
                 if (tg1 != null && tg1.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP)) {
-                    for (TimerGroup tg2 : timerGroup.getListTimerGroup()) {
-                        if (tg2.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && (tg1.getName().equals(tg2.getName()) || name.equals(tg2.getName()))) {
-                            timerGroup.getListTimerGroup().remove(tg2);
+                    for (int i= 0; i<timerGroup.getListTimerGroup().size(); i++) {
+                        if (timerGroup.getListTimerGroup().get(i).getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && (tg1.getName().equals(timerGroup.getListTimerGroup().get(i).getName()) || name.equals(timerGroup.getListTimerGroup().get(i).getName()))) {
+                            timerGroup.getListTimerGroup().remove(i);
+                            i--;
                         }
                     }
                 }
