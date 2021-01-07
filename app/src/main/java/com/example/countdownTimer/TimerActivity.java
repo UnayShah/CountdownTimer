@@ -22,6 +22,8 @@ import com.example.countdownTimer.countdowntimer.CountdownTimerFactory;
 import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.timers.Timer;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Long pauseTimeInMillis;
     Integer indexOfTimer;
     View timerLayout;
+    AdView adView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +53,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     public void init() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        adView = findViewById(R.id.adView_timer);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         recyclerView = findViewById(R.id.timers_scrollView_recyclerView);
         recyclerAdapter = new RecyclerAdapter(this, this);

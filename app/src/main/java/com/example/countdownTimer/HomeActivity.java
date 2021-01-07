@@ -1,8 +1,6 @@
 package com.example.countdownTimer;
 
-import android.app.ActivityOptions;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton homeAddButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
+    AdView adView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +38,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init() {
+        adView = findViewById(R.id.adView_home);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+        
         homeAddButton = findViewById(R.id.home_add_button);
         homeAddButton.setOnClickListener(this);
         recyclerView = findViewById(R.id.timerGroupScrollViewRecyclerView);
