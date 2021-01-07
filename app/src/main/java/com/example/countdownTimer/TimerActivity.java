@@ -185,6 +185,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
                     DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
+                if (findViewById(R.id.loop_button) != null) {
+                    findViewById(R.id.loop_button).callOnClick();
+                    findViewById(R.id.loop_button).callOnClick();
+                }
                 recyclerAdapter.notifyDataSetChanged();
             }
         }

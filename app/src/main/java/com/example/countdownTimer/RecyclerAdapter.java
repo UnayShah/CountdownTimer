@@ -61,8 +61,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     @Override
     public int getItemCount() {
         DataHolder.getInstance().setDisableButtonClick(false);
-        if (!DataHolder.getInstance().getStackNavigation().empty())
-            ((TextView) activity.findViewById(R.id.timer_name)).setText(DataHolder.getInstance().getStackNavigation().peek());
+        try {
+            if (!DataHolder.getInstance().getStackNavigation().empty())
+                ((TextView) activity.findViewById(R.id.timer_name)).setText(DataHolder.getInstance().getStackNavigation().peek());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return DataHolder.getInstance().getListTimerGroup().size();
     }
 
@@ -155,13 +159,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 animationPairs = new Pair[2];
                 animationPairs[0] = new Pair<>(activity.findViewById(R.id.home_add_button), "timer_name_popup_transition");
                 animationPairs[1] = new Pair<>(itemView.findViewById(R.id.timer_textViewList), "timer_name_transition");
-                options = ActivityOptions.makeSceneTransitionAnimation(activity, animationPairs);
-                itemView.getContext().startActivity(intent, options.toBundle());
+                try {
+                    options = ActivityOptions.makeSceneTransitionAnimation(activity, animationPairs);
+                    itemView.getContext().startActivity(intent, options.toBundle());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    itemView.getContext().startActivity(intent);
+                }
             } else {
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
                     DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 notifyDataSetChanged();
+            }
+            if (activity.findViewById(R.id.loop_button) != null) {
+                activity.findViewById(R.id.loop_button).callOnClick();
+                activity.findViewById(R.id.loop_button).callOnClick();
             }
         }
 

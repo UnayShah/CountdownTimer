@@ -21,7 +21,7 @@
 
         <LinearLayout
             android:id="@+id/landscape_timer_constraint"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/padding_large"
@@ -29,20 +29,24 @@
             android:paddingRight="@dimen/padding_large"
             android:paddingBottom="@dimen/padding_small">
 
-            <fragment
-                android:id="@+id/timer_text_fragment"
-                android:name="com.example.countdownTimer.fragmentsInflater.timerTextFragmentInflater"
+
+            <TextView
+                android:id="@+id/timer_textView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/padding_vsmall"
-                tools:layout="@layout/timer_text" />
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_small"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="@string/timer_zero"
+                android:textColor="@color/text"
+                android:textSize="@dimen/timer_display_text" />
 
             <fragment
                 android:id="@+id/loop_fragment"
                 android:name="com.example.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_vsmall"
+                android:layout_marginStart="@dimen/padding_vsmall"
                 tools:layout="@layout/loop_button" />
         </LinearLayout>
 
