@@ -159,8 +159,11 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                     timerGroupPickerLayout.addView(timergroupPickerView);
                 }
             }
-            if (loopingTimers > 0) {
-                Toast.makeText(view.getContext(), "Removed " + loopingTimers + " groups which could be looped", Toast.LENGTH_SHORT).show();
+            if (loopingTimers-1 == 1) {
+                Toast.makeText(view.getContext(), "Removed " + (loopingTimers-1) + " group which could be looped", Toast.LENGTH_SHORT).show();
+            }
+            else if (loopingTimers-1 > 1) {
+                Toast.makeText(view.getContext(), "Removed " + (loopingTimers-1) + " groups which could be looped", Toast.LENGTH_SHORT).show();
             }
         } else {
             hr.setVisibility(View.VISIBLE);

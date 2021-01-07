@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
@@ -40,10 +41,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Integer indexOfTimer;
     View timerLayout;
 
-    public RecyclerView getRecyclerView() {
-        return recyclerView;
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +49,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void init() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         recyclerView = findViewById(R.id.timers_scrollView_recyclerView);
         recyclerAdapter = new RecyclerAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -84,7 +83,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         addTimerButton.setVisibility(View.VISIBLE);
         timerLayout = findViewById(R.id.timer_layout);
         if (!DataHolder.getInstance().getStackNavigation().isEmpty()) {
-            if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
+            if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) != null)
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
             recyclerAdapter.notifyDataSetChanged();
