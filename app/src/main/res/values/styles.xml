@@ -22,6 +22,7 @@
         <item name="android:background">@drawable/number_picker_design</item>
         <item name="android:textColorPrimary">@color/text</item>
         <item name="android:colorControlNormal">@color/text</item>
+        <item name="android:colorControlActivated">@color/text</item>
         <item name="android:layout_marginLeft">@dimen/padding_vvsmall</item>
         <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
     </style>

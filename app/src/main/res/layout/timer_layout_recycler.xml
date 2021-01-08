@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="@dimen/padding_small"
+            android:textStyle="bold"
             android:text="@string/timer_zero"
             android:textColor="@color/text"
             app:layout_constraintBottom_toBottomOf="parent"
