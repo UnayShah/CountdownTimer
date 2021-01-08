@@ -68,6 +68,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (activity.findViewById(R.id.empty_holder) != null) {
+            if (DataHolder.getInstance().getListTimerGroup().size() > 0)
+                activity.findViewById(R.id.empty_holder).setVisibility(View.GONE);
+            else activity.findViewById(R.id.empty_holder).setVisibility(View.VISIBLE);
+        }
         return DataHolder.getInstance().getListTimerGroup().size();
     }
 
@@ -147,9 +152,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 } else
                     Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();
             }
-            notifyDataSetChanged();
             DataHolder.getInstance().saveData(itemView.getContext());
             DataHolder.getInstance().setDisableButtonClick(false);
+            notifyDataSetChanged();
         }
 
         private void textViewPress() {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning = false;
+    ConstraintLayout emptyHolder;
     ImageButton addTimerButton;
     ImageButton startPauseTimerButton;
     ImageButton stopTimerButton;
@@ -69,6 +71,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         returnButton = findViewById(R.id.return_button);
         scrollViewTimers = findViewById(R.id.timers_scrollView);
         stopTimerButton = findViewById(R.id.stop_button);
+        emptyHolder = findViewById(R.id.empty_holder);
         ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -93,6 +96,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) != null)
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
+            if (DataHolder.getInstance().getListTimerGroup().size() > 0)
+                emptyHolder.setVisibility(View.VISIBLE);
+            else emptyHolder.setVisibility(View.GONE);
             recyclerAdapter.notifyDataSetChanged();
         }
         DataHolder.getInstance().setDisableButtonClick(false);

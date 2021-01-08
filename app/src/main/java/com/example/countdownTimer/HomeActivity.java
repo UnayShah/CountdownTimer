@@ -9,6 +9,7 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.AdView;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    ConstraintLayout emptyHolder;
     ImageButton homeAddButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -41,7 +43,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         adView = findViewById(R.id.adView_home);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
-        
+
+        emptyHolder = findViewById(R.id.empty_holder);
+        if (DataHolder.getInstance().getListTimerGroup().size() > 0)
+            emptyHolder.setVisibility(View.VISIBLE);
+        else emptyHolder.setVisibility(View.GONE);
+
         homeAddButton = findViewById(R.id.home_add_button);
         homeAddButton.setOnClickListener(this);
         recyclerView = findViewById(R.id.timerGroupScrollViewRecyclerView);

@@ -9,14 +9,13 @@
     android:transitionName="timer_expand"
     tools:context=".TimerActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/timer_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_medium"
         android:layout_marginTop="@dimen/padding_medium"
         android:layout_marginRight="@dimen/padding_medium"
-        android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_medium"
         android:paddingTop="@dimen/padding_small"
         android:paddingRight="@dimen/padding_medium"
@@ -31,57 +30,76 @@
             style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_vvsmall"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:textColor="@color/text"
-            android:transitionName="timer_name_transition"
-            app:layout_constraintBottom_toTopOf="@id/timer_textView"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:transitionName="timer_name_transition" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/timer_textView"
-            style="@style/TextAppearance.MaterialComponents.Headline2"
+            style="@style/TextAppearance.MaterialComponents.Headline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="@dimen/padding_small"
-            android:textStyle="bold"
+            android:layout_below="@id/timer_name"
+            android:layout_alignRight="@id/loop_fragment"
+            android:layout_alignParentStart="true"
             android:text="@string/timer_zero"
             android:textColor="@color/text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/loop_fragment"
-            app:layout_constraintTop_toBottomOf="@id/timer_name" />
+            android:textStyle="bold" />
 
         <fragment
             android:id="@+id/loop_fragment"
             android:name="com.example.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/padding_vsmall"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/timer_textView"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timer_name"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timer_name"
+            android:layout_alignBottom="@id/timer_textView"
+            android:layout_alignParentEnd="true"
             tools:layout="@layout/loop_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timers_scrollView_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/padding_small_medium"
-        android:layout_marginTop="@dimen/padding_small"
-        android:layout_marginRight="@dimen/padding_small"
-        android:layout_marginBottom="@dimen/padding_small"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@id/buttons_constraint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timer_constraint" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/empty_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:paddingLeft="@dimen/padding_small_medium"
+        android:paddingRight="@dimen/padding_small_medium"
+        app:layout_constraintBottom_toTopOf="@id/buttons_constraint"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/empty_holder_text"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No items\nAdd new"
+            android:textColor="@color/text"
+            app:layout_constraintBottom_toTopOf="@id/empty_holder_image"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/empty_holder_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pointing_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:tint="@color/text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/buttons_constraint"
@@ -89,13 +107,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/adView_timer"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timers_scrollView_recyclerView">
+        app:layout_constraintRight_toRightOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_large">
+            android:paddingTop="@dimen/padding_small"
+            android:paddingBottom="@dimen/padding_large">
 
             <ImageButton
                 android:id="@+id/return_button"
@@ -164,7 +182,6 @@
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttons_constraint" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
