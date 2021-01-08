@@ -114,9 +114,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         if (!DataHolder.getInstance().getDisableButtonClick()) {
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == addTimerButton.getId()) addTimer();
-            else if (view.getId() == startPauseTimerButton.getId() && DataHolder.getInstance().getListTimerGroup().size() > 0)
-                startPauseTimer();
-            else if (view.getId() == stopTimerButton.getId()) stopTimer();
+            else if (view.getId() == startPauseTimerButton.getId()) {
+                if (DataHolder.getInstance().getListTimerGroup().size() > 0)
+                    startPauseTimer();
+                else DataHolder.getInstance().setDisableButtonClick(false);
+            } else if (view.getId() == stopTimerButton.getId()) stopTimer();
             else if (view.getId() == returnButton.getId()) returnButton();
             else DataHolder.getInstance().setDisableButtonClick(false);
         }

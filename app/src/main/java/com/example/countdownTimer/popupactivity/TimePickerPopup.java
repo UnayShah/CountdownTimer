@@ -1,7 +1,6 @@
 package com.example.countdownTimer.popupactivity;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,8 +14,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.view.ContextThemeWrapper;
-
 import com.example.countdownTimer.R;
 import com.example.countdownTimer.RecyclerAdapter;
 import com.example.countdownTimer.common.ConstantsClass;
@@ -25,8 +22,6 @@ import com.example.countdownTimer.model.ThemedNumberPicker;
 import com.example.countdownTimer.timers.Timer;
 import com.example.countdownTimer.timers.TimerGroup;
 import com.example.countdownTimer.timers.TimerGroupType;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.Locale;
 
@@ -238,8 +233,10 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         if (!DataHolder.getInstance().getDisableButtonClick()) {
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == cancelSetTimerButton.getId()) cancelSetTimer();
-            else if (view.getId() == setTimerButton.getId() && !allNumberPickersZero()) setTimer();
-            else if (view.getId() == toggleNumberPickerTimerGroup.getId()) toggleView();
+            else if (view.getId() == setTimerButton.getId()) {
+                if (!allNumberPickersZero()) setTimer();
+                else DataHolder.getInstance().setDisableButtonClick(false);
+            } else if (view.getId() == toggleNumberPickerTimerGroup.getId()) toggleView();
             else if (view.getId() == addNewTimerGroupView.getId()) {
                 View timerNamePopupWindowView = LayoutInflater.from(getContentView().getContext()).inflate(R.layout.timer_name_popup, (ViewGroup) this.view, false);
                 PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, recyclerAdapter);
@@ -250,7 +247,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                     toggleView();
                 });
                 DataHolder.getInstance().setDisableButtonClick(false);
-            }
+            } else DataHolder.getInstance().setDisableButtonClick(false);
         }
     }
 
