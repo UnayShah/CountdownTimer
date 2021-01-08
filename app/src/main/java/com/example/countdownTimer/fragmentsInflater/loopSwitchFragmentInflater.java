@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,6 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
 import com.example.countdownTimer.R;
-import com.example.countdownTimer.common.ConstantsClass;
 import com.example.countdownTimer.model.DataHolder;
 
 public class loopSwitchFragmentInflater extends Fragment implements View.OnClickListener {
@@ -42,6 +40,6 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
     public void onClick(View v) {
         DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).setLooped(!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped());
         loopButton.setImageDrawable(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() ? AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop_accent) : AppCompatResources.getDrawable(getContext(), R.drawable.ic_round_loop));
-        Toast.makeText(getContext(), DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() ? ConstantsClass.LOOPED_COUNTDOWN_TOAST : ConstantsClass.UNLOOPED_COUNTDOWN_TOAST, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() ? ConstantsClass.LOOPED_COUNTDOWN_TOAST : ConstantsClass.UNLOOPED_COUNTDOWN_TOAST, Toast.LENGTH_SHORT).show();
     }
 }

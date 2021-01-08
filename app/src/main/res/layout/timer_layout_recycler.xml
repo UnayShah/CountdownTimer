@@ -28,13 +28,13 @@
 
         <TextView
             android:id="@+id/timer_name"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_small"
             android:paddingRight="@dimen/padding_small"
             android:paddingBottom="@dimen/padding_vvsmall"
             android:textColor="@color/text"
-            android:textSize="@dimen/padding_medium"
             android:transitionName="timer_name_transition"
             app:layout_constraintBottom_toTopOf="@id/timer_textView"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -43,14 +43,13 @@
 
         <TextView
             android:id="@+id/timer_textView"
+            style="@style/TextAppearance.MaterialComponents.Headline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
             android:gravity="center"
             android:paddingBottom="@dimen/padding_small"
             android:text="@string/timer_zero"
             android:textColor="@color/text"
-            android:textSize="@dimen/timer_display_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/loop_fragment"

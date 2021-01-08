@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/timer_picker_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:transitionName="timer_picker_popup_transition"
-    android:id="@+id/timer_picker_layout"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:transitionName="timer_picker_popup_transition">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 
         <Button
             android:id="@+id/toggle_numberpicker_timergroup"
-            style="@style/AppTheme.PopupButton"
+            style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_medium"
@@ -28,6 +28,7 @@
             android:background="@drawable/timer_list_buttons"
             android:padding="@dimen/padding_small_medium"
             android:text="@string/toggle_timer_group_picker"
+            android:textColor="@color/text"
             android:textSize="@dimen/button_text"
             app:layout_constraintBottom_toTopOf="@id/timer_group_picker"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -84,7 +85,6 @@
                 android:layout_marginBottom="@dimen/padding_medium"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/popup_hr"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -96,6 +96,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/padding_vsmall"
@@ -104,7 +105,7 @@
                         android:textColor="@color/text"
                         android:textSize="@dimen/timer_list_text" />
 
-                    <NumberPicker
+                    <com.example.countdownTimer.model.ThemedNumberPicker
                         android:id="@+id/number_picker_hours"
                         style="@style/AppTheme.PopupNumberPicker"
                         android:layout_width="wrap_content"
@@ -117,6 +118,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/padding_vsmall"
@@ -125,7 +127,7 @@
                         android:textColor="@color/text"
                         android:textSize="@dimen/timer_list_text" />
 
-                    <NumberPicker
+                    <com.example.countdownTimer.model.ThemedNumberPicker
                         android:id="@+id/number_picker_minutes"
                         style="@style/AppTheme.PopupNumberPicker"
                         android:layout_width="wrap_content"
@@ -138,6 +140,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/padding_vsmall"
@@ -146,7 +149,7 @@
                         android:textColor="@color/text"
                         android:textSize="@dimen/timer_list_text" />
 
-                    <NumberPicker
+                    <com.example.countdownTimer.model.ThemedNumberPicker
                         android:id="@+id/number_picker_seconds"
                         style="@style/AppTheme.PopupNumberPicker"
                         android:layout_width="wrap_content"

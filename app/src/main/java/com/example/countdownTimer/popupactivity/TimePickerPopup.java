@@ -1,6 +1,7 @@
 package com.example.countdownTimer.popupactivity;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,13 +15,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.view.ContextThemeWrapper;
+
 import com.example.countdownTimer.R;
 import com.example.countdownTimer.RecyclerAdapter;
 import com.example.countdownTimer.common.ConstantsClass;
 import com.example.countdownTimer.model.DataHolder;
+import com.example.countdownTimer.model.ThemedNumberPicker;
 import com.example.countdownTimer.timers.Timer;
 import com.example.countdownTimer.timers.TimerGroup;
 import com.example.countdownTimer.timers.TimerGroupType;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.util.Locale;
 
@@ -29,9 +35,9 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
     Button setTimerButton;
     Button cancelSetTimerButton;
     Button toggleNumberPickerTimerGroup;
-    NumberPicker numberPickerHours;
-    NumberPicker numberPickerMinutes;
-    NumberPicker numberPickerSeconds;
+    ThemedNumberPicker numberPickerHours;
+    ThemedNumberPicker numberPickerMinutes;
+    ThemedNumberPicker numberPickerSeconds;
     LinearLayout numberPickerLayout;
     LinearLayout timerGroupPickerLayout;
     LinearLayout timerPickerButtons;
@@ -159,11 +165,10 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                     timerGroupPickerLayout.addView(timergroupPickerView);
                 }
             }
-            if (loopingTimers-1 == 1) {
-                Toast.makeText(view.getContext(), "Removed " + (loopingTimers-1) + " group which could be looped", Toast.LENGTH_SHORT).show();
-            }
-            else if (loopingTimers-1 > 1) {
-                Toast.makeText(view.getContext(), "Removed " + (loopingTimers-1) + " groups which could be looped", Toast.LENGTH_SHORT).show();
+            if (loopingTimers - 1 == 1) {
+                Toast.makeText(view.getContext(), "Removed " + (loopingTimers - 1) + " group which could be looped", Toast.LENGTH_SHORT).show();
+            } else if (loopingTimers - 1 > 1) {
+                Toast.makeText(view.getContext(), "Removed " + (loopingTimers - 1) + " groups which could be looped", Toast.LENGTH_SHORT).show();
             }
         } else {
             hr.setVisibility(View.VISIBLE);
@@ -188,6 +193,9 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         numberPicker.setMaxValue(max);
         numberPicker.setMinValue(min);
         numberPicker.setFormatter(value -> String.format(Locale.US, "%02d", value));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            numberPicker.setTextColor(getContentView().getResources().getColor(R.color.text));
+//        }
     }
 
     /**

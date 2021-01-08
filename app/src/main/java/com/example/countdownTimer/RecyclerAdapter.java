@@ -62,8 +62,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     public int getItemCount() {
         DataHolder.getInstance().setDisableButtonClick(false);
         try {
-            if (!DataHolder.getInstance().getStackNavigation().empty())
+            if (!DataHolder.getInstance().getStackNavigation().empty() && activity.findViewById(R.id.timer_name) != null) {
                 ((TextView) activity.findViewById(R.id.timer_name)).setText(DataHolder.getInstance().getStackNavigation().peek());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -18,10 +18,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.PopupNumberPicker" parent="ThemeOverlay.AppCompat">
+    <style name="AppTheme.PopupNumberPicker">
         <item name="android:background">@drawable/number_picker_design</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="color">@color/text</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:colorControlNormal">@color/text</item>
         <item name="android:layout_marginLeft">@dimen/padding_vvsmall</item>
         <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
     </style>
