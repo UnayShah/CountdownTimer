@@ -3,7 +3,7 @@ package com.example.countdownTimer.common;
 public final class ConstantsClass {
     public static final Integer VIBRATE_VERY_SHORT = 20;
     public static final Integer VIBRATE_SHORT = 50;
-    public static final Integer VIBRATE_SHORT_MEDIUM = 750;
+    public static final Integer VIBRATE_SHORT_MEDIUM = 75;
     public static final Integer VIBRATE_MEDIUM = 100;
     public static final Integer VIBRATE_MEDIUM_LONG = 250;
     public static final Integer VIBRATE_LONG = 500;

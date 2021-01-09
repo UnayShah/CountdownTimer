@@ -1,8 +1,11 @@
 package com.example.countdownTimer;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countdownTimer.common.ConstantsClass;
 import com.example.countdownTimer.countdowntimer.CountdownTimer;
+import com.example.countdownTimer.model.CustomAnimations;
 import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
@@ -94,6 +98,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         timePickerPopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }
 
+    private void emptyHolderVisibility() {
+        if (activity.findViewById(R.id.empty_holder) != null) {
+            View emptyHolder = activity.findViewById(R.id.empty_holder);
+            if (DataHolder.getInstance().getListTimerGroup().size() <= 0) {
+                emptyHolder.setVisibility(View.VISIBLE);
+                emptyHolder.animate().translationY(100).alpha(0).setDuration(ConstantsClass.ZERO).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        emptyHolder.animate().translationY(0).alpha(1).setDuration(ConstantsClass.SOUND_MEDIUM_LONG);
+                    }
+                });
+
+            } else {
+                emptyHolder.animate().translationY(100).alpha(0).setDuration(ConstantsClass.SOUND_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        emptyHolder.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }
+    }
+
     public class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
         ImageView dragImage;
         TextView timerText;
@@ -119,6 +148,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public void init() {
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
+            if (getAdapterPosition() == DataHolder.getInstance().getListTimerGroup().size() - 1 && getAdapterPosition() != 0) {
+                itemView.animate().translationY(100).setDuration(0);
+                itemView.animate().translationY(0);
+            }
             setDragImageVisibility();
         }
 
@@ -137,24 +170,37 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         }
 
         private void button2() {
-            if (!DataHolder.getInstance().getStackNavigation().empty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) >= 0 && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) < DataHolder.getInstance().getAllTimerGroups().size() && getAdapterPosition() >= 0 && getAdapterPosition() < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size()) {
-                if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString()))
-                    DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).decrementInternalUsageCount();
-                DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().remove(getAdapterPosition());
-            } else if (DataHolder.getInstance().getStackNavigation().empty()) {
-                if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
-                    for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup()) {
-                        if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName())) {
-                            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
-                        }
+            itemView.animate().translationY(Resources.getSystem().getDisplayMetrics().heightPixels / 2.0f).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    if (!DataHolder.getInstance().getStackNavigation().empty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) >= 0 && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) < DataHolder.getInstance().getAllTimerGroups().size() && getAdapterPosition() >= 0 && getAdapterPosition() < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size()) {
+                        if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString()))
+                            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).decrementInternalUsageCount();
+                        DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().remove(getAdapterPosition());
+                    } else if (DataHolder.getInstance().getStackNavigation().empty()) {
+                        if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
+                            for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup()) {
+                                if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName())) {
+                                    DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
+                                }
+                            }
+                            DataHolder.getInstance().getAllTimerGroups().remove(getAdapterPosition());
+                        } else
+                            Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();
                     }
-                    DataHolder.getInstance().getAllTimerGroups().remove(getAdapterPosition());
-                } else
-                    Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();
-            }
-            DataHolder.getInstance().saveData(itemView.getContext());
-            DataHolder.getInstance().setDisableButtonClick(false);
-            notifyDataSetChanged();
+                    DataHolder.getInstance().saveData(itemView.getContext());
+                    DataHolder.getInstance().setDisableButtonClick(false);
+                    itemView.animate().translationY(0).alpha(1f).setDuration(0).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            notifyDataSetChanged();
+                            emptyHolderVisibility();
+                        }
+                    });
+                }
+            });
         }
 
         private void textViewPress() {
@@ -178,10 +224,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 notifyDataSetChanged();
             }
+            if (activity.findViewById(R.id.timers_scrollView_recyclerView) != null) {
+                new CustomAnimations().slideUp(activity.findViewById(R.id.timers_scrollView_recyclerView));
+            }
             if (activity.findViewById(R.id.loop_button) != null) {
                 activity.findViewById(R.id.loop_button).callOnClick();
                 activity.findViewById(R.id.loop_button).callOnClick();
             }
+
         }
 
         @Override
@@ -194,7 +244,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             return true;
         }
 
-
         @Override
         public void onClick(View view) {
             if (!TimerActivity.timerRunning && !CountdownTimer.timerPaused && !DataHolder.getInstance().getDisableButtonClick()) {
@@ -206,6 +255,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 else DataHolder.getInstance().setDisableButtonClick(false);
             } else
                 Toast.makeText(itemView.getContext(), ConstantsClass.RUNNING_COUNTDOWN_UNEDITABLE_TOAST, Toast.LENGTH_SHORT).show();
+            emptyHolderVisibility();
         }
     }
 }

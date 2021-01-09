@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.countdownTimer.common.ConstantsClass;
 import com.example.countdownTimer.countdowntimer.CountdownTimer;
 import com.example.countdownTimer.countdowntimer.CountdownTimerFactory;
+import com.example.countdownTimer.model.CustomAnimations;
 import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.timers.Timer;
@@ -35,7 +35,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     ImageButton startPauseTimerButton;
     ImageButton stopTimerButton;
     ImageButton returnButton;
-    ScrollView scrollViewTimers;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
@@ -69,7 +68,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         addTimerButton = findViewById(R.id.add_button);
         startPauseTimerButton = findViewById(R.id.start_pause_button);
         returnButton = findViewById(R.id.return_button);
-        scrollViewTimers = findViewById(R.id.timers_scrollView);
         stopTimerButton = findViewById(R.id.stop_button);
         emptyHolder = findViewById(R.id.empty_holder);
         ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerAdapter);
@@ -96,14 +94,30 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) != null)
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
-            if (DataHolder.getInstance().getListTimerGroup().size() > 0)
-                emptyHolder.setVisibility(View.VISIBLE);
-            else emptyHolder.setVisibility(View.GONE);
+            emptyHolderVisibility();
             recyclerAdapter.notifyDataSetChanged();
         }
+        initTransitionAnimations(recyclerView, startPauseTimerButton, returnButton);
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
+    private void initTransitionAnimations(View... view) {
+        for (View v : view) {
+            new CustomAnimations().slideUp(v);
+        }
+    }
+
+    private void endTransitionAnimations(View... view) {
+        for (View v : view) {
+            new CustomAnimations().slideDown(v);
+        }
+    }
+
+    private void emptyHolderVisibility() {
+        if (DataHolder.getInstance().getListTimerGroup().size() <= 0)
+            emptyHolder.setVisibility(View.VISIBLE);
+        else emptyHolder.setVisibility(View.GONE);
+    }
 
     public void requestDrag(RecyclerAdapter.ListItemViewHolder viewHolder) {
         itemTouchHelper.startDrag(viewHolder);
@@ -187,9 +201,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             stopTimer();
             DataHolder.getInstance().getStackNavigation().pop();
             if (DataHolder.getInstance().getStackNavigation().empty()) {
+                endTransitionAnimations(recyclerView, startPauseTimerButton, returnButton);
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
                 super.onBackPressed();
             } else {
+                endTransitionAnimations(recyclerView);
                 if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()))
                     DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
@@ -198,6 +214,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                     findViewById(R.id.loop_button).callOnClick();
                 }
                 recyclerAdapter.notifyDataSetChanged();
+                initTransitionAnimations(recyclerView);
+                emptyHolderVisibility();
             }
         }
         DataHolder.getInstance().setDisableButtonClick(false);
