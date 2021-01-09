@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countdownTimer.common.ConstantsClass;
 import com.example.countdownTimer.countdowntimer.CountdownTimer;
-import com.example.countdownTimer.model.CustomAnimations;
 import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
@@ -116,7 +115,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        emptyHolder.setVisibility(View.GONE);
+                        emptyHolder.setVisibility(View.INVISIBLE);
                     }
                 });
             }
@@ -136,6 +135,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public ListItemViewHolder(@NonNull final View itemView) {
             super(itemView);
             dragImage = itemView.findViewById(R.id.drag);
+            setDragImageVisibility();
             timerText = itemView.findViewById(R.id.timer_textViewList);
             button1 = itemView.findViewById(R.id.edit_timer);
             button2 = itemView.findViewById(R.id.delete_timer);
@@ -148,12 +148,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public void init() {
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
-            setDragImageVisibility();
         }
 
         public void setDragImageVisibility() {
             if (DataHolder.getInstance().getStackNavigation().empty())
-                dragImage.setVisibility(View.GONE);
+                dragImage.setVisibility(View.INVISIBLE);
             else dragImage.setVisibility(View.VISIBLE);
         }
 
@@ -167,7 +166,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
         private void button2() {
             DataHolder.getInstance().setDisableButtonClick(false);
-            itemView.animate().translationX(Resources.getSystem().getDisplayMetrics().widthPixels).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
+            itemView.animate().translationXBy(Resources.getSystem().getDisplayMetrics().widthPixels / 4.0f).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
@@ -188,13 +187,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                     }
                     DataHolder.getInstance().saveData(itemView.getContext());
                     DataHolder.getInstance().setDisableButtonClick(false);
-                    itemView.animate().translationX(0).alpha(1f).setDuration(ConstantsClass.ZERO).setListener(new AnimatorListenerAdapter() {
+                    notifyDataSetChanged();
+                    itemView.setTranslationX(0);
+                    itemView.setTranslationY(Resources.getSystem().getDisplayMetrics().widthPixels / 4.0f);
+                    itemView.setAlpha(0);
+                    itemView.animate().translationY(0).translationX(0).alpha(1).setDuration(ConstantsClass.ZERO).setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             notifyDataSetChanged();
                             emptyHolderVisibility();
                             DataHolder.getInstance().setDisableButtonClick(false);
+                            itemView.setTranslationX(0);
+                            itemView.setTranslationY(0);
                         }
                     });
                 }
@@ -227,13 +232,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 notifyDataSetChanged();
             }
-            if (activity.findViewById(R.id.timers_scrollView_recyclerView) != null) {
-                new CustomAnimations().slideUp(activity.findViewById(R.id.timers_scrollView_recyclerView));
-            }
+//            if (activity.findViewById(R.id.timers_scrollView_recyclerView) != null) {
+//                new CustomAnimations().slideUp(activity.findViewById(R.id.timers_scrollView_recyclerView));
+//            }
             if (activity.findViewById(R.id.loop_button) != null) {
                 activity.findViewById(R.id.loop_button).callOnClick();
                 activity.findViewById(R.id.loop_button).callOnClick();
             }
+            notifyDataSetChanged();
 
         }
 

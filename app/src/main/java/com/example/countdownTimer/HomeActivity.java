@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         emptyHolder = findViewById(R.id.empty_holder);
         if (DataHolder.getInstance().getListTimerGroup().size() > 0)
             emptyHolder.setVisibility(View.VISIBLE);
-        else emptyHolder.setVisibility(View.GONE);
+        else emptyHolder.setVisibility(View.INVISIBLE);
 
         homeAddButton = findViewById(R.id.home_add_button);
         returnButton = findViewById(R.id.return_button);
