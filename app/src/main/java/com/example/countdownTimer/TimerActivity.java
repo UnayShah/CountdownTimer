@@ -39,6 +39,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
     TextView timerTextView;
+    private TextView indexOfTimerTextView;
     CountdownTimer countdownTimer;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
@@ -65,6 +66,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         recyclerView.setAdapter(recyclerAdapter);
         timerTextView = findViewById(R.id.timer_textView);
         timerTextView.setText(new Timer().toString());
+        indexOfTimerTextView = findViewById(R.id.index_textView);
         addTimerButton = findViewById(R.id.add_button);
         startPauseTimerButton = findViewById(R.id.start_pause_button);
         returnButton = findViewById(R.id.return_button);
@@ -97,7 +99,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             emptyHolderVisibility();
             recyclerAdapter.notifyDataSetChanged();
         }
-        initTransitionAnimations(recyclerView, startPauseTimerButton, returnButton);
+        initTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
@@ -186,6 +188,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void stopTimer() {
+        indexOfTimerTextView.setText(" ");
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
         stopTimerButton.setVisibility(View.GONE);
@@ -201,7 +204,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             stopTimer();
             DataHolder.getInstance().getStackNavigation().pop();
             if (DataHolder.getInstance().getStackNavigation().empty()) {
-                endTransitionAnimations(recyclerView, startPauseTimerButton, returnButton);
+                endTransitionAnimations(recyclerView, startPauseTimerButton);
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
                 super.onBackPressed();
             } else {
@@ -213,8 +216,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                     findViewById(R.id.loop_button).callOnClick();
                     findViewById(R.id.loop_button).callOnClick();
                 }
-                recyclerAdapter.notifyDataSetChanged();
                 initTransitionAnimations(recyclerView);
+                recyclerAdapter.notifyDataSetChanged();
                 emptyHolderVisibility();
             }
         }

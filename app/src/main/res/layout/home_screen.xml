@@ -62,26 +62,41 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_pointing_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/empty_holder_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:tint="@color/text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_large"
         app:layout_constraintBottom_toTopOf="@id/adView_home"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timerGroupScrollViewRecyclerView">
+        app:layout_constraintRight_toRightOf="parent">
+
+
+        <ImageButton
+            android:id="@+id/return_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/timer_layout_buttons"
+            android:contentDescription="@string/return_button"
+            android:padding="@dimen/padding_small_medium"
+            android:src="@drawable/ic_resource_return"
+            android:transitionName="Return Button Transition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/home_add_button"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/home_add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_medium"
+            android:layout_margin="@dimen/padding_small"
             android:background="@drawable/timer_layout_buttons"
             android:contentDescription="@string/add_button"
             android:padding="@dimen/padding_small"
@@ -89,8 +104,25 @@
             android:scaleY="1.5"
             android:src="@drawable/ic_round_add"
             android:tint="@color/accent"
-            android:transitionName="timer_name_popup_transition" />
-    </LinearLayout>
+            android:transitionName="timer_name_popup_transition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/return_button"
+            app:layout_constraintRight_toLeftOf="@id/settings_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/timer_layout_buttons"
+            android:contentDescription="@string/add_button"
+            android:padding="@dimen/padding_small_medium"
+            android:src="@drawable/ic_round_settings_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/home_add_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView_home"
@@ -98,12 +130,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:transitionName="ad_transition"
+        android:transitionName="Ad Transition"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_buttons_layout" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

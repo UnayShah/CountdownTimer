@@ -28,6 +28,7 @@ public class CountdownTimer {
     private final Stack<TimerGroup> countdownStack;
     Canvas progressBar;
     Paint paint;
+    private TextView indexOfTimerTextView;
     private Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
@@ -43,9 +44,13 @@ public class CountdownTimer {
         progressBar = new Canvas();
         paint = new Paint();
         progressBar.drawColor(timerTextView.getResources().getColor(R.color.blueGray600));
+        indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
     }
 
     public void startTimer(Long pauseTimeInMillis) {
+        indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
+        if (indexOfTimerTextView != null)
+            indexOfTimerTextView.setText(" " + (indexOfTimer + 1));
         System.out.println("Index " + indexOfTimer);
         if (countdownStack.isEmpty() && !DataHolder.getInstance().getStackNavigation().isEmpty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size() > indexOfTimer) {
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString()))

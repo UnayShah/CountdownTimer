@@ -148,10 +148,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public void init() {
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
-            if (getAdapterPosition() == DataHolder.getInstance().getListTimerGroup().size() - 1 && getAdapterPosition() != 0) {
-                itemView.animate().translationY(100).setDuration(0);
-                itemView.animate().translationY(0);
-            }
             setDragImageVisibility();
         }
 
@@ -170,7 +166,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         }
 
         private void button2() {
-            itemView.animate().translationY(Resources.getSystem().getDisplayMetrics().heightPixels / 2.0f).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
+            DataHolder.getInstance().setDisableButtonClick(false);
+            itemView.animate().translationX(Resources.getSystem().getDisplayMetrics().widthPixels).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
@@ -191,12 +188,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                     }
                     DataHolder.getInstance().saveData(itemView.getContext());
                     DataHolder.getInstance().setDisableButtonClick(false);
-                    itemView.animate().translationY(0).alpha(1f).setDuration(0).setListener(new AnimatorListenerAdapter() {
+                    itemView.animate().translationX(0).alpha(1f).setDuration(ConstantsClass.ZERO).setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             notifyDataSetChanged();
                             emptyHolderVisibility();
+                            DataHolder.getInstance().setDisableButtonClick(false);
                         }
                     });
                 }
@@ -208,6 +206,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             intent = new Intent(itemView.getContext(), TimerActivity.class);
             DataHolder.getInstance().getStackNavigation().push(String.valueOf(timerText.getText()));
             if (DataHolder.getInstance().getStackNavigation().size() <= 1) {
+                if (activity.findViewById(R.id.home_add_button) != null) {
+                    System.out.println("FOUND");
+                    if (DataHolder.getInstance().getStackNavigation().size() > 0)
+                        activity.findViewById(R.id.home_add_button).setVisibility(View.GONE);
+                }
                 animationPairs = new Pair[2];
                 animationPairs[0] = new Pair<>(activity.findViewById(R.id.home_add_button), "timer_name_popup_transition");
                 animationPairs[1] = new Pair<>(itemView.findViewById(R.id.timer_textViewList), "timer_name_transition");
