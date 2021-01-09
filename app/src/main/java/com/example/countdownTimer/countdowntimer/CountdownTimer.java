@@ -23,7 +23,6 @@ public class CountdownTimer {
     public static Boolean timerPaused = false;
     public static Long timePassed;
     public static Long totalTime;
-    private final TextView timerTextView;
     private final TimerActivity timerActivity;
     private final Stack<TimerGroup> countdownStack;
     Canvas progressBar;
@@ -33,8 +32,7 @@ public class CountdownTimer {
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
 
-    public CountdownTimer(TextView timerTextView, TimerActivity timerActivity) {
-        this.timerTextView = timerTextView;
+    public CountdownTimer(TimerActivity timerActivity) {
         this.timerActivity = timerActivity;
         timePassed = 0L;
         totalTime = 0L;
@@ -43,12 +41,13 @@ public class CountdownTimer {
         countdownStack = new Stack<>();
         progressBar = new Canvas();
         paint = new Paint();
-        progressBar.drawColor(timerTextView.getResources().getColor(R.color.blueGray600));
+//        progressBar.drawColor(timerTextView.getResources().getColor(R.color.blueGray600));
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
     }
 
     public void startTimer(Long pauseTimeInMillis) {
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
+        System.out.println();
         if (indexOfTimerTextView != null)
             indexOfTimerTextView.setText(" " + (indexOfTimer + 1));
         System.out.println("Index " + indexOfTimer);
@@ -73,7 +72,7 @@ public class CountdownTimer {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     timeInMillis = millisUntilFinished;
-                    timerTextView.setText(timerGroup.setTimer(millisUntilFinished).toString());
+                    timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
 //                    timePassed += ConstantsClass.ONE_HOUR_IN_MILLIS;
 //                    float width = ((float) timePassed) / ((float) totalTime);
 //                    width *= timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth();
@@ -166,7 +165,7 @@ public class CountdownTimer {
         countdownStack.clear();
         timerPaused = false;
         indexOfTimer = 0;
-        timerTextView.setText(timerGroup.setTimer(0L).toString());
+        timerActivity.setText(timerGroup.setTimer(0L).toString());
         if (countDownTimer != null)
             countDownTimer.cancel();
     }

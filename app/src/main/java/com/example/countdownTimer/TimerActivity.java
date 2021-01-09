@@ -39,12 +39,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
     TextView timerTextView;
-    private TextView indexOfTimerTextView;
     CountdownTimer countdownTimer;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
     View timerLayout;
     AdView adView;
+    private TextView indexOfTimerTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
         returnButton.setOnClickListener(this);
-        countdownTimer = CountdownTimerFactory.getInstance(timerTextView, this);
+        countdownTimer = CountdownTimerFactory.getInstance(this);
         timerRunning = false;
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
@@ -101,6 +101,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
         initTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setDisableButtonClick(false);
+    }
+
+    public void setText(Object obj) {
+        timerTextView.setText(obj.toString());
     }
 
     private void initTransitionAnimations(View... view) {
