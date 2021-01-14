@@ -1,24 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="android:windowActivityTransitions">true</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="AppTheme.PopupNumberPicker">
+    <style name="ThemeOverlay.MaterialComponents.PopupNumberPicker">
         <item name="android:background">@drawable/number_picker_design</item>
         <item name="android:textColorPrimary">@color/text</item>
         <item name="android:colorControlNormal">@color/text</item>
@@ -27,14 +9,19 @@
         <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
     </style>
 
-    <style name="AppTheme.PopupButton">
+    <style name="ThemeOverlay.MaterialComponents.PopupButton">
         <item name="android:background">@drawable/popup_buttons</item>
         <item name="android:textColor">@color/text</item>
         <item name="colorAccent">@color/text</item>
     </style>
 
-    <style name="timerNameEditText" parent="Theme.AppCompat.Light">
+    <style name="timerNameEditText" parent="">
         <item name="android:colorControlNormal">@color/accent</item>
         <item name="android:colorControlActivated">@color/text</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.CountdownTimer.Button.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100%</item>
     </style>
 </resources>

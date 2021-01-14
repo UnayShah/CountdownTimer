@@ -13,6 +13,6 @@ public class ThemedNumberPicker extends NumberPicker {
     }
 
     public ThemedNumberPicker(Context context, AttributeSet attrs) {
-        super(new ContextThemeWrapper(context, R.style.AppTheme_PopupNumberPicker), attrs);
+        super(new ContextThemeWrapper(context, R.style.ThemeOverlay_MaterialComponents_PopupNumberPicker), attrs);
     }
 }

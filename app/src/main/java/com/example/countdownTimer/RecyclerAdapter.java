@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,8 +66,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     public int getItemCount() {
         DataHolder.getInstance().setDisableButtonClick(false);
         try {
-            if (!DataHolder.getInstance().getStackNavigation().empty() && activity.findViewById(R.id.timer_name) != null) {
-                ((TextView) activity.findViewById(R.id.timer_name)).setText(DataHolder.getInstance().getStackNavigation().peek());
+            if (!DataHolder.getInstance().getStackNavigation().empty() && activity.findViewById(R.id.timer_toolbar) != null) {
+                ((Toolbar) activity.findViewById(R.id.timer_toolbar)).setTitle(DataHolder.getInstance().getStackNavigation().peek());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,7 +136,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public ListItemViewHolder(@NonNull final View itemView) {
             super(itemView);
             dragImage = itemView.findViewById(R.id.drag);
-            setDragImageVisibility();
             timerText = itemView.findViewById(R.id.timer_textViewList);
             button1 = itemView.findViewById(R.id.edit_timer);
             button2 = itemView.findViewById(R.id.delete_timer);
@@ -143,6 +143,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             button2.setOnClickListener(this);
             timerText.setOnClickListener(this);
             dragImage.setOnTouchListener(this);
+            setDragImageVisibility();
         }
 
         public void init() {
@@ -152,7 +153,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
         public void setDragImageVisibility() {
             if (DataHolder.getInstance().getStackNavigation().empty())
-                dragImage.setVisibility(View.INVISIBLE);
+                dragImage.setVisibility(View.GONE);
             else dragImage.setVisibility(View.VISIBLE);
         }
 
@@ -166,44 +167,46 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
         private void button2() {
             DataHolder.getInstance().setDisableButtonClick(false);
-            itemView.animate().translationXBy(Resources.getSystem().getDisplayMetrics().widthPixels / 4.0f).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    if (!DataHolder.getInstance().getStackNavigation().empty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) >= 0 && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) < DataHolder.getInstance().getAllTimerGroups().size() && getAdapterPosition() >= 0 && getAdapterPosition() < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size()) {
-                        if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString()))
-                            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).decrementInternalUsageCount();
-                        DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().remove(getAdapterPosition());
-                    } else if (DataHolder.getInstance().getStackNavigation().empty()) {
-                        if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
-                            for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup()) {
-                                if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName())) {
-                                    DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
+            if ((DataHolder.getInstance().getStackNavigation().empty() && DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) || !DataHolder.getInstance().getStackNavigation().isEmpty()) {
+                itemView.animate().translationXBy(Resources.getSystem().getDisplayMetrics().widthPixels / 4.0f).alpha(0).setDuration(ConstantsClass.VIBRATE_MEDIUM_LONG).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        if (!DataHolder.getInstance().getStackNavigation().empty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) >= 0 && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) < DataHolder.getInstance().getAllTimerGroups().size() && getAdapterPosition() >= 0 && getAdapterPosition() < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size()) {
+                            if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString()))
+                                DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getName())).decrementInternalUsageCount();
+                            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().remove(getAdapterPosition());
+                        } else if (DataHolder.getInstance().getStackNavigation().empty()) {
+                            if (DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getInternalUsageCount() <= 0) {
+                                for (TimerGroup tg : DataHolder.getInstance().getAllTimerGroups().get(getAdapterPosition()).getListTimerGroup()) {
+                                    if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg.getName())) {
+                                        DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg.getName())).decrementInternalUsageCount();
+                                    }
                                 }
+                                DataHolder.getInstance().getAllTimerGroups().remove(getAdapterPosition());
                             }
-                            DataHolder.getInstance().getAllTimerGroups().remove(getAdapterPosition());
-                        } else
-                            Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();
-                    }
-                    DataHolder.getInstance().saveData(itemView.getContext());
-                    DataHolder.getInstance().setDisableButtonClick(false);
-                    notifyDataSetChanged();
-                    itemView.setTranslationX(0);
-                    itemView.setTranslationY(Resources.getSystem().getDisplayMetrics().widthPixels / 4.0f);
-                    itemView.setAlpha(0);
-                    itemView.animate().translationY(0).translationX(0).alpha(1).setDuration(ConstantsClass.ZERO).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            notifyDataSetChanged();
-                            emptyHolderVisibility();
-                            DataHolder.getInstance().setDisableButtonClick(false);
-                            itemView.setTranslationX(0);
-                            itemView.setTranslationY(0);
                         }
-                    });
-                }
-            });
+                        DataHolder.getInstance().saveData(itemView.getContext());
+                        DataHolder.getInstance().setDisableButtonClick(false);
+                        notifyDataSetChanged();
+                        itemView.setTranslationX(0);
+                        itemView.setTranslationY(Resources.getSystem().getDisplayMetrics().widthPixels / 4.0f);
+                        itemView.setAlpha(0);
+                        itemView.animate().translationY(0).translationX(0).alpha(1).setDuration(ConstantsClass.ZERO).setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                notifyDataSetChanged();
+                                emptyHolderVisibility();
+                                DataHolder.getInstance().setDisableButtonClick(false);
+                                itemView.setTranslationX(0);
+                                itemView.setTranslationY(0);
+                            }
+                        });
+                    }
+                });
+            } else
+                Toast.makeText(itemView.getContext(), ConstantsClass.COUNTER_IN_USE_ELSEWHERE, Toast.LENGTH_SHORT).show();
         }
 
         private void textViewPress() {

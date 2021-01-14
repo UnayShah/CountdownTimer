@@ -2,15 +2,19 @@ package com.example.countdownTimer;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +29,7 @@ import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.timers.Timer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -34,7 +39,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     ImageButton addTimerButton;
     ImageButton startPauseTimerButton;
     ImageButton stopTimerButton;
-    ImageButton returnButton;
+    MaterialButton homeButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
@@ -44,13 +49,31 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Integer indexOfTimer;
     View timerLayout;
     AdView adView;
+    Toolbar timerToolbar;
     private TextView indexOfTimerTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.timer_layout_recycler);
+        setContentView(R.layout.timer_layout);
         init();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_app_bar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuItem = item.getItemId();
+        switch (menuItem) {
+            case R.id.timer_group_settings:
+                Toast.makeText(this, "Action Search", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void init() {
@@ -67,40 +90,48 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         timerTextView = findViewById(R.id.timer_textView);
         timerTextView.setText(new Timer().toString());
         indexOfTimerTextView = findViewById(R.id.index_textView);
-        addTimerButton = findViewById(R.id.add_button);
+        addTimerButton = findViewById(R.id.home_add_button);
         startPauseTimerButton = findViewById(R.id.start_pause_button);
-        returnButton = findViewById(R.id.return_button);
+        homeButton = findViewById(R.id.home_button);
         stopTimerButton = findViewById(R.id.stop_button);
         emptyHolder = findViewById(R.id.empty_holder);
+        timerToolbar = findViewById(R.id.timer_toolbar);
+        timerLayout = findViewById(R.id.timer_layout);
+
         ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
         startPauseTimerButton.setOnClickListener(this);
         stopTimerButton.setOnClickListener(this);
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
-        returnButton.setOnClickListener(this);
+        homeButton.setOnClickListener(this);
+
         countdownTimer = CountdownTimerFactory.getInstance(this);
         timerRunning = false;
+
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
-        returnButton.setVisibility(View.GONE);
-        startPauseTimerButton.setVisibility(View.GONE);
-        addTimerButton.setVisibility(View.GONE);
+
         stopTimerButton.setVisibility(View.GONE);
-        returnButton.setVisibility(View.VISIBLE);
+        homeButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.VISIBLE);
-        timerLayout = findViewById(R.id.timer_layout);
+
         if (!DataHolder.getInstance().getStackNavigation().isEmpty()) {
+            timerToolbar.setTitle(DataHolder.getInstance().getStackNavigation().peek());
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek()) != null)
                 DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup());
             else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
             emptyHolderVisibility();
             recyclerAdapter.notifyDataSetChanged();
         }
+
+        setSupportActionBar(timerToolbar);
         initTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setDisableButtonClick(false);
+        timerToolbar.setNavigationOnClickListener(v -> returnButton());
     }
 
     public void setText(Object obj) {
@@ -145,7 +176,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                     startPauseTimer();
                 else DataHolder.getInstance().setDisableButtonClick(false);
             } else if (view.getId() == stopTimerButton.getId()) stopTimer();
-            else if (view.getId() == returnButton.getId()) returnButton();
+            else if (view.getId() == homeButton.getId())
+                homeButton();
             else DataHolder.getInstance().setDisableButtonClick(false);
         }
     }
@@ -192,7 +224,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void stopTimer() {
-        indexOfTimerTextView.setText(" ");
+        indexOfTimerTextView.setText("0");
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
         stopTimerButton.setVisibility(View.GONE);
@@ -201,6 +233,14 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         countdownTimer.stopTimer();
         timerRunning = false;
         DataHolder.getInstance().setDisableButtonClick(false);
+    }
+
+    private void homeButton() {
+        stopTimer();
+        DataHolder.getInstance().getStackNavigation().clear();
+        endTransitionAnimations(recyclerView, startPauseTimerButton);
+        DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
+        super.onBackPressed();
     }
 
     private void returnButton() {

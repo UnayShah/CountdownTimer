@@ -107,7 +107,7 @@
 
                     <com.example.countdownTimer.model.ThemedNumberPicker
                         android:id="@+id/number_picker_hours"
-                        style="@style/AppTheme.PopupNumberPicker"
+                        style="@style/ThemeOverlay.MaterialComponents.PopupNumberPicker"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
                 </LinearLayout>
@@ -129,7 +129,7 @@
 
                     <com.example.countdownTimer.model.ThemedNumberPicker
                         android:id="@+id/number_picker_minutes"
-                        style="@style/AppTheme.PopupNumberPicker"
+                        style="@style/ThemeOverlay.MaterialComponents.PopupNumberPicker"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
                 </LinearLayout>
@@ -151,7 +151,7 @@
 
                     <com.example.countdownTimer.model.ThemedNumberPicker
                         android:id="@+id/number_picker_seconds"
-                        style="@style/AppTheme.PopupNumberPicker"
+                        style="@style/ThemeOverlay.MaterialComponents.PopupNumberPicker"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
                 </LinearLayout>
@@ -187,7 +187,7 @@
 
             <Button
                 android:id="@+id/set_timer_button"
-                style="@style/AppTheme.PopupButton"
+                style="@style/ThemeOverlay.MaterialComponents.PopupButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -201,7 +201,7 @@
 
             <Button
                 android:id="@+id/cancel_set_timer_button"
-                style="@style/AppTheme.PopupButton"
+                style="@style/ThemeOverlay.MaterialComponents.PopupButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

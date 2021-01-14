@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init() {
-        adView = findViewById(R.id.adView_home);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         else emptyHolder.setVisibility(View.INVISIBLE);
 
         homeAddButton = findViewById(R.id.home_add_button);
-        returnButton = findViewById(R.id.return_button);
+        returnButton = findViewById(R.id.home_button);
         settingsButton = findViewById(R.id.settings_button);
         homeAddButton.setOnClickListener(this);
         returnButton.setOnClickListener(this);

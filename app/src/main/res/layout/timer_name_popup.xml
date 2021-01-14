@@ -58,7 +58,7 @@
 
             <Button
                 android:id="@+id/setTimerNameButton"
-                style="@style/AppTheme.PopupButton"
+                style="@style/ThemeOverlay.MaterialComponents.PopupButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -71,7 +71,7 @@
 
             <Button
                 android:id="@+id/cancelSetTimerNameButton"
-                style="@style/AppTheme.PopupButton"
+                style="@style/ThemeOverlay.MaterialComponents.PopupButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
