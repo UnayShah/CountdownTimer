@@ -27,6 +27,7 @@ import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
 import com.example.countdownTimer.timers.TimerGroup;
 import com.example.countdownTimer.timers.TimerGroupType;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -241,13 +242,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 notifyDataSetChanged();
             }
-//            if (activity.findViewById(R.id.timers_scrollView_recyclerView) != null) {
-//                new CustomAnimations().slideUp(activity.findViewById(R.id.timers_scrollView_recyclerView));
-//            }
             if (activity.findViewById(R.id.loop_button) != null) {
                 activity.findViewById(R.id.loop_button).callOnClick();
                 activity.findViewById(R.id.loop_button).callOnClick();
             }
+            if (activity.findViewById(R.id.increase_reps) != null && activity.findViewById(R.id.decrease_reps) != null) {
+                activity.findViewById(R.id.increase_reps).callOnClick();
+                activity.findViewById(R.id.decrease_reps).callOnClick();
+            }
+            if (activity.findViewById(R.id.timer_toolbar) != null)
+                ((MaterialToolbar) activity.findViewById(R.id.timer_toolbar)).setTitle(DataHolder.getInstance().getStackNavigation().peek());
             notifyDataSetChanged();
 
         }

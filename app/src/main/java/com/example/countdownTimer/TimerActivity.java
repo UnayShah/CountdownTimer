@@ -7,9 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,6 +29,7 @@ import com.example.countdownTimer.timers.Timer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 
@@ -44,14 +43,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
-    TextView timerTextView;
+    MaterialTextView timerTextView;
     CountdownTimer countdownTimer;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
     View timerLayout;
     AdView adView;
     Toolbar timerToolbar;
-    private TextView indexOfTimerTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +88,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         recyclerView.setAdapter(recyclerAdapter);
         timerTextView = findViewById(R.id.timer_textView);
         timerTextView.setText(new Timer().toString());
-        indexOfTimerTextView = findViewById(R.id.index_textView);
         addTimerButton = findViewById(R.id.home_add_button);
         startPauseTimerButton = findViewById(R.id.start_pause_button);
         homeButton = findViewById(R.id.home_button);
@@ -183,6 +180,18 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void increaseReps() {
+        if (!DataHolder.getInstance().getStackNavigation().isEmpty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek())) {
+            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).incrementReps();
+        }
+        DataHolder.getInstance().setDisableButtonClick(false);
+    }
+
+    private void decreaseReps() {
+
+        DataHolder.getInstance().setDisableButtonClick(false);
+    }
+
     /**
      * Create and add new timer in list
      */
@@ -225,7 +234,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void stopTimer() {
-        indexOfTimerTextView.setText("0");
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.GONE);
@@ -261,6 +269,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                     findViewById(R.id.loop_button).callOnClick();
                     findViewById(R.id.loop_button).callOnClick();
                 }
+                if (findViewById(R.id.increase_reps) != null && findViewById(R.id.decrease_reps) != null) {
+                    findViewById(R.id.increase_reps).callOnClick();
+                    findViewById(R.id.decrease_reps).callOnClick();
+                }
+                timerToolbar.setTitle(DataHolder.getInstance().getStackNavigation().peek());
                 initTransitionAnimations(recyclerView);
                 recyclerAdapter.notifyDataSetChanged();
                 emptyHolderVisibility();

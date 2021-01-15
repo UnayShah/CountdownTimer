@@ -14,7 +14,7 @@
         android:insetRight="0dp"
         android:insetBottom="0dp"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-        app:backgroundTint="@color/material_on_primary_emphasis_medium"
+        app:backgroundTint="@color/iconTintDark"
         app:cornerRadius="@dimen/padding_small_medium"
         app:icon="@drawable/ic_round_loop"
         app:iconGravity="textStart"

@@ -18,13 +18,14 @@ import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.button.MaterialButton;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     ConstraintLayout emptyHolder;
-    ImageButton homeAddButton;
-    ImageButton returnButton;
-    ImageButton settingsButton;
+    MaterialButton homeAddButton;
+    MaterialButton returnButton;
+    MaterialButton settingsButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     AdView adView;

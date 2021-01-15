@@ -42,6 +42,7 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
     public void onClick(View v) {
         DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).setLooped(!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped());
         setTint();
+        DataHolder.getInstance().setDisableButtonClick(false);
     }
 
     private void setTint() {

@@ -3,21 +3,22 @@ package com.example.countdownTimer.timers;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class TimerGroup {
-    String name;
-    TimerGroupType timerGroupType;
-    Timer timer;
-    List<TimerGroup> listTimerGroup;
-    Boolean looped;
-    Integer internalUsageCount;
+    private String name;
+    private TimerGroupType timerGroupType;
+    private Timer timer;
+    private List<TimerGroup> listTimerGroup;
+    private Boolean looped;
+    private Integer internalUsageCount;
+    private Integer reps;
 
     public TimerGroup() {
         setName("");
+        reps = 0;
         timer = new Timer();
         looped = false;
         internalUsageCount = 0;
@@ -38,6 +39,22 @@ public class TimerGroup {
         } else {
             this.name = text;
         }
+    }
+
+    public Integer getReps() {
+        return reps;
+    }
+
+    public void setReps(Integer reps) {
+        this.reps = reps;
+    }
+
+    public void incrementReps() {
+        setReps(getReps() + 1);
+    }
+
+    public void decrementReps() {
+        setReps(Math.max(getReps() - 1, 0));
     }
 
     public Integer getInternalUsageCount() {
