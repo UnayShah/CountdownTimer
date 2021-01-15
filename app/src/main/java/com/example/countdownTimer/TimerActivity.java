@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,9 +37,9 @@ import java.util.ArrayList;
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning = false;
     ConstraintLayout emptyHolder;
-    ImageButton addTimerButton;
-    ImageButton startPauseTimerButton;
-    ImageButton stopTimerButton;
+    MaterialButton addTimerButton;
+    MaterialButton startPauseTimerButton;
+    MaterialButton stopTimerButton;
     MaterialButton homeButton;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -201,7 +202,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     public void timerStarted() {
         timerRunning = true;
-        startPauseTimerButton.setImageResource(R.drawable.ic_round_pause);
+        startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_pause));
         stopTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.GONE);
         countdownTimer.startTimer(pauseTimeInMillis);
@@ -209,7 +210,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void setTimerPaused() {
-        startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
+        startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.GONE);
         pauseTimeInMillis = countdownTimer.pauseTimer();
@@ -226,7 +227,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     public void stopTimer() {
         indexOfTimerTextView.setText("0");
         addTimerButton.setVisibility(View.VISIBLE);
-        startPauseTimerButton.setImageResource(R.drawable.ic_round_play_arrow);
+        startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.GONE);
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;

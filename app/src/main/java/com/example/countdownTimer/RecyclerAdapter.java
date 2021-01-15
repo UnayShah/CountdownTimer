@@ -12,10 +12,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -29,6 +27,8 @@ import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
 import com.example.countdownTimer.timers.TimerGroup;
 import com.example.countdownTimer.timers.TimerGroupType;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,9 +125,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
     public class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
         ImageView dragImage;
-        TextView timerText;
-        ImageButton button1;
-        ImageButton button2;
+        MaterialTextView timerText;
+        MaterialButton button1;
+        MaterialButton button2;
         TimerGroupType timerGroupType;
         Pair[] animationPairs;
         ActivityOptions options;
@@ -149,6 +149,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public void init() {
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
+            timerText.setFocusable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
+            timerText.setClickable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
+            if (DataHolder.getInstance().getStackNavigation().isEmpty()) {
+                ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMarginStart((int) itemView.getResources().getDimension(R.dimen.padding_medium));
+            }
+//            android:background="?attr/selectableItemBackgroundBorderless"
         }
 
         public void setDragImageVisibility() {

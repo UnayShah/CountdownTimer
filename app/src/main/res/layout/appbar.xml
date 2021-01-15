@@ -5,8 +5,10 @@
     android:layout_height="?attr/actionBarSize"
     android:elevation="4dp"
     android:minHeight="?attr/actionBarSize"
+    android:layout_margin="0dp"
+    app:title="temp"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
     app:menu="@menu/top_app_bar"
     app:navigationIcon="@drawable/ic_round_arrow_back_24"
     app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-    app:titleTextColor="@color/text" />
+    app:titleTextColor="@color/iconTint" />

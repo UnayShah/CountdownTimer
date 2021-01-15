@@ -45,12 +45,12 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
     }
 
     private void setTint() {
-        if (DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped()) {
-            loopButton.setIconTintResource(R.color.material_on_background_disabled);
+        if (!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped()) {
+            loopButton.setIconTintResource(R.color.iconTint);
             loopButton.setRippleColorResource(R.color.accent);
         } else {
             loopButton.setIconTintResource(R.color.accent);
-            loopButton.setRippleColorResource(R.color.material_on_background_disabled);
+            loopButton.setRippleColorResource(R.color.iconTint);
         }
     }
 }

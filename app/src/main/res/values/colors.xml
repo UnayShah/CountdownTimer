@@ -21,4 +21,10 @@
     <color name="text">#F1F7ED</color>
     <color name="textTransparent55">#55F1F7ED</color>
     <color name="accent">#D66853</color>
+    <color name="accent2">#0277BD</color>
+
+    <color name="iconTint">#424242</color>
+    <color name="iconTintDark">#F5F5F5</color>
+    <color name="backgroundTint">#EEEEEE</color>
+    <color name="backgroundTintDark">#616161</color>
 </resources>

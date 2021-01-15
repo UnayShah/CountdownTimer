@@ -1,63 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/add_timer"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:transitionName="timer_expand">
+    android:layout_marginStart="@dimen/padding_vvsmall"
+    android:layout_marginTop="@dimen/padding_vvsmall"
+    android:layout_marginEnd="@dimen/padding_vsmall"
+    android:layout_marginBottom="@dimen/padding_small"
+    android:elevation="@dimen/cardview_default_elevation"
+    android:stateListAnimator="@null"
+    card_view:cardCornerRadius="@dimen/padding_small_medium"
+    card_view:cardElevation="@dimen/cardview_default_elevation">
 
-    <ImageView
-        android:id="@+id/drag"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/padding_small_medium"
-        android:scaleType="center"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
-        android:src="@drawable/ic_round_reorder_24" />
-
-    <TextView
-        android:id="@+id/timer_textViewList"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+    <LinearLayout
+        android:id="@+id/add_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/padding_small"
-        android:paddingTop="@dimen/padding_vsmall"
-        android:paddingEnd="@dimen/padding_small_medium"
-        android:paddingBottom="@dimen/padding_vsmall"
-        android:text="@string/timer_zero"
-        android:textAlignment="gravity"
-        android:textColor="@color/text"
-        android:textStyle="normal" />
+        android:orientation="horizontal"
+        android:stateListAnimator="@null"
+        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        android:transitionName="timer_expand">
 
-    <ImageButton
-        android:id="@+id/edit_timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:layout_margin="@dimen/padding_small_medium"
-        android:background="@drawable/timer_list_buttons"
-        android:padding="@dimen/padding_small"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
-        android:src="@drawable/edit" />
+        <ImageView
+            android:id="@+id/drag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/padding_small_medium"
+            android:scaleType="center"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:src="@drawable/ic_round_reorder_24"
+            card_view:tint="@color/iconTint" />
 
-    <ImageButton
-        android:id="@+id/delete_timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:layout_marginStart="@dimen/padding_vsmall"
-        android:layout_marginTop="@dimen/padding_small"
-        android:layout_marginEnd="@dimen/padding_small_medium"
-        android:layout_marginBottom="@dimen/padding_small"
-        android:background="@drawable/timer_list_buttons"
-        android:padding="@dimen/padding_small"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
-        android:src="@drawable/delete" />
-</LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/timer_textViewList"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_vsmall"
+            android:paddingEnd="@dimen/padding_small_medium"
+            android:paddingBottom="@dimen/padding_vsmall"
+            android:text="@string/timer_zero"
+            android:textAlignment="gravity"
+            android:textColor="@color/iconTint"
+            android:textStyle="normal"
+            card_view:rippleColor="@color/iconTintDark" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_timer"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_margin="@dimen/padding_small"
+            android:backgroundTint="@android:color/white"
+            android:elevation="12dp"
+            card_view:cornerRadius="@dimen/padding_small"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:stateListAnimator="@null"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            card_view:icon="@drawable/edit"
+            card_view:iconGravity="textStart"
+            card_view:iconPadding="0dp"
+            card_view:iconTint="@color/iconTint"
+            card_view:rippleColor="@color/iconTintDark" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_timer"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_margin="@dimen/padding_small"
+            android:layout_marginEnd="@dimen/padding_small_medium"
+            android:backgroundTint="@android:color/white"
+            android:elevation="12dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            card_view:cornerRadius="@dimen/padding_small"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:stateListAnimator="@null"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            card_view:icon="@drawable/delete"
+            card_view:iconGravity="textStart"
+            card_view:iconPadding="0dp"
+            card_view:iconTint="@color/iconTint"
+            card_view:rippleColor="@color/iconTintDark" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

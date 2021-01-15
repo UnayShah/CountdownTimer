@@ -5,39 +5,57 @@
     android:id="@+id/timer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/backgroundTint"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+    app:layout_constraintVertical_weight="1"
     tools:context=".TimerActivity">
 
-    <include
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/timer_toolbar"
-        layout="@layout/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:title="temp"
+        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        app:menu="@menu/top_app_bar"
+        app:navigationIcon="@drawable/ic_round_arrow_back_24"
+        app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        app:titleTextColor="@color/iconTint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timer_animation_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="#00000000"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
         android:gravity="center"
+        app:layout_constraintHeight_percent="0.3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timer_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/timer_controls_layout"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/timer_animation"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/timer_animation"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:elevation="12dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/timer_animation1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/timer_zero"
+                android:textColor="@color/iconTint"
+                android:textSize="@dimen/button_text"
                 android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,40 +76,49 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/timer_controls_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/padding_small_medium">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                style="@style/Theme.MaterialComponents.DayNight.NoActionBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
                 android:background="@drawable/reps_layout"
-                android:gravity="center_vertical|center_horizontal"
-                android:padding="@dimen/padding_vvsmall">
+                android:elevation="8dp"
+                android:gravity="center"
+                android:stateListAnimator="@null">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/decrease_reps"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_margin="@dimen/padding_vvsmall"
+                    android:layout_marginStart="@dimen/padding_vsmall"
+                    android:layout_marginTop="@dimen/padding_vsmall"
+                    android:layout_marginEnd="@dimen/padding_small"
+                    android:layout_marginBottom="@dimen/padding_vsmall"
                     android:elevation="12dp"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
-                    android:padding="@dimen/padding_vvsmall"
+                    android:shadowColor="@color/iconTint"
+                    android:stateListAnimator="@null"
                     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-                    app:backgroundTint="@color/material_on_primary_emphasis_medium"
+                    app:backgroundTint="@android:color/white"
                     app:icon="@drawable/ic_round_remove_24"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconSize="24dp"
-                    app:iconTint="@color/material_on_surface_emphasis_high_type"
-                    app:rippleColor="@color/material_on_background_disabled"
+                    app:iconTint="@color/iconTint"
+                    app:rippleColor="@color/iconTintDark"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
+
 
                 <TextView
                     android:id="@+id/index_textView"
@@ -104,21 +133,27 @@
                     android:id="@+id/increase_reps"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_margin="@dimen/padding_vvsmall"
+                    android:layout_marginStart="@dimen/padding_small"
+                    android:layout_marginTop="@dimen/padding_vsmall"
+                    android:layout_marginEnd="@dimen/padding_vsmall"
+                    android:layout_marginBottom="@dimen/padding_vsmall"
                     android:elevation="12dp"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
-                    android:padding="@dimen/padding_vvsmall"
+                    android:shadowColor="@color/iconTint"
+                    android:shadowDx="10"
+                    android:shadowDy="10"
+                    android:stateListAnimator="@null"
                     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-                    app:backgroundTint="@color/material_on_primary_emphasis_medium"
+                    app:backgroundTint="@android:color/white"
                     app:icon="@drawable/ic_round_add"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconSize="24dp"
-                    app:iconTint="@color/material_on_surface_emphasis_high_type"
-                    app:rippleColor="@color/material_on_background_disabled"
+                    app:iconTint="@color/iconTint"
+                    app:rippleColor="@color/iconTintDark"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
 
@@ -129,17 +164,20 @@
                 android:name="com.example.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@color/iconTint"
+                android:stateListAnimator="@null"
                 tools:layout="@layout/loop_button" />
         </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timers_scrollView_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="@dimen/padding_vsmall"
+        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginEnd="@dimen/padding_vvsmall"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timer_animation_layout" />
@@ -148,9 +186,8 @@
         android:id="@+id/empty_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:paddingLeft="@dimen/padding_small_medium"
-        android:paddingRight="@dimen/padding_small_medium"
+        android:layout_marginStart="@dimen/padding_small_medium"
+        android:layout_marginEnd="@dimen/padding_small_medium"
         app:layout_constraintBottom_toTopOf="@id/buttons_constraint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -178,12 +215,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttons_constraint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_small"
-        android:paddingBottom="@dimen/padding_large"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/adView_timer"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timers_scrollView_recyclerView">
 
 
         <com.google.android.material.button.MaterialButton
@@ -191,7 +228,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/timerList"
+            android:backgroundTint="@color/iconTintDark"
             android:contentDescription="@string/return_home_button"
             android:elevation="12dp"
             android:insetLeft="0dp"
@@ -204,65 +241,96 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/text"
+            app:iconTint="@color/iconTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/start_pause_button"
             app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/start_pause_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_small"
-            android:background="@drawable/timer_layout_buttons"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/iconTintDark"
             android:elevation="12dp"
-            android:padding="@dimen/padding_small"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
             android:src="@drawable/ic_round_play_arrow"
+            android:transitionName="Return Button Transition"
+            app:icon="@drawable/ic_round_play_arrow"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="50dp"
+            app:iconTint="@color/accent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/home_button"
             app:layout_constraintRight_toLeftOf="@id/stop_button"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/iconTintDark"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/stop_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/timer_layout_buttons"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/iconTintDark"
             android:elevation="12dp"
-            android:padding="@dimen/padding_small_medium"
-            android:src="@drawable/ic_round_stop"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
             android:visibility="gone"
+            app:icon="@drawable/ic_round_stop"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="24dp"
+            app:iconTint="@color/iconTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/start_pause_button"
             app:layout_constraintRight_toLeftOf="@id/home_add_button"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/iconTintDark"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/home_add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/timer_layout_buttons"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/iconTintDark"
             android:contentDescription="@string/add_button"
             android:elevation="12dp"
-            android:padding="@dimen/padding_small_medium"
-            android:src="@drawable/ic_round_add"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
             android:transitionName="timer_name_popup_transition"
+            app:icon="@drawable/ic_round_add"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="24dp"
+            app:iconTint="@color/iconTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/stop_button"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/iconTintDark"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView_timer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:transitionName="Ad Transition"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
