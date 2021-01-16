@@ -154,8 +154,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                             tg.incrementInternalUsageCount();
                             setTimerInRecyclerView(tg);
                         });
-                    } catch (Exception e) {
-                        System.out.println("Here" + tg.getName());
+                    } catch (Exception ignore) {
                     }
                     timerGroupPickerLayout.addView(timergroupPickerView);
                 }

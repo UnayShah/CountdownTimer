@@ -3,10 +3,12 @@ package com.example.countdownTimer.countdowntimer;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.widget.ImageView;
 
 import com.example.countdownTimer.R;
 import com.example.countdownTimer.TimerActivity;
@@ -27,12 +29,13 @@ public class CountdownTimer {
     private final Stack<TimerGroup> countdownStack;
     Canvas progressBar;
     Paint paint;
-    Integer reps;
     String iterationText;
+    private Integer reps;
     private MaterialTextView indexOfTimerTextView;
     private Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
+    private ImageView timerAnimation;
 
     public CountdownTimer(TimerActivity timerActivity) {
         this.timerActivity = timerActivity;
@@ -40,30 +43,33 @@ public class CountdownTimer {
         totalTime = 0L;
         timerPaused = false;
         indexOfTimer = 0;
-        reps = ConstantsClass.ZERO;
+        reps = ConstantsClass.ONE;
         countdownStack = new Stack<>();
         progressBar = new Canvas();
         paint = new Paint();
         iterationText = "";
+        timerAnimation = timerActivity.findViewById(R.id.timer_animation);
+        timerAnimation.setRotation(-90f);
 //        progressBar.drawColor(timerTextView.getResources().getColor(R.color.blueGray600));
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
     }
 
     public void startTimer(Long pauseTimeInMillis) {
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
-        System.out.println();
         if (indexOfTimerTextView != null) {
             iterationText = String.format("%" + 2 + "s", (reps)) + " -" + String.format("%" + 2 + "s", (indexOfTimer + 1));
             indexOfTimerTextView.setText(iterationText);
         }
-        System.out.println("Index " + indexOfTimer);
         if (countdownStack.isEmpty() && !DataHolder.getInstance().getStackNavigation().isEmpty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size() > indexOfTimer) {
             if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString()))
                 countdownStack.push(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer).toString())));
             else
                 countdownStack.push(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer));
+            timePassed = ConstantsClass.ZERO_LONG;
+            totalTime = DataHolder.getInstance().getListTimerGroup().get(indexOfTimer).getTimeInMilliseconds();
         }
         if (!countdownStack.isEmpty() && countdownStack.peek() == null) {
+            timePassed = ConstantsClass.ZERO_LONG;
             countdownStack.pop();
             countdownStack.pop();
             if (countdownStack.isEmpty()) indexOfTimer++;
@@ -74,12 +80,13 @@ public class CountdownTimer {
                 timeInMillis = countdownStack.peek().getTimeInMilliseconds();
             } else timeInMillis = pauseTimeInMillis;
             timerPaused = false;
-            countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.ONE_MILLIS_IN_MILLIS) {
+            countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.HUNDRED_MILLIS_IN_MILLIS) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     timeInMillis = millisUntilFinished;
                     timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
-//                    timePassed += ConstantsClass.ONE_HOUR_IN_MILLIS;
+                    timePassed += ConstantsClass.HUNDRED_MILLIS_IN_MILLIS;
+                    timerAnimation.setRotation((((float) timePassed / totalTime) * 360f) - 90);
 //                    float width = ((float) timePassed) / ((float) totalTime);
 //                    width *= timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth();
 //                    paint.setColor(timerTextView.getResources().getColor(R.color.blueGray700));
@@ -88,11 +95,14 @@ public class CountdownTimer {
 //                    progressBar.drawRect(width, 0, timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight(), paint);
 //                    Drawable drawable = new DrawableContainer();
 //                    drawable.draw(progressBar);
-//                    timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(drawable);
+                    if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size())
+                        timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer_active);
                 }
 
                 @Override
                 public void onFinish() {
+                    timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
+                    timerAnimation.setRotation((((float) timePassed / totalTime) * 360f) - 90);
                     ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                     toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
                     Vibrator vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -101,14 +111,11 @@ public class CountdownTimer {
                         countdownStack.pop();
                     if (countdownStack.isEmpty())
                         indexOfTimer++;
-                    System.out.println(indexOfTimer + " Looped " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped());
                     if (DataHolder.getInstance().getListTimerGroup().size() <= indexOfTimer) {
-                        System.out.println(indexOfTimer + " Looped " + DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped());
                         if (DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() || reps < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps()) {
                             stopTimer();
                             if (!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped())
                                 reps++;
-//                            indexOfTimer = 0;
                             startTimer(ConstantsClass.ZERO.longValue());
                         } else {
                             timerActivity.stopTimer();
@@ -171,11 +178,17 @@ public class CountdownTimer {
         return timeInMillis;
     }
 
+    public void repsSetOne() {
+        reps = ConstantsClass.ONE;
+    }
+
     public void stopTimer() {
+        timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
         countdownStack.clear();
         timerPaused = false;
         indexOfTimer = 0;
         timerActivity.setText(timerGroup.setTimer(0L).toString());
+        timerAnimation.setRotation(-90);
         if (indexOfTimerTextView != null) indexOfTimerTextView.setText("");
         if (countDownTimer != null)
             countDownTimer.cancel();

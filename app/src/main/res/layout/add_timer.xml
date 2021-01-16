@@ -3,12 +3,12 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/iconTintDark"
-    android:layout_marginStart="@dimen/padding_vvsmall"
+    android:background="@drawable/add_timer"
+    card_view:rippleColor="@color/iconTint"
+    android:layout_marginStart="@dimen/padding_vsmall"
     android:layout_marginTop="@dimen/padding_vvsmall"
     android:layout_marginEnd="@dimen/padding_vsmall"
     android:layout_marginBottom="@dimen/padding_small"
-    android:elevation="@dimen/cardview_default_elevation"
     android:stateListAnimator="@null"
     card_view:cardCornerRadius="@dimen/padding_small_medium"
     card_view:cardElevation="@dimen/cardview_default_elevation">
@@ -22,28 +22,29 @@
         android:orientation="horizontal"
         android:stateListAnimator="@null"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-        android:transitionName="timer_expand">
+        android:transitionName="timer_expand"
+        android:weightSum="1">
 
         <ImageView
             android:id="@+id/drag"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/padding_small_medium"
-            android:scaleType="center"
-            android:scaleX="1.2"
-            android:scaleY="1.2"
-            android:src="@drawable/ic_round_reorder_24"
+            android:layout_weight="0.05"
+            android:background="@android:color/transparent"
+            android:paddingStart="@dimen/padding_small"
+            android:paddingEnd="0dp"
+            android:src="@drawable/ic_round_drag_indicator_24"
             card_view:tint="@color/iconTint" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/timer_textViewList"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:backgroundTint="@color/iconTintDark"
+            android:layout_weight="0.6"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@color/textLight"
             android:gravity="center_vertical"
             android:paddingStart="@dimen/padding_small"
             android:paddingTop="@dimen/padding_vsmall"
@@ -53,14 +54,16 @@
             android:textAlignment="gravity"
             android:textColor="@color/iconTint"
             android:textStyle="normal"
+            android:transitionName="timer_name_transition"
             card_view:rippleColor="@color/iconTintDark" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_timer"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/padding_small"
-            android:backgroundTint="@android:color/white"
+            android:layout_weight="0.175"
+            android:backgroundTint="@color/backgroundTint"
             android:elevation="12dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -73,15 +76,18 @@
             card_view:iconGravity="textStart"
             card_view:iconPadding="0dp"
             card_view:iconTint="@color/iconTint"
-            card_view:rippleColor="@color/iconTint" />
+            card_view:rippleColor="@color/iconTint"
+            card_view:strokeColor="@color/accent"
+            card_view:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_timer"
-            android:layout_width="50sp"
-            android:layout_height="50sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/padding_small"
             android:layout_marginEnd="@dimen/padding_small_medium"
-            android:backgroundTint="@android:color/white"
+            android:layout_weight="0.175"
+            android:backgroundTint="@color/backgroundTint"
             android:elevation="12dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -94,6 +100,8 @@
             card_view:iconGravity="textStart"
             card_view:iconPadding="0dp"
             card_view:iconTint="@color/iconTint"
-            card_view:rippleColor="@color/iconTint" />
+            card_view:rippleColor="@color/iconTint"
+            card_view:strokeColor="@color/accent"
+            card_view:strokeWidth="2dp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

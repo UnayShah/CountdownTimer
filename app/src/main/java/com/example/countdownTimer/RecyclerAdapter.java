@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.countdownTimer.common.ConstantsClass;
@@ -52,7 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     @Override
     public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         layoutInflater = LayoutInflater.from(parent.getContext());
-        final View view = layoutInflater.inflate(R.layout.add_timer, parent, false);
+        View view = layoutInflater.inflate(R.layout.add_timer, parent, false);
         return new ListItemViewHolder(view);
     }
 
@@ -68,7 +68,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         DataHolder.getInstance().setDisableButtonClick(false);
         try {
             if (!DataHolder.getInstance().getStackNavigation().empty() && activity.findViewById(R.id.timer_toolbar) != null) {
-                ((Toolbar) activity.findViewById(R.id.timer_toolbar)).setTitle(DataHolder.getInstance().getStackNavigation().peek());
+                ((MaterialToolbar) activity.findViewById(R.id.timer_toolbar)).setTitle(DataHolder.getInstance().getStackNavigation().peek());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,6 +85,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     public void onRowMoved(int fromPosition, int toPosition) {
         Collections.swap(DataHolder.getInstance().getListTimerGroup(), fromPosition, toPosition);
         this.notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onRowClear(ListItemViewHolder holder) {
+        holder.dragImage.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
     private void timerNamePopup(int position, View itemView) {
@@ -133,7 +138,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         Pair[] animationPairs;
         ActivityOptions options;
 
-
         public ListItemViewHolder(@NonNull final View itemView) {
             super(itemView);
             dragImage = itemView.findViewById(R.id.drag);
@@ -153,15 +157,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             timerText.setFocusable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
             timerText.setClickable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
             if (DataHolder.getInstance().getStackNavigation().isEmpty()) {
-                ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMarginStart((int) itemView.getResources().getDimension(R.dimen.padding_medium));
+                ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMargins((int) itemView.getResources().getDimension(R.dimen.padding_medium), (int) itemView.getResources().getDimension(R.dimen.padding_small), (int) itemView.getResources().getDimension(R.dimen.padding_vsmall), (int) itemView.getResources().getDimension(R.dimen.padding_small));
             }
-//            android:background="?attr/selectableItemBackgroundBorderless"
+            dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         public void setDragImageVisibility() {
-            if (DataHolder.getInstance().getStackNavigation().empty())
+            if (DataHolder.getInstance().getStackNavigation().empty()) {
                 dragImage.setVisibility(View.GONE);
-            else dragImage.setVisibility(View.VISIBLE);
+            } else dragImage.setVisibility(View.VISIBLE);
         }
 
         private void button1() {
@@ -171,6 +175,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 timerPickerPopup(getAdapterPosition(), itemView);
             }
         }
+
 
         private void button2() {
             DataHolder.getInstance().setDisableButtonClick(false);
@@ -222,7 +227,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             DataHolder.getInstance().getStackNavigation().push(String.valueOf(timerText.getText()));
             if (DataHolder.getInstance().getStackNavigation().size() <= 1) {
                 if (activity.findViewById(R.id.home_add_button) != null) {
-                    System.out.println("FOUND");
                     if (DataHolder.getInstance().getStackNavigation().size() > 0)
                         activity.findViewById(R.id.home_add_button).setVisibility(View.GONE);
                 }
@@ -261,9 +265,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             if (v.getId() == dragImage.getId() && !DataHolder.getInstance().getStackNavigation().empty()) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     startDragListener.requestDrag(this);
+                    dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.accent), android.graphics.PorterDuff.Mode.SRC_IN);
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
 
         @Override

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -28,6 +27,7 @@ import com.example.countdownTimer.popupactivity.TimePickerPopup;
 import com.example.countdownTimer.timers.Timer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -49,7 +49,11 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Integer indexOfTimer;
     View timerLayout;
     AdView adView;
-    Toolbar timerToolbar;
+    MaterialToolbar timerToolbar;
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -180,18 +184,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void increaseReps() {
-        if (!DataHolder.getInstance().getStackNavigation().isEmpty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek())) {
-            DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).incrementReps();
-        }
-        DataHolder.getInstance().setDisableButtonClick(false);
-    }
-
-    private void decreaseReps() {
-
-        DataHolder.getInstance().setDisableButtonClick(false);
-    }
-
     /**
      * Create and add new timer in list
      */
@@ -234,6 +226,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void stopTimer() {
+        countdownTimer.repsSetOne();
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.GONE);
@@ -281,4 +274,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
         DataHolder.getInstance().setDisableButtonClick(false);
     }
+
+
 }

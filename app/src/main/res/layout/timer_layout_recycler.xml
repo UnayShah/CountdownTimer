@@ -9,14 +9,19 @@
     android:transitionName="timer_expand"
     tools:context=".TimerActivity">
 
-    <include
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/timer_toolbar"
-        layout="@layout/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/Theme.MaterialComponents.DayNight"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/top_app_bar"
+        app:navigationIcon="@drawable/ic_round_arrow_back_24"
+        app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        app:title="temp"
+        app:titleTextColor="@color/iconTint" />
 
     <RelativeLayout
         android:id="@+id/timer_constraint"
@@ -44,7 +49,7 @@
             android:textColor="@color/text"
             android:transitionName="timer_name_transition" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/timer_textView"
             style="@style/TextAppearance.MaterialComponents.Headline3"
             android:layout_width="wrap_content"

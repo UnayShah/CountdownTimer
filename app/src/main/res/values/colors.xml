@@ -24,7 +24,8 @@
     <color name="oldAccent">#D66853</color>
 
     <color name="iconTint">#424242</color>
-    <color name="iconTintDark">#F5F5F5</color>
-    <color name="backgroundTint">#EEEEEE</color>
-    <color name="backgroundTintDark">#616161</color>
+    <color name="iconTintDark">#FAFAFA</color>
+    <color name="backgroundTint">#E0E0E0</color>
+    <color name="backgroundTintDark">#212121</color>
+    <color name="textLight">#202020</color>
 </resources>

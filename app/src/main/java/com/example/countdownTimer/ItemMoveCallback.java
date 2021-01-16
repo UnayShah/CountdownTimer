@@ -25,6 +25,12 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
+    public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        mAdapter.onRowClear((RecyclerAdapter.ListItemViewHolder) viewHolder);
+        super.clearView(recyclerView, viewHolder);
+    }
+
+    @Override
     public boolean isLongPressDragEnabled() {
         return false;
     }
@@ -36,8 +42,9 @@ public class ItemMoveCallback extends ItemTouchHelper.Callback {
 
     public interface ItemTouchHelperContract {
         void onRowMoved(int fromPosition, int toPosition);
-//        void onRowSelected(RecyclerAdapter.ViewHolder myViewHolder);
-//        void onRowClear(RecyclerAdapter.ViewHolder myViewHolder);
+
+        //        void onRowSelected(RecyclerAdapter.ListItemViewHolder myViewHolder);
+        void onRowClear(RecyclerAdapter.ListItemViewHolder myViewHolder);
 
     }
 }

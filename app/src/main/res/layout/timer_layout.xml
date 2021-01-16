@@ -13,10 +13,8 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/timer_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.MaterialComponents.DayNight"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,6 +22,7 @@
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         app:title="temp"
+        android:transitionName="timer_name_transition"
         app:titleTextColor="@color/iconTint" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,6 +51,7 @@
                 android:layout_height="match_parent"
                 android:elevation="12dp"
                 android:src="@drawable/timer_animation"
+                android:stateListAnimator="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -123,6 +123,8 @@
         android:layout_marginStart="@dimen/padding_vsmall"
         android:layout_marginTop="@dimen/padding_small"
         android:layout_marginEnd="@dimen/padding_vvsmall"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
         app:layout_constraintHeight_percent="0.4"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +140,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/empty_holder_text"
             style="@style/TextAppearance.MaterialComponents.Headline4"
             android:layout_width="wrap_content"
@@ -182,6 +184,7 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             android:padding="0dp"
+            android:stateListAnimator="@null"
             android:transitionName="Return Button Transition"
             app:icon="@drawable/ic_round_home_24"
             app:iconGravity="textStart"
@@ -208,6 +211,7 @@
             android:insetBottom="0dp"
             android:padding="0dp"
             android:src="@drawable/ic_round_play_arrow"
+            android:stateListAnimator="@null"
             android:transitionName="Return Button Transition"
             app:icon="@drawable/ic_round_play_arrow"
             app:iconGravity="textStart"
@@ -259,6 +263,7 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             android:padding="0dp"
+            android:stateListAnimator="@null"
             android:transitionName="timer_name_popup_transition"
             app:icon="@drawable/ic_round_add"
             app:iconGravity="textStart"

@@ -25,6 +25,9 @@ public final class ConstantsClass {
     public static final Integer ONE_MINUTE_IN_MILLIS = 60000;
     public static final Integer ONE_SECOND_IN_MILLIS = 1000;
     public static final Integer ONE_MILLIS_IN_MILLIS = 1;
+    public static final Integer TEN_MILLIS_IN_MILLIS = 10;
+    public static final Integer FIFTY_MILLIS_IN_MILLIS = 50;
+    public static final Integer HUNDRED_MILLIS_IN_MILLIS = 100;
     public static final Integer SECONDS_IN_ONE_MINUTE = 60;
     public static final Integer MINUTES_IN_ONE_HOUR = 60;
     public static final Integer ZERO = 0;

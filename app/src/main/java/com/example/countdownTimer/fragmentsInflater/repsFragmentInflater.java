@@ -54,7 +54,7 @@ public class repsFragmentInflater extends Fragment implements View.OnClickListen
     }
 
     private void setRepsTextView() {
-        repsTextView.setText(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps().toString());
+        repsTextView.setText(String.format("%" + 2 + "s", (DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps().toString())));
         DataHolder.getInstance().setDisableButtonClick(false);
         DataHolder.getInstance().saveData(getContext());
     }

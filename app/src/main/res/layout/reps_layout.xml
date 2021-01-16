@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_small"
         android:background="@drawable/reps_layout"
-        android:elevation="8dp"
+        app:elevation="12dp"
         android:gravity="center"
         android:stateListAnimator="@null">
 
@@ -45,6 +45,7 @@
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/iconTint"
             android:padding="@dimen/padding_vvsmall"
             android:text="0"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
