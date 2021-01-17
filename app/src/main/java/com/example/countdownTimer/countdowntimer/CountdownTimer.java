@@ -26,6 +26,7 @@ public class CountdownTimer {
     public static Long totalTime;
     private final TimerActivity timerActivity;
     private final Stack<TimerGroup> countdownStack;
+    private final ImageView timerAnimation;
     Canvas progressBar;
     Paint paint;
     String iterationText;
@@ -34,7 +35,6 @@ public class CountdownTimer {
     private Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
-    private final ImageView timerAnimation;
 
     public CountdownTimer(TimerActivity timerActivity) {
         this.timerActivity = timerActivity;
@@ -55,8 +55,8 @@ public class CountdownTimer {
 
     public void startTimer(Long pauseTimeInMillis) {
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
-        if (indexOfTimerTextView != null) {
-            iterationText = String.format("%" + 2 + "s", (reps)) + " -" + String.format("%" + 2 + "s", (indexOfTimer + 1));
+        if (indexOfTimerTextView != null && !DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps() > ConstantsClass.ONE) {
+            iterationText = "Loop " + reps;
             indexOfTimerTextView.setText(iterationText);
         }
         if (countdownStack.isEmpty() && !DataHolder.getInstance().getStackNavigation().isEmpty() && DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().size() > indexOfTimer) {
