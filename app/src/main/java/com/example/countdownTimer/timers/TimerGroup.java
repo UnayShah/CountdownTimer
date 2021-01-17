@@ -142,11 +142,14 @@ public class TimerGroup {
     public Long getTimeInMilliseconds() {
         switch (timerGroupType) {
             case TIMER:
+                System.out.println("stack " + this);
                 return timer.getTimeInMilliseconds();
             case TIMER_GROUP:
                 Long time = 0L;
-                for (TimerGroup timerGroup : listTimerGroup)
+                for (TimerGroup timerGroup : listTimerGroup) {
+                    System.out.println("stack 1" + timerGroup);
                     time += timerGroup.getTimeInMilliseconds();
+                }
                 return time;
             default:
                 return 0L;

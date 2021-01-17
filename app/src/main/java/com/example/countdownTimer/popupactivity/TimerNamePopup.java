@@ -71,8 +71,11 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
     }
 
     private void setTimerName() {
-        TimerGroup timerGroup = new TimerGroup(editTextTimerName.getText().toString(), TimerGroupType.TIMER_GROUP);
-        setTimerInRecyclerView(timerGroup);
+        if (DataHolder.getInstance().getMapTimerGroups().containsKey(editTextTimerName.getText().toString())) {
+            System.out.println("String " + editTextTimerName.getText().toString());
+            setTimerInRecyclerView(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(editTextTimerName.getText().toString())));
+        } else
+            setTimerInRecyclerView(new TimerGroup(editTextTimerName.getText().toString(), TimerGroupType.TIMER_GROUP));
     }
 
     private void setTimerInRecyclerView(TimerGroup timerGroup) {
