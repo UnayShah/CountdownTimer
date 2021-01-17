@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.MaterialComponents.DayNight"
+        android:transitionName="timer_name_transition"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +23,6 @@
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         app:title="temp"
-        android:transitionName="timer_name_transition"
         app:titleTextColor="@color/iconTint" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,7 +111,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/iconTint"
-                android:stateListAnimator="@null"
                 tools:layout="@layout/loop_button" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

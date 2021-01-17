@@ -154,10 +154,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         public void init() {
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
-            timerText.setFocusable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
-            timerText.setClickable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
+            itemView.setFocusable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
+            itemView.setClickable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
+            itemView.setBackgroundResource(R.drawable.add_timer);
+            if (timerGroupType.equals(TimerGroupType.TIMER_GROUP))
+                itemView.setOnClickListener(this);
             if (DataHolder.getInstance().getStackNavigation().isEmpty()) {
-                ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMargins((int) itemView.getResources().getDimension(R.dimen.padding_medium), (int) itemView.getResources().getDimension(R.dimen.padding_small), (int) itemView.getResources().getDimension(R.dimen.padding_vsmall), (int) itemView.getResources().getDimension(R.dimen.padding_small));
+                ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMargins((int) itemView.getResources().getDimension(R.dimen.padding_medium), 0, (int) itemView.getResources().getDimension(R.dimen.padding_vvsmall), 0);
             }
             dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
         }
@@ -230,9 +233,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                     if (DataHolder.getInstance().getStackNavigation().size() > 0)
                         activity.findViewById(R.id.home_add_button).setVisibility(View.GONE);
                 }
-                animationPairs = new Pair[2];
+                animationPairs = new Pair[1];
                 animationPairs[0] = new Pair<>(activity.findViewById(R.id.home_add_button), "timer_name_popup_transition");
-                animationPairs[1] = new Pair<>(itemView.findViewById(R.id.timer_textViewList), "timer_name_transition");
+//                animationPairs[1] = new Pair<>(itemView.findViewById(R.id.timer_textViewList), "timer_name_transition");
                 try {
                     options = ActivityOptions.makeSceneTransitionAnimation(activity, animationPairs);
                     itemView.getContext().startActivity(intent, options.toBundle());
@@ -278,7 +281,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 DataHolder.getInstance().setDisableButtonClick(true);
                 if (view.getId() == button2.getId()) button2();
                 else if (view.getId() == button1.getId()) button1();
-                else if (DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && view.getId() == timerText.getId())
+                else if (DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && (view.getId() == timerText.getId() || view.getId() == itemView.getId()))
                     textViewPress();
                 else DataHolder.getInstance().setDisableButtonClick(false);
             } else

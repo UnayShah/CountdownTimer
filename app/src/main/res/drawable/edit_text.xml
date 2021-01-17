@@ -4,7 +4,7 @@
         <shape>
             <stroke
                 android:width="@dimen/padding_vvsmall"
-                android:color="@color/timerLayoutButtons" />
+                android:color="@color/backgroundTintDark" />
             <corners android:radius="@dimen/padding_small" />
         </shape>
     </item>

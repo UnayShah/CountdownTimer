@@ -18,7 +18,7 @@
         <shape
             android:shape="rectangle">
             <corners android:radius="@dimen/padding_huge" />
-            <solid android:color="@android:color/white"/>
+            <solid android:color="@color/iconTintDark" />
         </shape>
     </item>
 

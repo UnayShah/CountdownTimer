@@ -2,17 +2,18 @@
     <!-- Base application theme. -->
     <style name="ThemeOverlay.MaterialComponents.PopupNumberPicker">
         <item name="android:background">@drawable/number_picker_design</item>
-        <item name="android:textColorPrimary">@color/text</item>
-        <item name="android:colorControlNormal">@color/text</item>
-        <item name="android:colorControlActivated">@color/text</item>
+        <item name="android:textColorPrimary">@color/iconTint</item>
+        <item name="android:colorControlNormal">@color/iconTint</item>
+        <item name="android:colorControlActivated">@color/iconTint</item>
         <item name="android:layout_marginLeft">@dimen/padding_vvsmall</item>
         <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
     </style>
 
     <style name="ThemeOverlay.MaterialComponents.PopupButton">
         <item name="android:background">@drawable/popup_buttons</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="colorAccent">@color/text</item>
+        <item name="android:textColor">@color/iconTint</item>
+        <item name="colorAccent">@color/iconTint</item>
+        <item name="background">@color/iconTintDark</item>
     </style>
 
     <style name="timerNameEditText" parent="">

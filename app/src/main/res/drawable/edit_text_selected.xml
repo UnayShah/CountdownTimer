@@ -4,7 +4,7 @@
         <shape>
             <stroke
                 android:width="@dimen/padding_vvsmall"
-                android:color="@color/text" />
+                android:color="@color/accent" />
             <corners android:radius="@dimen/padding_small" />
         </shape>
     </item>

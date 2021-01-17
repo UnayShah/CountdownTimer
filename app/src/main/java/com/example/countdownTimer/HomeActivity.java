@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,7 +80,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == homeAddButton.getId()) addTimerGroup();
             else if (view.getId() == returnButton.getId()) onBackPressed();
-            else DataHolder.getInstance().setDisableButtonClick(false);
+            else if (view.getId() == settingsButton.getId()) {
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
+                DataHolder.getInstance().setDisableButtonClick(false);
+            } else DataHolder.getInstance().setDisableButtonClick(false);
         }
     }
 

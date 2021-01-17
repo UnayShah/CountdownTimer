@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.countdownTimer.R;
 import com.example.countdownTimer.RecyclerAdapter;
@@ -22,24 +22,25 @@ import com.example.countdownTimer.model.ThemedNumberPicker;
 import com.example.countdownTimer.timers.Timer;
 import com.example.countdownTimer.timers.TimerGroup;
 import com.example.countdownTimer.timers.TimerGroupType;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.Locale;
 
 public class TimePickerPopup extends PopupWindow implements View.OnClickListener, NumberPicker.OnValueChangeListener, PopupWindow.OnDismissListener, NumberPicker.OnScrollListener {
 
-    Button setTimerButton;
-    Button cancelSetTimerButton;
-    Button toggleNumberPickerTimerGroup;
+    MaterialButton setTimerButton;
+    MaterialButton cancelSetTimerButton;
+    MaterialButton toggleNumberPickerTimerGroup;
     ThemedNumberPicker numberPickerHours;
     ThemedNumberPicker numberPickerMinutes;
     ThemedNumberPicker numberPickerSeconds;
     LinearLayout numberPickerLayout;
     LinearLayout timerGroupPickerLayout;
-    LinearLayout timerPickerButtons;
-    LinearLayout hr;
+    ConstraintLayout timerPickerButtons;
     View view;
     View parent;
-    View addNewTimerGroupView;
+    MaterialButton addNewTimerGroupView;
     Vibrator vibrator;
     Integer position;
     RecyclerAdapter recyclerAdapter;
@@ -87,7 +88,6 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         numberPickerInit(numberPickerMinutes, ConstantsClass.NUMBER_PICKER_MINUTES_START, ConstantsClass.NUMBER_PICKER_MINUTES_END);
         numberPickerInit(numberPickerSeconds, ConstantsClass.NUMBER_PICKER_SECONDS_START, ConstantsClass.NUMBER_PICKER_SECONDS_END);
 
-        hr = view.findViewById(R.id.popup_hr);
         timerPickerButtons = view.findViewById(R.id.timer_picker_buttons);
         addNewTimerGroupView = view.findViewById(R.id.add_new_timer_group);
         numberPickerLayout = view.findViewById(R.id.timer_picker_numbers);
@@ -128,7 +128,6 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
 
     public void toggleView() {
         if (numberPickerLayout.getVisibility() == View.VISIBLE) {
-            hr.setVisibility(View.GONE);
             timerPickerButtons.setVisibility(View.GONE);
             numberPickerLayout.setVisibility(View.GONE);
             addNewTimerGroupView.setVisibility(View.VISIBLE);
@@ -146,7 +145,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                 }
                 if (!looped) {
                     View timergroupPickerView = LayoutInflater.from(view.getContext()).inflate(R.layout.timergroup_picker_item, (ViewGroup) view, false);
-                    TextView textView = timergroupPickerView.findViewById(R.id.timer_group_picker_name);
+                    MaterialTextView textView = timergroupPickerView.findViewById(R.id.timer_group_picker_name);
                     textView.setText(tg.getName());
                     timergroupPickerView.setVisibility(View.VISIBLE);
                     try {
@@ -165,7 +164,6 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
                 Toast.makeText(view.getContext(), "Removed " + (loopingTimers - 1) + " groups which could be looped", Toast.LENGTH_SHORT).show();
             }
         } else {
-            hr.setVisibility(View.VISIBLE);
             timerPickerButtons.setVisibility(View.VISIBLE);
             numberPickerLayout.setVisibility(View.VISIBLE);
             timerGroupPickerLayout.setVisibility(View.GONE);

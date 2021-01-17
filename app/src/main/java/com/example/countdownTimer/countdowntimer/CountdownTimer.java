@@ -85,7 +85,7 @@ public class CountdownTimer {
                     timeInMillis = millisUntilFinished;
                     timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
                     timePassed += ConstantsClass.HUNDRED_MILLIS_IN_MILLIS;
-                    timerAnimation.setRotation((((float) timePassed / totalTime) * 360f) - 90);
+                    timerAnimation.setRotation(-(((float) timePassed / totalTime) * 360f) - 90);
 //                    float width = ((float) timePassed) / ((float) totalTime);
 //                    width *= timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth();
 //                    paint.setColor(timerTextView.getResources().getColor(R.color.blueGray700));
@@ -101,7 +101,7 @@ public class CountdownTimer {
                 @Override
                 public void onFinish() {
                     timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
-                    timerAnimation.setRotation((((float) timePassed / totalTime) * 360f) - 90);
+                    timerAnimation.setRotation(-(((float) timePassed / totalTime) * 360f) - 90);
                     ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                     toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
                     Vibrator vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);

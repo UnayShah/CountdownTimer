@@ -1,18 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loop_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_margin="@dimen/padding_small_medium"
         android:elevation="12dp"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
+        android:stateListAnimator="@null"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         app:backgroundTint="@color/iconTintDark"
         app:cornerRadius="@dimen/padding_small_medium"

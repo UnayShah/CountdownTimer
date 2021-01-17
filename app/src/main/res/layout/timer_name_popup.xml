@@ -4,80 +4,80 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/padding_vvsmall"
+    android:background="@drawable/number_picker_dialog"
+    android:padding="@dimen/padding_small_medium"
     android:transitionName="timer_name_popup_transition">
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextTimerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_huge"
+        android:background="@drawable/edit_text"
+        android:elevation="6dp"
+        android:hint="@string/timer_text_placeholder"
+        android:inputType="textCapSentences"
+        android:maxLength="20"
+        android:minWidth="250dp"
+        android:minHeight="54dp"
+        android:paddingLeft="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        android:stateListAnimator="@null"
+        android:textColor="@color/iconTint"
+        android:textColorHint="@color/textTransparent55"
+        android:textSize="@dimen/padding_small_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setTimerNameButton"
+        style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/number_picker_dialog"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/padding_large"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:backgroundTint="@color/iconTintDark"
+        android:elevation="12dp"
+        android:padding="@dimen/padding_small"
+        android:stateListAnimator="@null"
+        android:text="@string/set"
+        android:textColor="@color/iconTint"
+        android:theme="@style/ThemeOverlay.MaterialComponents.PopupButton"
+        app:cornerRadius="@dimen/padding_small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toStartOf="@+id/cancelSetTimerNameButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextTimerName"
+        app:rippleColor="@color/iconTint" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTimerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginTop="@dimen/padding_large"
-            android:layout_marginRight="@dimen/padding_large"
-            android:layout_marginBottom="@dimen/padding_huge"
-            android:background="@drawable/edit_text"
-            android:hint="@string/timer_text_placeholder"
-            android:inputType="textCapSentences"
-            android:maxLength="20"
-            android:minWidth="250dp"
-            android:minHeight="54dp"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingTop="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
-            android:paddingBottom="@dimen/padding_small"
-            android:textColor="@color/text"
-            android:textColorHint="@color/textTransparent55"
-            android:textSize="@dimen/padding_small_medium" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/padding_vvsmall"
-            android:layout_marginLeft="@dimen/padding_vvsmall"
-            android:layout_marginRight="@dimen/padding_vvsmall"
-            android:background="@color/timerLayoutButtons" />
-
-        <LinearLayout
-            android:id="@+id/timer_name_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_vvsmall"
-            android:layout_marginRight="@dimen/padding_vvsmall"
-            android:layout_marginBottom="@dimen/padding_vvsmall"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/setTimerNameButton"
-                style="@style/ThemeOverlay.MaterialComponents.PopupButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/set" />
-
-            <View
-                android:layout_width="@dimen/padding_vvsmall"
-                android:layout_height="match_parent"
-                android:background="@color/timerLayoutButtons" />
-
-            <Button
-                android:id="@+id/cancelSetTimerNameButton"
-                style="@style/ThemeOverlay.MaterialComponents.PopupButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/cancel" />
-
-        </LinearLayout>
-    </LinearLayout>
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelSetTimerNameButton"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_medium"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginBottom="@dimen/padding_small"
+        android:backgroundTint="@color/iconTintDark"
+        android:elevation="12dp"
+        android:padding="@dimen/padding_small"
+        android:stateListAnimator="@null"
+        android:text="@string/cancel"
+        android:textColor="@color/iconTint"
+        android:theme="@style/ThemeOverlay.MaterialComponents.PopupButton"
+        app:cornerRadius="@dimen/padding_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/setTimerNameButton"
+        app:layout_constraintTop_toBottomOf="@id/editTextTimerName"
+        app:rippleColor="@color/iconTint" />
 </androidx.constraintlayout.widget.ConstraintLayout>

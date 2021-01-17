@@ -73,7 +73,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         int menuItem = item.getItemId();
         switch (menuItem) {
             case R.id.timer_group_settings:
-                Toast.makeText(this, "Action Search", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

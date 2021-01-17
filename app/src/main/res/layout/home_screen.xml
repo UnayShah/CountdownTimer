@@ -29,6 +29,8 @@
         android:id="@+id/timerGroupScrollViewRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/padding_vsmall"
+        android:layout_marginEnd="@dimen/padding_vsmall"
         app:layout_constraintHeight_percent="0.6"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
