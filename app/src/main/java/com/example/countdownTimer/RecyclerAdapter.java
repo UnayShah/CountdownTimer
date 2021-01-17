@@ -202,6 +202,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                             }
                         }
                         DataHolder.getInstance().saveData(itemView.getContext());
+                        DataHolder.getInstance().loadData(itemView.getContext());
                         DataHolder.getInstance().setDisableButtonClick(false);
                         notifyDataSetChanged();
                         itemView.setTranslationX(0);

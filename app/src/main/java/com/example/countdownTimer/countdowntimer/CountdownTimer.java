@@ -65,15 +65,6 @@ public class CountdownTimer {
         }
     }
 
-    public void setTotalTime(TimerGroup timerGroup) {
-        totalTime = ConstantsClass.ZERO_LONG;
-        for (TimerGroup tg : timerGroup.getListTimerGroup()) {
-            if (DataHolder.getInstance().getMapTimerGroups().containsKey(tg))
-                totalTime += DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(tg)).totalTimerGroupDuration();
-            else totalTime += tg.getTimeInMilliseconds();
-        }
-    }
-
     public void startTimer(Long pauseTimeInMillis) {
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
         if (indexOfTimerTextView != null && !DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps() > ConstantsClass.ONE) {
