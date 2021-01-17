@@ -3,7 +3,6 @@ package com.example.countdownTimer.countdowntimer;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.CountDownTimer;
@@ -35,7 +34,7 @@ public class CountdownTimer {
     private Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
-    private ImageView timerAnimation;
+    private final ImageView timerAnimation;
 
     public CountdownTimer(TimerActivity timerActivity) {
         this.timerActivity = timerActivity;
@@ -183,7 +182,10 @@ public class CountdownTimer {
     }
 
     public void stopTimer() {
-        timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
+        if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size())
+            timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
+        else
+            timerActivity.getRecyclerView().findViewHolderForAdapterPosition(DataHolder.getInstance().getListTimerGroup().size() - 1).itemView.setBackgroundResource(R.drawable.add_timer);
         countdownStack.clear();
         timerPaused = false;
         indexOfTimer = 0;
