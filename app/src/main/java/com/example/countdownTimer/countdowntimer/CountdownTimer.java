@@ -114,6 +114,10 @@ public class CountdownTimer {
 
                 @Override
                 public void onFinish() {
+                    try {
+                        timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
+                    } catch (Exception ignore) {
+                    }
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
                     if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
                     ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
@@ -124,10 +128,6 @@ public class CountdownTimer {
                         countdownStack.pop();
                     if (countdownStack.isEmpty()) {
                         indexOfTimer++;
-                    }
-                    try {
-                        timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer - 1).itemView.setBackgroundResource(R.drawable.add_timer);
-                    } catch (Exception ignore) {
                     }
                     if (DataHolder.getInstance().getListTimerGroup().size() <= indexOfTimer) {
                         if (DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() || reps < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps()) {
@@ -149,10 +149,14 @@ public class CountdownTimer {
             timerGroup.setListTimerGroup(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(name)).getListTimerGroup());
             for (TimerGroup tg1 : countdownStack) {
                 if (tg1 != null && tg1.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP)) {
-                    for (TimerGroup tg2 : timerGroup.getListTimerGroup()) {
-                        if (tg2.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && (tg1.getName().equals(tg2.getName()) || name.equals(tg2.getName()))) {
-                            timerGroup.getListTimerGroup().remove(tg2);
+                    try {
+                        for (TimerGroup tg2 : timerGroup.getListTimerGroup()) {
+                            if (tg2.getTimerGroupType().equals(TimerGroupType.TIMER_GROUP) && (tg1.getName().equals(tg2.getName()) || name.equals(tg2.getName()))) {
+                                timerGroup.getListTimerGroup().remove(tg2);
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

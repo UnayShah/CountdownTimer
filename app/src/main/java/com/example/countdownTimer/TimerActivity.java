@@ -1,5 +1,6 @@
 package com.example.countdownTimer;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -77,6 +78,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        super.onWindowFocusChanged(hasFocus);
     }
 
     public void init() {
@@ -172,6 +179,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (!DataHolder.getInstance().getDisableButtonClick()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == addTimerButton.getId()) addTimer();
             else if (view.getId() == startPauseTimerButton.getId()) {
@@ -181,7 +189,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             } else if (view.getId() == stopTimerButton.getId()) stopTimer();
             else if (view.getId() == homeButton.getId())
                 homeButton();
-            else DataHolder.getInstance().setDisableButtonClick(false);
+            else {
+                DataHolder.getInstance().setDisableButtonClick(false);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+            }
         }
     }
 
@@ -227,6 +238,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void stopTimer() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         countdownTimer.repsSetOne();
         recyclerAdapter.notifyDataSetChanged();
         addTimerButton.setVisibility(View.VISIBLE);
@@ -245,6 +257,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         DataHolder.getInstance().getStackNavigation().clear();
         endTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         super.onBackPressed();
     }
 
@@ -275,6 +288,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 emptyHolderVisibility();
             }
         }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
