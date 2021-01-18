@@ -77,7 +77,6 @@ public class CountdownTimer {
             else
                 countdownStack.push(DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getListTimerGroup().get(indexOfTimer));
             setTotalTime();
-            System.out.println("Stack 22222:" + totalTime);
         }
         if (!countdownStack.isEmpty() && countdownStack.peek() == null) {
             countdownStack.pop();
@@ -90,12 +89,12 @@ public class CountdownTimer {
                 timeInMillis = countdownStack.peek().getTimeInMilliseconds();
             } else timeInMillis = pauseTimeInMillis;
             timerPaused = false;
-            countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.TWO_HUNDRED_MILLIS_IN_MILLIS) {
+            countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     timeInMillis = millisUntilFinished;
                     timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
-                    timePassed += ConstantsClass.TWO_HUNDRED_MILLIS_IN_MILLIS;
+                    timePassed += ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS;
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
 //                    float width = ((float) timePassed) / ((float) totalTime);
 //                    width *= timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth();
@@ -109,8 +108,7 @@ public class CountdownTimer {
                         if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size())
                             timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer_active);
                         if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
-                    } catch (Exception e) {
-                        System.out.println(e + " " + indexOfTimer);
+                    } catch (Exception ignore) {
                     }
                 }
 
@@ -118,8 +116,7 @@ public class CountdownTimer {
                 public void onFinish() {
                     try {
                         timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
-                    } catch (Exception e) {
-                        System.out.println(e + " " + indexOfTimer);
+                    } catch (Exception ignore) {
                     }
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
                     if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
@@ -209,8 +206,7 @@ public class CountdownTimer {
                 timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackgroundResource(R.drawable.add_timer);
             else if (DataHolder.getInstance().getListTimerGroup().size() - 1 >= 0)
                 timerActivity.getRecyclerView().findViewHolderForAdapterPosition(DataHolder.getInstance().getListTimerGroup().size() - 1).itemView.setBackgroundResource(R.drawable.add_timer);
-        } catch (Exception e) {
-            System.out.println(e + " " + indexOfTimer);
+        } catch (Exception ignore) {
         }
         countdownStack.clear();
         totalTime = ConstantsClass.ZERO_LONG;
