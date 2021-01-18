@@ -91,7 +91,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(recyclerAdapter);
         timerTextView = findViewById(R.id.timer_textView);
-        timerTextView.setText(new Timer().toString());
         addTimerButton = findViewById(R.id.home_add_button);
         startPauseTimerButton = findViewById(R.id.start_pause_button);
         homeButton = findViewById(R.id.home_button);
@@ -134,10 +133,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         initTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setDisableButtonClick(false);
         timerToolbar.setNavigationOnClickListener(v -> returnButton());
+        timerStarted();
+        stopTimer();
     }
 
-    public void setText(Object obj) {
-        timerTextView.setText(obj.toString());
+    public void setText(String s) {
+        timerTextView.setText(s);
     }
 
     private void initTransitionAnimations(View... view) {
@@ -201,7 +202,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void timerStarted() {
+    private void timerStarted() {
         timerRunning = true;
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_pause));
         stopTimerButton.setVisibility(View.VISIBLE);
@@ -210,7 +211,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
-    public void setTimerPaused() {
+    private void setTimerPaused() {
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.GONE);
@@ -227,6 +228,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     public void stopTimer() {
         countdownTimer.repsSetOne();
+        recyclerAdapter.notifyDataSetChanged();
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.GONE);
@@ -235,6 +237,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         countdownTimer.stopTimer();
         timerRunning = false;
         DataHolder.getInstance().setDisableButtonClick(false);
+        setText(new Timer().toString());
     }
 
     private void homeButton() {

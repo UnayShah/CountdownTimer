@@ -148,7 +148,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             button2.setOnClickListener(this);
             timerText.setOnClickListener(this);
             dragImage.setOnTouchListener(this);
-            setDragImageVisibility();
+//            setDragImageVisibility();
+            itemView.setBackgroundResource(R.drawable.add_timer);
         }
 
         public void init() {
@@ -162,6 +163,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             if (DataHolder.getInstance().getStackNavigation().isEmpty()) {
                 ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMargins((int) itemView.getResources().getDimension(R.dimen.padding_medium), 0, (int) itemView.getResources().getDimension(R.dimen.padding_vvsmall), 0);
             }
+            itemView.setBackgroundResource(R.drawable.add_timer);
             dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
@@ -266,14 +268,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (v.getId() == dragImage.getId() && !DataHolder.getInstance().getStackNavigation().empty()) {
+            if (v.getId() == dragImage.getId()) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     startDragListener.requestDrag(this);
                     dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.accent), android.graphics.PorterDuff.Mode.SRC_IN);
-                    return true;
                 }
             }
-            return false;
+            return true;
         }
 
         @Override

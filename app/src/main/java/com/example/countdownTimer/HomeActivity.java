@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +21,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.button.MaterialButton;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
 
     ConstraintLayout emptyHolder;
     MaterialButton homeAddButton;
@@ -29,6 +30,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     AdView adView;
+    ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             emptyHolder.setVisibility(View.VISIBLE);
         else emptyHolder.setVisibility(View.INVISIBLE);
 
+
         homeAddButton = findViewById(R.id.home_add_button);
         returnButton = findViewById(R.id.home_button);
         settingsButton = findViewById(R.id.settings_button);
@@ -67,10 +70,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         settingsButton.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.timerGroupScrollViewRecyclerView);
-        recyclerAdapter = new RecyclerAdapter(this);
+        recyclerAdapter = new RecyclerAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(recyclerAdapter);
         recyclerAdapter.notifyDataSetChanged();
+
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(recyclerAdapter);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         loadData();
     }
 
@@ -85,6 +92,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 DataHolder.getInstance().setDisableButtonClick(false);
             } else DataHolder.getInstance().setDisableButtonClick(false);
         }
+    }
+
+    public void requestDrag(RecyclerAdapter.ListItemViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
     }
 
     public void addTimerGroup() {
