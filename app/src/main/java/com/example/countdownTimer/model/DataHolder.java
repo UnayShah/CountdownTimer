@@ -21,10 +21,10 @@ import java.util.Stack;
 public class DataHolder {
     private static final DataHolder dataHolder = new DataHolder();
     private final Stack<String> stackNavigation;
+    private final Map<String, Integer> mapTimerGroups = new HashMap<>();
     private List<TimerGroup> listTimerGroup;
     private List<TimerGroup> allTimerGroups;
     private Boolean disableButtonClick = false;
-    private final Map<String, Integer> mapTimerGroups = new HashMap<>();
 
     public DataHolder() {
         this.listTimerGroup = new ArrayList<>();
@@ -39,7 +39,6 @@ public class DataHolder {
     public void saveData(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
         editor.putString(ConstantsClass.HOME_LIST, new Gson().toJson(DataHolder.getInstance().getAllTimerGroups()));
         editor.apply();
         editor.commit();
@@ -74,10 +73,22 @@ public class DataHolder {
         return sharedPreferences.getInt(ConstantsClass.ACCENT_COLOR, ContextCompat.getColor(context, R.color.accent));
     }
 
+    public boolean getVibration(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(ConstantsClass.VIBRATION_BOOL, true);
+    }
+
+    public void setVibration(Context context, boolean bool) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(ConstantsClass.VIBRATION_BOOL, bool);
+        editor.apply();
+        editor.commit();
+    }
+
     public void setAccentColor(Context context, int color) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
         editor.putInt(ConstantsClass.ACCENT_COLOR, color);
         editor.apply();
         editor.commit();

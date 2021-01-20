@@ -20,7 +20,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5"
-        app:menu="@menu/top_app_bar"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         app:title="temp"
@@ -47,17 +46,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.6">
 
-            <ImageView
-                android:id="@+id/timer_animation"
+            <fragment
+                android:id="@+id/timer_animation_fragment"
+                android:name="com.example.countdownTimer.fragmentsInflater.timerAnimationInflater"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:elevation="12dp"
-                android:src="@drawable/timer_animation"
+                android:shadowColor="@color/iconTint"
                 android:stateListAnimator="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                tools:layout="@layout/timer_animation" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/timer_textView"

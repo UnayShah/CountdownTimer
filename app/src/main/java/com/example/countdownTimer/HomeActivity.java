@@ -1,12 +1,12 @@
 package com.example.countdownTimer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.countdownTimer.model.CustomAnimations;
 import com.example.countdownTimer.model.DataHolder;
 import com.example.countdownTimer.popupactivity.TimerNamePopup;
 import com.google.android.gms.ads.AdRequest;
@@ -43,7 +42,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
-        recyclerAdapter.notifyDataSetChanged();
+        loadData();
         super.onResume();
     }
 
@@ -90,10 +89,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             if (view.getId() == homeAddButton.getId()) addTimerGroup();
             else if (view.getId() == returnButton.getId()) onBackPressed();
             else if (view.getId() == settingsButton.getId()) {
-                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
-                DataHolder.getInstance().setDisableButtonClick(false);
+                settingsButton();
             } else DataHolder.getInstance().setDisableButtonClick(false);
         }
+    }
+
+    private void settingsButton() {
+        DataHolder.getInstance().setDisableButtonClick(false);
+        Intent intent = new Intent(getApplicationContext(), CommonSettings.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
     }
 
     public void requestDrag(RecyclerAdapter.ListItemViewHolder viewHolder) {
@@ -111,6 +116,5 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         titleImage.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         recyclerAdapter.notifyDataSetChanged();
-        new CustomAnimations().initTransitionAnimations(findViewById(R.id.title_image), recyclerView, returnButton, homeAddButton, settingsButton);
     }
 }

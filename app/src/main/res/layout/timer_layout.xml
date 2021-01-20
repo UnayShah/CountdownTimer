@@ -19,7 +19,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/top_app_bar"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
         app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         app:title="temp"
@@ -53,18 +52,6 @@
                 android:shadowColor="@color/iconTint"
                 android:stateListAnimator="@null"
                 tools:layout="@layout/timer_animation" />
-
-            <!--            <ImageView-->
-            <!--                android:id="@+id/timer_animation"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:elevation="12dp"-->
-            <!--                android:src="@drawable/timer_animation"-->
-            <!--                android:stateListAnimator="@null"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/timer_textView"
