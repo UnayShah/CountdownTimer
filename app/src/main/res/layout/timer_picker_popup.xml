@@ -115,7 +115,7 @@
                     android:textColor="@color/iconTint"
                     android:textSize="@dimen/timer_list_text" />
 
-                <com.example.countdownTimer.model.ThemedNumberPicker
+                <com.UnayShah.countdownTimer.model.ThemedNumberPicker
                     android:id="@+id/number_picker_hours"
                     style="@style/ThemeOverlay.MaterialComponents.PopupNumberPicker"
                     android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
                     android:textColor="@color/iconTint"
                     android:textSize="@dimen/timer_list_text" />
 
-                <com.example.countdownTimer.model.ThemedNumberPicker
+                <com.UnayShah.countdownTimer.model.ThemedNumberPicker
                     android:id="@+id/number_picker_minutes"
                     style="@style/ThemeOverlay.MaterialComponents.PopupNumberPicker"
                     android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
                     android:textColor="@color/iconTint"
                     android:textSize="@dimen/timer_list_text" />
 
-                <com.example.countdownTimer.model.ThemedNumberPicker
+                <com.UnayShah.countdownTimer.model.ThemedNumberPicker
                     android:id="@+id/number_picker_seconds"
                     style="@style/ThemeOverlay.MaterialComponents.PopupNumberPicker"
                     android:layout_width="wrap_content"

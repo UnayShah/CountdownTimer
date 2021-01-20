@@ -48,7 +48,7 @@
 
             <fragment
                 android:id="@+id/timer_animation_fragment"
-                android:name="com.example.countdownTimer.fragmentsInflater.timerAnimationInflater"
+                android:name="com.UnayShah.countdownTimer.fragmentsInflater.timerAnimationInflater"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:shadowColor="@color/iconTint"
@@ -97,7 +97,7 @@
 
             <fragment
                 android:id="@+id/reps_layout"
-                android:name="com.example.countdownTimer.fragmentsInflater.repsFragmentInflater"
+                android:name="com.UnayShah.countdownTimer.fragmentsInflater.repsFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/iconTint"
@@ -106,7 +106,7 @@
 
             <fragment
                 android:id="@+id/loop_fragment"
-                android:name="com.example.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
+                android:name="com.UnayShah.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/iconTint"

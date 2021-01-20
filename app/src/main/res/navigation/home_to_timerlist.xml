@@ -6,7 +6,7 @@
     app:startDestination="@id/homeActivity">
     <fragment
         android:id="@+id/homeActivity"
-        android:name="com.example.countdownTimer.HomeActivity"
+        android:name="com.UnayShah.countdownTimer.HomeActivity"
         android:label="home_screen"
         tools:layout="@layout/home_screen">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/timerActivity"
-        android:name="com.example.countdownTimer.TimerActivity"
+        android:name="com.UnayShah.countdownTimer.TimerActivity"
         android:label="timer_layout"
         tools:layout="@layout/timer_layout">
         <action

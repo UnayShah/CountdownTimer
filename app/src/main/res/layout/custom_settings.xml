@@ -26,6 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_small_medium"
         android:layout_marginEnd="@dimen/padding_small_medium"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingTop="@dimen/padding_small"
         android:paddingBottom="@dimen/padding_small_medium"
         android:weightSum="1">
@@ -34,7 +37,10 @@
             android:id="@+id/accent_color_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.9"
+            android:layout_weight="0.85"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:text="@string/accent_color_textView"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/iconTint"
@@ -45,7 +51,10 @@
             android:id="@+id/accent_color_preview"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.1"
+            android:layout_weight="0.15"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:forceDarkAllowed="false" />
     </LinearLayout>
 
@@ -57,17 +66,6 @@
         android:layout_marginEnd="@dimen/padding_small"
         android:gravity="center"
         android:weightSum="1">
-
-        <!--        <com.google.android.material.textview.MaterialTextView-->
-        <!--            android:id="@+id/vibration_textView"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="0.9"-->
-        <!--            android:text="@string/vibration_text"-->
-        <!--            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
-        <!--            android:textColor="@color/iconTint"-->
-        <!--            android:textSize="@dimen/timer_display_text"-->
-        <!--            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />-->
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/vibration_switch"
@@ -82,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/iconTintDark"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/padding_small_medium"
                 android:stateListAnimator="@null"
                 android:text="@string/vibration_off"
                 android:textColor="@color/iconTint" />
@@ -92,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/iconTintDark"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/padding_small_medium"
                 android:stateListAnimator="@null"
                 android:text="@string/vibration_on"
                 android:textColor="@color/iconTint" />
@@ -105,6 +103,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_small_medium"
         android:layout_marginEnd="@dimen/padding_small_medium"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingTop="@dimen/padding_small"
         android:paddingBottom="@dimen/padding_small_medium"
         android:text="@string/reset"

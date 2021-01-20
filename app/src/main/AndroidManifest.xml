@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.countdownTimer">
+    package="com.UnayShah.countdownTimer">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
         <activity
-            android:name="com.example.countdownTimer.HomeActivity"
+            android:name="com.UnayShah.countdownTimer.HomeActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.countdownTimer.TimerActivity" />
-        <activity android:name="com.example.countdownTimer.CommonSettings" />
+        <activity android:name="com.UnayShah.countdownTimer.TimerActivity" />
+        <activity android:name="com.UnayShah.countdownTimer.CommonSettings" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
