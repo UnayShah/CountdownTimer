@@ -135,7 +135,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             emptyHolderVisibility();
             recyclerAdapter.notifyDataSetChanged();
         }
-
+        startPauseTimerButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         setSupportActionBar(timerToolbar);
         initTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setDisableButtonClick(false);

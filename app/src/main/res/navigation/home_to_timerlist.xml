@@ -16,8 +16,8 @@
     <fragment
         android:id="@+id/timerActivity"
         android:name="com.example.countdownTimer.TimerActivity"
-        android:label="timer_layout_recycler"
-        tools:layout="@layout/timer_layout_recycler">
+        android:label="timer_layout"
+        tools:layout="@layout/timer_layout">
         <action
             android:id="@+id/action_timerActivity_to_homeActivity"
             app:destination="@id/homeActivity" />

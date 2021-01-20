@@ -2,9 +2,12 @@ package com.example.countdownTimer.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 
+import androidx.core.content.ContextCompat;
+
+import com.example.countdownTimer.R;
 import com.example.countdownTimer.common.ConstantsClass;
-import com.example.countdownTimer.timers.Timer;
 import com.example.countdownTimer.timers.TimerGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Stack;
 
 public class DataHolder {
@@ -22,13 +24,12 @@ public class DataHolder {
     private List<TimerGroup> listTimerGroup;
     private List<TimerGroup> allTimerGroups;
     private Boolean disableButtonClick = false;
-    private Map<String, Integer> mapTimerGroups;
+    private final Map<String, Integer> mapTimerGroups = new HashMap<>();
 
     public DataHolder() {
         this.listTimerGroup = new ArrayList<>();
         this.stackNavigation = new Stack<>();
         this.disableButtonClick = false;
-        this.mapTimerGroups = new HashMap<>();
     }
 
     public static DataHolder getInstance() {
@@ -61,6 +62,25 @@ public class DataHolder {
         }
         updateMap();
         setListTimerGroup();
+    }
+
+    public ColorStateList getAccentColor(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        return ColorStateList.valueOf(sharedPreferences.getInt(ConstantsClass.ACCENT_COLOR, ContextCompat.getColor(context, R.color.accent)));
+    }
+
+    public int getAccentColorColor(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(ConstantsClass.ACCENT_COLOR, ContextCompat.getColor(context, R.color.accent));
+    }
+
+    public void setAccentColor(Context context, int color) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putInt(ConstantsClass.ACCENT_COLOR, color);
+        editor.apply();
+        editor.commit();
     }
 
     public void updateName(int position, String newName) {

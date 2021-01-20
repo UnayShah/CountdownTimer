@@ -1,5 +1,6 @@
 package com.example.countdownTimer.fragmentsInflater;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.material.button.MaterialButton;
 public class loopSwitchFragmentInflater extends Fragment implements View.OnClickListener {
 
     MaterialButton loopButton;
+    ColorStateList accentColorStateList;
 
     @Nullable
     @Override
@@ -33,8 +35,9 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
         loopButton = view.findViewById(R.id.loop_button);
         loopButton.setOnClickListener(this);
         loopButton.setCheckable(true);
-        loopButton.setIconTintResource(R.color.text);
+        loopButton.setIconTintResource(R.color.iconTint);
         loopButton.setChecked(true);
+        accentColorStateList = DataHolder.getInstance().getAccentColor(getContext());
         setTint();
     }
 
@@ -48,9 +51,9 @@ public class loopSwitchFragmentInflater extends Fragment implements View.OnClick
     private void setTint() {
         if (!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped()) {
             loopButton.setIconTintResource(R.color.iconTint);
-            loopButton.setRippleColorResource(R.color.accent);
+            loopButton.setRippleColor(accentColorStateList);
         } else {
-            loopButton.setIconTintResource(R.color.accent);
+            loopButton.setIconTint(accentColorStateList);
             loopButton.setRippleColorResource(R.color.iconTint);
         }
     }

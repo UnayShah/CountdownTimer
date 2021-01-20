@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--    <item-->
     <item
         android:bottom="@dimen/padding_vsmall"
-        android:drawable="@drawable/ic_circle_shadow_circle"
+        android:drawable="@drawable/timer_animation_ring"
         android:gravity="center"
         android:left="@dimen/padding_vsmall"
         android:right="@dimen/padding_vsmall"
-        android:top="@dimen/padding_vsmall" >
-        <shape
-            android:shape="ring"
-            android:tint="#BDBDBD"
-            android:useLevel="false" />
-    </item>
-    <item android:gravity="center">
-        <shape
-            android:innerRadiusRatio="9"
-            android:shape="ring"
-            android:thicknessRatio="3"
-            android:useLevel="false">
-            <gradient
-                android:centerColor="#000277BD"
-                android:endColor="#FF0277BD"
-                android:startColor="#000277BD"
-                android:type="sweep" />
-        </shape>
-    </item>
-
+        android:top="@dimen/padding_vsmall" />
+    <item
+        android:drawable="@drawable/timer_animation_sweep"
+        android:gravity="center" />
 </layer-list>

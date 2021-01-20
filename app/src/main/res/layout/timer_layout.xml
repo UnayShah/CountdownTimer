@@ -45,17 +45,26 @@
             app:layout_constraintRight_toLeftOf="@id/timer_controls_layout"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/timer_animation"
+            <fragment
+                android:id="@+id/timer_animation_fragment"
+                android:name="com.example.countdownTimer.fragmentsInflater.timerAnimationInflater"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:elevation="12dp"
-                android:src="@drawable/timer_animation"
+                android:shadowColor="@color/iconTint"
                 android:stateListAnimator="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                tools:layout="@layout/timer_animation" />
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/timer_animation"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:elevation="12dp"-->
+            <!--                android:src="@drawable/timer_animation"-->
+            <!--                android:stateListAnimator="@null"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/timer_textView"

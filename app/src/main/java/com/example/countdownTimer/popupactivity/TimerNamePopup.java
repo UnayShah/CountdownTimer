@@ -1,6 +1,7 @@
 package com.example.countdownTimer.popupactivity;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+
+import androidx.core.content.ContextCompat;
 
 import com.example.countdownTimer.R;
 import com.example.countdownTimer.RecyclerAdapter;
@@ -105,6 +108,8 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
         if (hasFocus) {
+            Drawable drawable = ContextCompat.getDrawable(getContentView().getContext(), R.drawable.edit_text_selected);
+            drawable.setTint(DataHolder.getInstance().getAccentColorColor(getContentView().getContext()));
             view.setBackgroundResource(R.drawable.edit_text_selected);
         } else {
             view.setBackgroundResource(R.drawable.edit_text);

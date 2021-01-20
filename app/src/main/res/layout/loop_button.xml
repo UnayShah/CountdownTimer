@@ -20,7 +20,5 @@
         app:cornerRadius="@dimen/padding_small_medium"
         app:icon="@drawable/ic_round_loop"
         app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconTint="@color/accent"
-        app:rippleColor="@color/accent" />
+        app:iconPadding="0dp" />
 </LinearLayout>

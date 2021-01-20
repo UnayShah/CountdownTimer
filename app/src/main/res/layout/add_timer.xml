@@ -86,7 +86,6 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintWidth_percent="0.15"
             card_view:rippleColor="@color/iconTint"
-            card_view:strokeColor="@color/accent"
             card_view:strokeWidth="2dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -116,7 +115,6 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintWidth_percent="0.15"
             card_view:rippleColor="@color/iconTint"
-            card_view:strokeColor="@color/accent"
             card_view:strokeWidth="2dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

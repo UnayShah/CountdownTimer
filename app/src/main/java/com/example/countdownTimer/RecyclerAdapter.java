@@ -153,6 +153,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
         }
 
         public void init() {
+            button1.setStrokeColor(DataHolder.getInstance().getAccentColor(activity.getApplicationContext()));
+            button2.setStrokeColor(DataHolder.getInstance().getAccentColor(activity.getApplicationContext()));
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
             itemView.setFocusable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
@@ -271,7 +273,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             if (v.getId() == dragImage.getId()) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     startDragListener.requestDrag(this);
-                    dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.accent), android.graphics.PorterDuff.Mode.SRC_IN);
+                    dragImage.setColorFilter(DataHolder.getInstance().getAccentColor(itemView.getContext()).getDefaultColor(), android.graphics.PorterDuff.Mode.SRC_IN);
                 }
             }
             return true;

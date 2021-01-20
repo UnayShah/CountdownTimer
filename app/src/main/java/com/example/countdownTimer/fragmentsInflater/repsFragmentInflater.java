@@ -1,12 +1,17 @@
 package com.example.countdownTimer.fragmentsInflater;
 
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.countdownTimer.R;
@@ -19,6 +24,7 @@ public class repsFragmentInflater extends Fragment implements View.OnClickListen
     MaterialTextView repsTextView;
     MaterialButton increaseReps;
     MaterialButton decreaseReps;
+    LinearLayout repsLinearLayout;
 
     @Nullable
     @Override
@@ -33,12 +39,23 @@ public class repsFragmentInflater extends Fragment implements View.OnClickListen
     }
 
     private void init(View view) {
+        repsLinearLayout = view.findViewById(R.id.reps_linear_layout);
         repsTextView = view.findViewById(R.id.reps_textView);
         increaseReps = view.findViewById(R.id.increase_reps);
         decreaseReps = view.findViewById(R.id.decrease_reps);
 
         increaseReps.setOnClickListener(this);
         decreaseReps.setOnClickListener(this);
+
+        GradientDrawable shape1 = new GradientDrawable();
+        shape1.setTint(ContextCompat.getColor(getContext(), R.color.iconTintDark));
+        shape1.setCornerRadius(getResources().getDimension(R.dimen.padding_huge));
+        GradientDrawable shape = new GradientDrawable();
+        shape.setTint(DataHolder.getInstance().getAccentColorColor(getContext()));
+        shape.setCornerRadius(getResources().getDimension(R.dimen.padding_huge));
+        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{shape, shape1});
+        layerDrawable.setLayerInset(1, (int) getResources().getDimension(R.dimen.padding_vvsmall), (int) getResources().getDimension(R.dimen.padding_vvsmall), (int) getResources().getDimension(R.dimen.padding_vvsmall), (int) getResources().getDimension(R.dimen.padding_vvsmall));
+        repsLinearLayout.setBackground(layerDrawable);
 
         setRepsTextView();
     }

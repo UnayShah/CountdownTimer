@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     MaterialButton homeAddButton;
     MaterialButton returnButton;
     MaterialButton settingsButton;
+    ImageView titleImage;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     AdView adView;
@@ -61,7 +63,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             emptyHolder.setVisibility(View.VISIBLE);
         else emptyHolder.setVisibility(View.INVISIBLE);
 
-
+        titleImage = findViewById(R.id.title_image);
         homeAddButton = findViewById(R.id.home_add_button);
         returnButton = findViewById(R.id.home_button);
         settingsButton = findViewById(R.id.settings_button);
@@ -106,6 +108,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadData() {
         DataHolder.getInstance().loadData(getApplicationContext());
+        homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+        titleImage.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         recyclerAdapter.notifyDataSetChanged();
         new CustomAnimations().initTransitionAnimations(findViewById(R.id.title_image), recyclerView, returnButton, homeAddButton, settingsButton);
     }
