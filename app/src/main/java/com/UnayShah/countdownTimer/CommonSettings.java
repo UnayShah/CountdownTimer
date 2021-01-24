@@ -21,6 +21,7 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 public class CommonSettings extends AppCompatActivity implements View.OnClickListener, MaterialButtonToggleGroup.OnButtonCheckedListener {
 
+    MaterialTextView vibrationTextView;
     private MaterialTextView accentColourTextView;
     private MaterialTextView resetTextView;
     private ImageView accentColourImageView;
@@ -46,6 +47,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         accentColourLayout = findViewById(R.id.accent_color_view);
         accentColourTextView = findViewById(R.id.accent_color_textView);
         resetTextView = findViewById(R.id.reset_textView);
+        vibrationTextView = findViewById(R.id.vibration_textView);
         accentColourImageView = findViewById(R.id.accent_color_preview);
         vibrationButtonGroup = findViewById(R.id.vibration_switch);
         vibrationOffButton = findViewById(R.id.vibration_switch_off);
@@ -54,15 +56,19 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(timerToolbar);
         vibrationButtonGroup.setSingleSelection(true);
 
+        accentColourTextView.setFocusable(true);
+        accentColourTextView.setClickable(true);
+        vibrationTextView.setClickable(true);
+        vibrationTextView.setFocusable(true);
+
         accentColourLayout.setOnClickListener(this);
         accentColourTextView.setOnClickListener(this);
         resetTextView.setOnClickListener(this);
+        vibrationTextView.setOnClickListener(this);
         accentColourImageView.setOnClickListener(this);
         vibrationButtonGroup.addOnButtonCheckedListener(this);
         timerToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
-        accentColourTextView.setFocusable(true);
-        accentColourTextView.setClickable(true);
 
         GradientDrawable accentDrawable = new GradientDrawable();
         accentDrawable.setShape(GradientDrawable.OVAL);
@@ -88,9 +94,11 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         if (DataHolder.getInstance().getVibration(getApplicationContext())) {
             vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
             vibrationOffButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconTintDark)));
+            vibrationButtonGroup.check(vibrationOnButton.getId());
         } else {
             vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
             vibrationOnButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconTintDark)));
+            vibrationButtonGroup.check(vibrationOffButton.getId());
         }
         DataHolder.getInstance().setDisableButtonClick(false);
     }
@@ -103,6 +111,11 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
                 colorPicker();
             } else if (v.getId() == resetTextView.getId()) {
                 reset();
+            } else if (v.getId() == vibrationTextView.getId()) {
+                if (vibrationButtonGroup.getCheckedButtonId() == vibrationOnButton.getId())
+                    vibrationButtonGroup.check(vibrationOffButton.getId());
+                else if (vibrationButtonGroup.getCheckedButtonId() == vibrationOffButton.getId())
+                    vibrationButtonGroup.check(vibrationOnButton.getId());
             } else DataHolder.getInstance().setDisableButtonClick(false);
         }
     }

@@ -1,5 +1,6 @@
 package com.UnayShah.countdownTimer;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -23,8 +24,6 @@ import com.UnayShah.countdownTimer.model.CustomAnimations;
 import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.popupactivity.TimePickerPopup;
 import com.UnayShah.countdownTimer.timers.Timer;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -33,6 +32,8 @@ import java.util.ArrayList;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning = false;
+    static CountdownTimer countdownTimer;
+    static boolean storedOrientation;
     ConstraintLayout emptyHolder;
     MaterialButton addTimerButton;
     MaterialButton startPauseTimerButton;
@@ -42,11 +43,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
     MaterialTextView timerTextView;
-    CountdownTimer countdownTimer;
     Long pauseTimeInMillis;
     Integer indexOfTimer;
     View timerLayout;
-    AdView adView;
+    //    AdView adView;
     MaterialToolbar timerToolbar;
 
     public RecyclerView getRecyclerView() {
@@ -61,17 +61,39 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onPause() {
+        System.out.println("Paused " + storedOrientation);
+        if (!storedOrientation) {
+            storedOrientation = true;
+            setStoredOrientation(timerRunning, getResources().getConfiguration().orientation);
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        timerRunning = getSharedPreferences(ConstantsClass.PAUSED_ACTIVITY, MODE_PRIVATE).getBoolean(ConstantsClass.TIMER_RUNNING, false);
+        System.out.println("Pause Resume " + timerRunning + " " + storedOrientation);
+        if (timerRunning) {
+            setRequestedOrientation(getSharedPreferences(ConstantsClass.PAUSED_ACTIVITY, MODE_PRIVATE).getInt(ConstantsClass.ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+        }
+        storedOrientation = false;
+        super.onResume();
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if (hasFocus) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         super.onWindowFocusChanged(hasFocus);
     }
 
     public void init() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        storedOrientation = false;
 
-        adView = findViewById(R.id.adView_timer);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        adView = findViewById(R.id.adView_timer);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        adView.loadAd(adRequest);
 
         recyclerView = findViewById(R.id.timers_scrollView_recyclerView);
         recyclerAdapter = new RecyclerAdapter(this, this);
@@ -230,6 +252,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         timerRunning = false;
         DataHolder.getInstance().setDisableButtonClick(false);
         setText(new Timer().toString());
+        setStoredOrientation(false, getResources().getConfiguration().orientation);
     }
 
     private void homeButton() {
@@ -239,6 +262,17 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         DataHolder.getInstance().setListTimerGroup(DataHolder.getInstance().getAllTimerGroups());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         super.onBackPressed();
+    }
+
+    private void setStoredOrientation(boolean bool, int orientation) {
+        SharedPreferences.Editor editor = getSharedPreferences(ConstantsClass.ORIENTATION, MODE_PRIVATE).edit();
+        editor.putInt(ConstantsClass.ORIENTATION, orientation);
+        editor.apply();
+        editor.commit();
+        SharedPreferences.Editor editor2 = getSharedPreferences(ConstantsClass.TIMER_RUNNING, MODE_PRIVATE).edit();
+        editor2.putBoolean(ConstantsClass.TIMER_RUNNING, bool);
+        editor2.commit();
+        System.out.println("Pause store " + bool + " " + orientation);
     }
 
     private void returnButton() {

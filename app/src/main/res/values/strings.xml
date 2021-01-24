@@ -31,6 +31,6 @@
     <string name="accent_color_textView">Accent Color</string>
     <string name="reset">Reset All Settings</string>
     <string name="vibration_text">Vibrate</string>
-    <string name="vibration_on">Vibration On</string>
-    <string name="vibration_off">Vibration Off</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
 </resources>

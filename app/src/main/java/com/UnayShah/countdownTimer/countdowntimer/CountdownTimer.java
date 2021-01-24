@@ -29,22 +29,26 @@ public class CountdownTimer {
     public static Long timePassed;
     public static Long totalTime;
     private final TimerActivity timerActivity;
-    private final Stack<TimerGroup> countdownStack;
-    private final ImageView timerAnimation;
-    private final Drawable inactiveItem;
-    private final Drawable activeItem;
     Canvas progressBar;
     Paint paint;
     String iterationText;
+    private Stack<TimerGroup> countdownStack;
+    private ImageView timerAnimation;
+    private Drawable inactiveItem;
+    private Drawable activeItem;
+    private Vibrator vibrator;
     private Integer reps;
     private MaterialTextView indexOfTimerTextView;
     private Integer indexOfTimer;
     private CountDownTimer countDownTimer;
     private Long timeInMillis;
-    private final Vibrator vibrator;
 
     public CountdownTimer(TimerActivity timerActivity) {
         this.timerActivity = timerActivity;
+        init();
+    }
+
+    private void init() {
         timePassed = 0L;
         totalTime = 0L;
         timerPaused = false;
@@ -230,7 +234,6 @@ public class CountdownTimer {
         timePassed = ConstantsClass.ZERO_LONG;
         timerPaused = false;
         indexOfTimer = 0;
-//        timerActivity.setText(timerGroup.setTimer(0L).toString());
         timerAnimation.setRotation(-90);
         if (indexOfTimerTextView != null) indexOfTimerTextView.setText("");
         if (countDownTimer != null)

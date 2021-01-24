@@ -45,4 +45,7 @@ public final class ConstantsClass {
     public static final String VIBRATION_BOOL = "VIBRATION_BOOL";
     public static final String STORAGE = "CountdownTimerApp.txt";
     public static final String COUNTER_IN_USE_ELSEWHERE = "Cannot delete timer group.\nIn use elsewhere.";
+    public static final String ORIENTATION = "ORIENTATION";
+    public static final String PAUSED_ACTIVITY = "PAUSED_ACTIVITY";
+    public static final String TIMER_RUNNING = "TIMER_RUNNING";
 }
