@@ -18,7 +18,7 @@ public class TimerGroup {
 
     public TimerGroup() {
         setName("");
-        reps = 0;
+        reps = 1;
         timer = new Timer();
         looped = false;
         internalUsageCount = 0;
@@ -54,7 +54,7 @@ public class TimerGroup {
     }
 
     public void decrementReps() {
-        setReps(Math.max(getReps() - 1, 0));
+        setReps(Math.max(getReps() - 1, 1));
     }
 
     public Integer getInternalUsageCount() {

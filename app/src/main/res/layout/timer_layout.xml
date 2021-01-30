@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTint"
-    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+    android:theme="@style/AppTheme"
+    style="@style/AppTheme"
     app:layout_constraintVertical_weight="1"
     tools:context=".TimerActivity">
 
@@ -14,13 +15,13 @@
         android:id="@+id/timer_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.MaterialComponents.DayNight"
+        android:theme="@style/AppTheme"
         android:transitionName="timer_name_transition"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_round_arrow_back_24"
-        app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        app:popupTheme="@style/AppTheme"
         app:title="temp"
         app:titleTextColor="@color/iconTint" />
 
@@ -62,7 +63,7 @@
                 android:textColor="@color/iconTint"
                 android:textSize="@dimen/timer_display_text"
                 android:textStyle="bold"
-                android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+                android:theme="@style/AppTheme"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +77,7 @@
                 android:textColor="@color/iconTint"
                 android:textSize="@dimen/button_text"
                 android:textStyle="bold"
-                android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+                android:theme="@style/AppTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timer_textView" />
@@ -146,11 +147,11 @@
 
         <ImageView
             android:id="@+id/empty_holder_image"
-            style="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            style="@style/AppTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_pointing_arrow"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:theme="@style/AppTheme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

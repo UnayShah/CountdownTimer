@@ -48,4 +48,8 @@ public final class ConstantsClass {
     public static final String ORIENTATION = "ORIENTATION";
     public static final String PAUSED_ACTIVITY = "PAUSED_ACTIVITY";
     public static final String TIMER_RUNNING = "TIMER_RUNNING";
+    public static final String LIGHT = "Light";
+    public static final String DARK = "Dark";
+    public static final String DEFAULT = "Default";
+    public static final String THEME = "Theme";
 }

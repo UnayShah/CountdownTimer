@@ -20,6 +20,7 @@
     <color name="timerList">#FF212D40</color>
     <color name="text">#F1F7ED</color>
     <color name="textTransparent55">#55424242</color>
+    <color name="textTransparent55Dark">#55F5F5F5</color>
     <color name="accent">#0277BD</color>
     <color name="oldAccent">#D66853</color>
 

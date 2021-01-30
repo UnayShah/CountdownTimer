@@ -1,6 +1,7 @@
 package com.UnayShah.countdownTimer;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,8 +43,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
-        loadData();
         super.onResume();
+        loadData();
     }
 
     @Override
@@ -111,9 +113,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
+//        AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         DataHolder.getInstance().loadData(getApplicationContext());
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         titleImage.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+        getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
         recyclerAdapter.notifyDataSetChanged();
     }
 }

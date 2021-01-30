@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTint"
-    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+    android:theme="@style/AppTheme"
     app:layout_constraintHorizontal_weight="1"
     app:layout_constraintVertical_weight="1"
     tools:context=".HomeActivity">
@@ -16,7 +16,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/title_image"
-        android:forceDarkAllowed="false"
         android:paddingLeft="@dimen/padding_large"
         android:paddingRight="@dimen/padding_large"
         android:src="@drawable/ic_countdown_app_title"

@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_screen"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTint"
-    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+    android:theme="@style/AppTheme"
     app:layout_constraintVertical_weight="1"
     tools:context=".HomeActivity">
 
@@ -45,10 +46,10 @@
 
         <TextView
             android:id="@+id/empty_holder_text"
-            style="@style/TextAppearance.MaterialComponents.Headline4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No items\nAdd new"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:textColor="@color/iconTint"
             app:layout_constraintBottom_toTopOf="@id/empty_holder_image"
             app:layout_constraintLeft_toLeftOf="parent"

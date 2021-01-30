@@ -136,7 +136,7 @@ public class CountdownTimer {
                     }
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
                     if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
-                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
                     toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
                     if (DataHolder.getInstance().getVibration(timerActivity.getApplicationContext())) {
                         vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);

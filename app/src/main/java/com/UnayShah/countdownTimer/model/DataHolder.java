@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.R;
@@ -25,15 +26,56 @@ public class DataHolder {
     private List<TimerGroup> listTimerGroup;
     private List<TimerGroup> allTimerGroups;
     private Boolean disableButtonClick = false;
+    private String themeMode;
 
     public DataHolder() {
         this.listTimerGroup = new ArrayList<>();
         this.stackNavigation = new Stack<>();
         this.disableButtonClick = false;
+        this.themeMode = ConstantsClass.LIGHT;
     }
 
     public static DataHolder getInstance() {
         return dataHolder;
+    }
+
+    public int getThemeMode() {
+        switch (themeMode) {
+            case ConstantsClass.LIGHT:
+                return AppCompatDelegate.MODE_NIGHT_NO;
+            case ConstantsClass.DARK:
+                return AppCompatDelegate.MODE_NIGHT_YES;
+            case ConstantsClass.DEFAULT:
+                return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        }
+        return AppCompatDelegate.MODE_NIGHT_NO;
+    }
+
+    public void setThemeMode(Context context, String themeMode) {
+        this.themeMode = themeMode;
+        saveTheme(context);
+    }
+
+    public String getTheme() {
+        return themeMode;
+    }
+
+    public String getTheme(Context context) {
+        loadTheme(context);
+        return themeMode;
+    }
+
+    private void loadTheme(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.THEME, Context.MODE_PRIVATE);
+        setThemeMode(context, sharedPreferences.getString(ConstantsClass.THEME, ConstantsClass.LIGHT));
+    }
+
+    private void saveTheme(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.THEME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(ConstantsClass.THEME, DataHolder.getInstance().getTheme());
+        editor.apply();
+        editor.commit();
     }
 
     public void saveData(Context context) {
@@ -59,6 +101,7 @@ public class DataHolder {
                 DataHolder.getInstance().setAllTimerGroups(new ArrayList<>());
             }
         }
+        loadTheme(context);
         updateMap();
         setListTimerGroup();
     }

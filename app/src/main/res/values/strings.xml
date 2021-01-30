@@ -10,7 +10,7 @@
     <string name="add">ADD</string>
     <string name="pause">PAUSE</string>
     <string name="timer_zero">00:00:00</string>
-    <string name="set">SET</string>
+    <string name="set">SET TIMER</string>
     <string name="cancel">CANCEL</string>
     <string name="return_home_button">Return</string>
     <string name="start_pause_button">Start</string>
@@ -19,8 +19,8 @@
     <string name="timer_name_popup">Enter new timer name:</string>
     <string name="timer_text_placeholder">Timer Name</string>
     <string name="title_image">Title Image</string>
-    <string name="toggle_timer_group_picker">Add Timer Group</string>
-    <string name="toggle_number_picker">Set Timer</string>
+    <string name="toggle_timer_group_picker">Add A Timer Group</string>
+    <string name="toggle_number_picker">Set A Timer</string>
     <string name="new_timer_group">New Timer Group</string>
     <string name="popup_hours_label">HH</string>
     <string name="popup_minutes_label">MM</string>
@@ -33,4 +33,8 @@
     <string name="vibration_text">Vibrate</string>
     <string name="on">On</string>
     <string name="off">Off</string>
+    <string name="theme_textView">Theme</string>
+    <string name="theme">Theme</string>
+    <string name="repetitions">Repetitions</string>
+    <string name="loop_timer">Loop Timer</string>
 </resources>

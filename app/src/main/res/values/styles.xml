@@ -1,6 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="ThemeOverlay.MaterialComponents.PopupNumberPicker">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorOnSurface">@color/iconTint</item>
+        <item name="colorSurface">@color/iconTint</item>
+    </style>
+
+    <style name="ThemeOverlay.MaterialComponents.PopupNumberPicker" parent="AppTheme">
         <item name="android:background">@drawable/number_picker_design</item>
         <item name="android:textColorPrimary">@color/iconTint</item>
         <item name="android:colorControlNormal">@color/iconTint</item>
@@ -9,19 +16,12 @@
         <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
     </style>
 
-    <style name="ThemeOverlay.MaterialComponents.PopupButton">
-        <item name="android:background">@drawable/popup_buttons</item>
-        <item name="android:textColor">@color/iconTint</item>
-        <item name="colorAccent">@color/iconTint</item>
-        <item name="background">@color/iconTintDark</item>
-    </style>
-
-    <style name="timerNameEditText" parent="">
+    <style name="timerNameEditText" parent="AppTheme">
         <item name="android:colorControlNormal">@color/accent</item>
         <item name="android:colorControlActivated">@color/text</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.CountdownTimer.Button.Circle" parent="">
+    <style name="ShapeAppearanceOverlay.CountdownTimer.Button.Circle" parent="AppTheme">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">100%</item>
     </style>

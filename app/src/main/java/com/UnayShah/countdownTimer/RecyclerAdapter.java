@@ -157,22 +157,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             button2.setStrokeColor(DataHolder.getInstance().getAccentColor(activity.getApplicationContext()));
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
-            itemView.setFocusable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
-            itemView.setClickable(timerGroupType.equals(TimerGroupType.TIMER_GROUP));
             itemView.setBackgroundResource(R.drawable.add_timer);
             if (timerGroupType.equals(TimerGroupType.TIMER_GROUP))
                 itemView.setOnClickListener(this);
-            if (DataHolder.getInstance().getStackNavigation().isEmpty()) {
-                ((ViewGroup.MarginLayoutParams) timerText.getLayoutParams()).setMargins((int) itemView.getResources().getDimension(R.dimen.padding_medium), 0, (int) itemView.getResources().getDimension(R.dimen.padding_vvsmall), 0);
-            }
             itemView.setBackgroundResource(R.drawable.add_timer);
             dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
-        }
-
-        public void setDragImageVisibility() {
-            if (DataHolder.getInstance().getStackNavigation().empty()) {
-                dragImage.setVisibility(View.GONE);
-            } else dragImage.setVisibility(View.VISIBLE);
         }
 
         private void button1() {
