@@ -12,8 +12,10 @@ import android.widget.PopupWindow;
 
 import androidx.core.content.ContextCompat;
 
+import com.UnayShah.countdownTimer.HomeActivity;
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.RecyclerAdapter;
+import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
@@ -93,6 +95,7 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
         DataHolder.getInstance().saveData(getContentView().getContext());
         recyclerAdapter.notifyDataSetChanged();
         dismiss();
+        HomeActivity.autoScroll(DataHolder.getInstance().getListTimerGroup().size()-1);
     }
 
     @Override

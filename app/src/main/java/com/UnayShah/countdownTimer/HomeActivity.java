@@ -23,15 +23,19 @@ import com.google.android.material.button.MaterialButton;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
 
+    static RecyclerView recyclerView;
     ConstraintLayout emptyHolder;
     MaterialButton homeAddButton;
     MaterialButton returnButton;
     MaterialButton settingsButton;
     ImageView titleImage;
-    RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     //    AdView adView;
     ItemTouchHelper itemTouchHelper;
+
+    public static void autoScroll(int position) {
+        recyclerView.smoothScrollToPosition(position);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

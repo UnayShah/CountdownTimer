@@ -122,8 +122,10 @@ public class CountdownTimer {
 //                    drawable.draw(progressBar);
                     try {
                         if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
-                        if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size())
+                        if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size()) {
                             timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(activeItem);
+                            TimerActivity.autoScroll(indexOfTimer + 1);
+                        }
                     } catch (Exception ignore) {
                     }
                 }

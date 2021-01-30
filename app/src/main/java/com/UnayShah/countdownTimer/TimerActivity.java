@@ -38,7 +38,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     MaterialButton startPauseTimerButton;
     MaterialButton stopTimerButton;
     MaterialButton homeButton;
-    RecyclerView recyclerView;
+    static RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
     MaterialTextView timerTextView;
@@ -67,6 +67,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 //            setStoredOrientation(timerRunning, getResources().getConfiguration().orientation);
 //        }
         super.onPause();
+    }
+
+    public static void autoScroll(int position) {
+        recyclerView.smoothScrollToPosition(position);
     }
 
     @Override
@@ -246,6 +250,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     public void stopTimer() {
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        autoScroll(ConstantsClass.ZERO);
         countdownTimer.repsSetOne();
         recyclerAdapter.notifyDataSetChanged();
         addTimerButton.setVisibility(View.VISIBLE);

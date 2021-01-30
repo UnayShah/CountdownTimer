@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.RecyclerAdapter;
+import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.common.ConstantsClass;
 import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.model.ThemedNumberPicker;
@@ -219,6 +220,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         DataHolder.getInstance().saveData(getContentView().getContext());
         recyclerAdapter.notifyDataSetChanged();
         dismiss();
+        TimerActivity.autoScroll(DataHolder.getInstance().getListTimerGroup().size()-1);
     }
 
     private Boolean allNumberPickersZero() {
