@@ -3,9 +3,12 @@ package com.UnayShah.countdownTimer.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.widget.EdgeEffect;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.common.ConstantsClass;
@@ -33,6 +36,18 @@ public class DataHolder {
         this.stackNavigation = new Stack<>();
         this.disableButtonClick = false;
         this.themeMode = ConstantsClass.LIGHT;
+    }
+
+    public RecyclerView.EdgeEffectFactory recyclerViewEdgeEffectFactory(Context context) {
+        EdgeEffect edge = new EdgeEffect(context);
+        edge.setColor(DataHolder.getInstance().getAccentColorColor(context));
+        return new RecyclerView.EdgeEffectFactory() {
+            @NonNull
+            @Override
+            protected EdgeEffect createEdgeEffect(@NonNull RecyclerView view, int direction) {
+                return edge;
+            }
+        };
     }
 
     public static DataHolder getInstance() {

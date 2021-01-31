@@ -122,6 +122,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
         DataHolder.getInstance().loadData(getApplicationContext());
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         titleImage.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));

@@ -2,9 +2,8 @@ package com.UnayShah.countdownTimer.countdowntimer;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.CountDownTimer;
@@ -16,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.common.ConstantsClass;
+import com.UnayShah.countdownTimer.model.ActiveItemBackgroundFactory;
 import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
@@ -29,9 +29,8 @@ public class CountdownTimer {
     public static Long timePassed;
     public static Long totalTime;
     private final TimerActivity timerActivity;
-    Canvas progressBar;
-    Paint paint;
     String iterationText;
+    private PaintDrawable pd;
     private Stack<TimerGroup> countdownStack;
     private ImageView timerAnimation;
     private Drawable inactiveItem;
@@ -55,8 +54,6 @@ public class CountdownTimer {
         indexOfTimer = 0;
         reps = ConstantsClass.ONE;
         countdownStack = new Stack<>();
-        progressBar = new Canvas();
-        paint = new Paint();
         iterationText = "";
         timerAnimation = timerActivity.findViewById(R.id.timer_animation);
         timerAnimation.setRotation(-90f);
@@ -65,8 +62,8 @@ public class CountdownTimer {
         inactiveItem.setTintList(ColorStateList.valueOf(ContextCompat.getColor(timerActivity.getApplicationContext(), R.color.iconTintDark)));
         activeItem.setTintList(DataHolder.getInstance().getAccentColor(this.timerActivity.getApplicationContext()));
         vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-//        progressBar.drawColor(timerTextView.getResources().getColor(R.color.blueGray600));
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
+        pd = new PaintDrawable();
     }
 
     public void setTotalTime() {
@@ -112,20 +109,15 @@ public class CountdownTimer {
                     timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
                     timePassed += ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS;
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
-//                    float width = ((float) timePassed) / ((float) totalTime);
-//                    width *= timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth();
-//                    paint.setColor(timerTextView.getResources().getColor(R.color.blueGray700));
-//                    progressBar.drawRect(0, 0, width, timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight(), paint);
-//                    paint.setColor(timerTextView.getResources().getColor(R.color.background));
-//                    progressBar.drawRect(width, 0, timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight(), paint);
-//                    Drawable drawable = new DrawableContainer();
-//                    drawable.draw(progressBar);
                     try {
                         if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
                         if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size()) {
-                            timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(activeItem);
-                            TimerActivity.autoScroll(indexOfTimer + 1);
+                            timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(ActiveItemBackgroundFactory.getInstance(timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getContext(), timePassed.intValue(), totalTime.intValue(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight()));
                         }
+                    } catch (Exception ignore) {
+                    }
+                    try {
+                        TimerActivity.autoScroll(indexOfTimer + 1);
                     } catch (Exception ignore) {
                     }
                 }
@@ -224,6 +216,10 @@ public class CountdownTimer {
     }
 
     public void stopTimer() {
+        try {
+            TimerActivity.autoScroll(ConstantsClass.ZERO);
+        } catch (Exception ignore) {
+        }
         try {
             if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size())
                 timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(inactiveItem);
