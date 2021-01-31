@@ -34,7 +34,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     public static Boolean timerRunning = false;
     static CountdownTimer countdownTimer;
     static RecyclerView recyclerView;
-    //    static boolean storedOrientation;
     ConstraintLayout emptyHolder;
     MaterialButton addTimerButton;
     MaterialButton startPauseTimerButton;
@@ -65,16 +64,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onPause() {
-//        System.out.println("Paused " + storedOrientation);
-//        if (!storedOrientation) {
-//            storedOrientation = true;
-//            setStoredOrientation(timerRunning, getResources().getConfiguration().orientation);
-//        }
-        super.onPause();
-    }
-
-    @Override
     protected void onResume() {
 //        AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
@@ -82,6 +71,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
+        recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
         super.onResume();
     }
 
