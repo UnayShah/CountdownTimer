@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     static RecyclerView recyclerView;
     ConstraintLayout emptyHolder;
     MaterialButton homeAddButton;
-    MaterialButton returnButton;
+    MaterialButton helpButton;
     MaterialButton settingsButton;
     ImageView titleImage;
     RecyclerAdapter recyclerAdapter;
@@ -39,11 +39,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (DataHolder.getInstance().getShowTutorial(getApplicationContext())) {
+            DataHolder.getInstance().setShowTutorial(false, getApplicationContext());
+            help();
+        }
         TimerActivity.timerRunning = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         init();
     }
+
 
     @Override
     protected void onResume() {
@@ -69,10 +74,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         titleImage = findViewById(R.id.title_image);
         homeAddButton = findViewById(R.id.home_add_button);
-        returnButton = findViewById(R.id.home_button);
+        helpButton = findViewById(R.id.home_button);
         settingsButton = findViewById(R.id.settings_button);
         homeAddButton.setOnClickListener(this);
-        returnButton.setOnClickListener(this);
+        helpButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.timerGroupScrollViewRecyclerView);
@@ -92,7 +97,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (!DataHolder.getInstance().getDisableButtonClick()) {
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == homeAddButton.getId()) addTimerGroup();
-            else if (view.getId() == returnButton.getId()) onBackPressed();
+            else if (view.getId() == helpButton.getId()) help();
             else if (view.getId() == settingsButton.getId()) {
                 settingsButton();
             } else DataHolder.getInstance().setDisableButtonClick(false);
@@ -114,6 +119,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         View timerNamePopupWindowView = getLayoutInflater().inflate(R.layout.timer_name_popup, (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), false);
         PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, recyclerAdapter);
         timerNamePopupWindow.showAtLocation(findViewById(R.id.home_screen), Gravity.CENTER, 0, 0);
+    }
+
+    private void help() {
+        DataHolder.getInstance().setDisableButtonClick(false);
+        Intent intent = new Intent(getApplicationContext(), TutorialHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
     }
 
     private void loadData() {

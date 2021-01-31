@@ -28,6 +28,9 @@
         <activity
             android:name="com.UnayShah.countdownTimer.CommonSettings"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.UnayShah.countdownTimer.TutorialHomeActivity"
+            android:screenOrientation="portrait" />
 
         <!--        <meta-data-->
         <!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->

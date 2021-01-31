@@ -37,4 +37,18 @@
     <string name="theme">Theme</string>
     <string name="repetitions">Repetitions</string>
     <string name="loop_timer">Loop Timer</string>
+    <string name="previous">PREV</string>
+    <string name="next">NEXT</string>
+    <string name="done">DONE</string>
+    <string name="edit_timer">Edit Timer</string>
+    <string name="delete_timer">Delete Timer</string>
+    <string name="tutorial_drag">Hold &amp; Drag\nto rearrange</string>
+    <string name="timer_group_name">Timer Group Name</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="click_the_button">Click the \'+\' button</string>
+    <string name="enter_timer_name_in_the_box">Enter timer name\nin the box</string>
+    <string name="home">Home</string>
+    <string name="set_timer_value_or_nadd_an_existing_timer_group">Set timer value or\nadd an existing timer group</string>
+    <string name="timer_time">Timer time</string>
+    <string name="click_on_set">Click on \'set\'</string>
 </resources>

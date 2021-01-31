@@ -30,12 +30,33 @@ public class DataHolder {
     private List<TimerGroup> allTimerGroups;
     private Boolean disableButtonClick = false;
     private String themeMode;
+    private Boolean showTutorial = true;
 
     public DataHolder() {
         this.listTimerGroup = new ArrayList<>();
         this.stackNavigation = new Stack<>();
         this.disableButtonClick = false;
         this.themeMode = ConstantsClass.LIGHT;
+    }
+
+    public static DataHolder getInstance() {
+        return dataHolder;
+    }
+
+    public Boolean getShowTutorial(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.SHOW_TUTORIAL, Context.MODE_PRIVATE);
+        showTutorial = sharedPreferences.getBoolean(ConstantsClass.SHOW_TUTORIAL, true);
+        return showTutorial;
+    }
+
+    public void setShowTutorial(Boolean showTutorial, Context context) {
+        this.showTutorial = showTutorial;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.SHOW_TUTORIAL, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(ConstantsClass.SHOW_TUTORIAL, showTutorial);
+        editor.apply();
+        editor.commit();
+
     }
 
     public RecyclerView.EdgeEffectFactory recyclerViewEdgeEffectFactory(Context context) {
@@ -48,10 +69,6 @@ public class DataHolder {
                 return edge;
             }
         };
-    }
-
-    public static DataHolder getInstance() {
-        return dataHolder;
     }
 
     public int getThemeMode() {

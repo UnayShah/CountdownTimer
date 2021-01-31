@@ -185,6 +185,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         vibrationButtonGroup.check(vibrationOnButton.getId());
         DataHolder.getInstance().setVibration(getApplicationContext(), true);
         initVibrationGroup();
+        DataHolder.getInstance().setShowTutorial(true, getApplicationContext());
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 

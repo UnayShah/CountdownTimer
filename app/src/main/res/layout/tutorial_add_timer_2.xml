@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|start"
+        android:paddingBottom="@dimen/padding_small"
         android:transitionName="timer_expand">
 
         <ImageView
@@ -39,6 +40,18 @@
             card_view:layout_constraintWidth_percent="0.1"
             card_view:tint="@color/iconTint" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_vsmall"
+            android:text="@string/tutorial_drag"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/accent"
+            android:textStyle="bold"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintLeft_toLeftOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/drag" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/timer_textViewList"
             style="@style/TextAppearance.MaterialComponents.Headline6"
@@ -50,13 +63,27 @@
             android:layout_marginBottom="0dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical|start"
-            android:text="@string/timer_zero"
+            android:text="00:00:50"
             android:textColor="@color/iconTint"
             android:transitionName="timer_name_transition"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintHorizontal_weight="0.6"
             card_view:layout_constraintStart_toEndOf="@id/drag"
             card_view:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/timer_time"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/accent"
+            android:textStyle="bold"
+            card_view:layout_constraintBottom_toTopOf="@+id/timer_textViewList"
+            card_view:layout_constraintEnd_toEndOf="@+id/timer_textViewList"
+            card_view:layout_constraintLeft_toLeftOf="@id/timer_textViewList"
+            card_view:layout_constraintStart_toEndOf="@+id/drag"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_timer"
@@ -87,6 +114,17 @@
             card_view:rippleColor="@color/iconTint"
             card_view:strokeWidth="2dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_timer"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/accent"
+            android:textStyle="bold"
+            card_view:layout_constraintBottom_toTopOf="@+id/edit_timer"
+            card_view:layout_constraintRight_toRightOf="@id/edit_timer"
+            card_view:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_timer"
             android:layout_width="0dp"
@@ -115,5 +153,17 @@
             card_view:layout_constraintWidth_percent="0.15"
             card_view:rippleColor="@color/iconTint"
             card_view:strokeWidth="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_vsmall"
+            android:text="@string/delete_timer"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/accent"
+            android:textStyle="bold"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@id/delete_timer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

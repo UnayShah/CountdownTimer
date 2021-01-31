@@ -52,4 +52,5 @@ public final class ConstantsClass {
     public static final String DARK = "Dark";
     public static final String DEFAULT = "Default";
     public static final String THEME = "Theme";
+    public static final String SHOW_TUTORIAL = "SHOW_TUTORIAL";
 }
