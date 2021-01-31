@@ -105,6 +105,13 @@ public class CountdownTimer {
             countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS) {
                 @Override
                 public void onTick(long millisUntilFinished) {
+                    try {
+                        if (indexOfTimer == 0)
+                            TimerActivity.autoScroll(indexOfTimer);
+                        else
+                            TimerActivity.autoScroll(indexOfTimer + 1);
+                    } catch (Exception ignore) {
+                    }
                     timeInMillis = millisUntilFinished;
                     timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
                     timePassed += ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS;
@@ -114,10 +121,6 @@ public class CountdownTimer {
                         if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size()) {
                             timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(ActiveItemBackgroundFactory.getInstance(timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getContext(), timePassed.intValue(), totalTime.intValue(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight()));
                         }
-                    } catch (Exception ignore) {
-                    }
-                    try {
-                        TimerActivity.autoScroll(indexOfTimer + 1);
                     } catch (Exception ignore) {
                     }
                 }
@@ -195,8 +198,10 @@ public class CountdownTimer {
             } else timerActivity.stopTimer();
         } else {
             indexOfTimer++;
-            if (countDownTimer != null) countDownTimer.cancel();
-            startTimer(ConstantsClass.ZERO_LONG);
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+                startTimer(ConstantsClass.ZERO_LONG);
+            }
         }
     }
 

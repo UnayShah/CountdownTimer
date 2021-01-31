@@ -46,6 +46,8 @@ public class ActiveItemBackground extends ShapeDrawable.ShaderFactory {
         setTotalTime(totalTime);
         gradientPositions[1] = ((float) timePassed / totalTime);
         gradientPositions[2] = ((float) timePassed / totalTime);
+        gradientColors[0] = DataHolder.getInstance().getAccentColorColor(context);
+        gradientColors[1] = DataHolder.getInstance().getAccentColorColor(context);
         return resize(width, height);
     }
 
