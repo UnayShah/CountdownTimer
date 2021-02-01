@@ -123,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void help() {
         DataHolder.getInstance().setDisableButtonClick(false);
-        Intent intent = new Intent(getApplicationContext(), TutorialHomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TutorialActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
     }

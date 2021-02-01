@@ -29,7 +29,7 @@
             android:name="com.UnayShah.countdownTimer.CommonSettings"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.UnayShah.countdownTimer.TutorialHomeActivity"
+            android:name="com.UnayShah.countdownTimer.TutorialActivity"
             android:screenOrientation="portrait" />
 
         <!--        <meta-data-->

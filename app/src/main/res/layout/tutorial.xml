@@ -8,17 +8,27 @@
     android:background="#BDBDBD"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context=".TutorialHomeActivity">
+    tools:context=".TutorialActivity">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/padding_medium"
-        android:layout_weight="0.05"
-        android:text="@string/tutorial"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:textColor="@color/iconTint"
-        android:textStyle="bold" />
+        android:layout_weight="0.1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tutorial_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_medium"
+            android:text="@string/tutorial"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textColor="@color/iconTint"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/tutorial_viewPager"
@@ -27,7 +37,6 @@
         android:layout_marginStart="@dimen/padding_small"
         android:layout_marginEnd="@dimen/padding_small"
         android:layout_weight="0.8"
-        android:background="@drawable/popup_buttons"
         android:clickable="false"
         android:focusable="false"
         android:stateListAnimator="@null"
@@ -37,7 +46,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.15">
+        android:layout_weight="0.1">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tutorial_previous"

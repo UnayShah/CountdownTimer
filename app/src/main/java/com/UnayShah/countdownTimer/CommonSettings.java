@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.common.ConstantsClass;
@@ -36,6 +35,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
     private MaterialTextView accentColourTextView;
     private MaterialTextView resetTextView;
     private MaterialTextView themeTextView;
+    private MaterialTextView resetAllDataTextView;
     private MaterialAutoCompleteTextView themeAutoCompleteTextView;
     private TextInputLayout themeTextInputLayout;
     private ImageView accentColourImageView;
@@ -74,6 +74,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         themeMenuLayout = findViewById(R.id.theme_layout);
         themeTextInputLayout = findViewById(R.id.theme_menu_textInputLayout);
         themeTextView = findViewById(R.id.theme_textView);
+        resetAllDataTextView = findViewById(R.id.reset_all_data_textView);
         MaterialToolbar timerToolbar = findViewById(R.id.timer_toolbar);
         setSupportActionBar(timerToolbar);
         vibrationButtonGroup.setSingleSelection(true);
@@ -97,6 +98,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         resetTextView.setOnClickListener(this);
         vibrationTextView.setOnClickListener(this);
         accentColourImageView.setOnClickListener(this);
+        resetAllDataTextView.setOnClickListener(this);
         vibrationButtonGroup.addOnButtonCheckedListener(this);
         timerToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -168,8 +170,21 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
                 themeAutoCompleteTextView.showDropDown();
                 themeAutoCompleteTextView.getOnItemClickListener();
                 DataHolder.getInstance().setDisableButtonClick(false);
+            } else if (v.getId() == resetAllDataTextView.getId()) {
+                resetAllData();
             } else DataHolder.getInstance().setDisableButtonClick(false);
         }
+    }
+
+    private void resetAllData() {
+        reset();
+        DataHolder.getInstance().getAllTimerGroups().clear();
+        DataHolder.getInstance().getMapTimerGroups().clear();
+        DataHolder.getInstance().getListTimerGroup().clear();
+        DataHolder.getInstance().setDisableButtonClick(false);
+        DataHolder.getInstance().getStackNavigation().clear();
+        DataHolder.getInstance().saveData(getApplicationContext());
+        onBackPressed();
     }
 
     private void toggleVibrationGroup() {

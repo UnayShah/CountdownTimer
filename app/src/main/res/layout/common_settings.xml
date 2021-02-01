@@ -190,4 +190,21 @@
         android:textSize="@dimen/timer_display_text"
         android:theme="@style/AppTheme" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/reset_all_data_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_small_medium"
+        android:layout_marginEnd="@dimen/padding_small_medium"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small_medium"
+        android:text="@string/reset_all_data"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/iconTint"
+        android:textSize="@dimen/timer_display_text"
+        android:theme="@style/AppTheme" />
+
 </LinearLayout>
