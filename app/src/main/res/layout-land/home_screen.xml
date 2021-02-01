@@ -48,7 +48,7 @@
             style="@style/TextAppearance.MaterialComponents.Headline4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No items\nAdd new"
+            android:text="@string/no_items_nadd_new"
             android:textColor="@color/iconTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/empty_holder_image" />
@@ -89,7 +89,7 @@
             android:padding="0dp"
             android:stateListAnimator="@null"
             android:transitionName="Return Button Transition"
-            app:icon="@drawable/ic_resource_return"
+            app:icon="@drawable/ic_round_help_24"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
