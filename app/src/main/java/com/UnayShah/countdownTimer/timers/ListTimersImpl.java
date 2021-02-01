@@ -54,13 +54,4 @@ public class ListTimersImpl implements IListTimers {
     public Integer size() {
         return listTimers.size();
     }
-
-    @Override
-    public void print() {
-        System.out.println("START:");
-        for (Timer t : this.getListTimers()) {
-            System.out.println(t.toString());
-        }
-        System.out.println("END");
-    }
 }

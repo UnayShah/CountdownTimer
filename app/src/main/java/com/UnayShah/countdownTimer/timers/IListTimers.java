@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IListTimers {
 
-    void setListTimers(List<Timer> IListTimers);
-
     List<Timer> getListTimers();
+
+    void setListTimers(List<Timer> IListTimers);
 
     void add(Timer timer);
 
@@ -19,6 +19,4 @@ public interface IListTimers {
     void swap(IListTimers listTimers, Integer fromPosition, Integer toPosition);
 
     Integer size();
-
-    void print();
 }
