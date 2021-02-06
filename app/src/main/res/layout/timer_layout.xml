@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/timer_layout"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTint"
     android:theme="@style/AppTheme"
-    style="@style/AppTheme"
     app:layout_constraintVertical_weight="1"
     tools:context=".TimerActivity">
 
@@ -93,22 +93,29 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <fragment
-                android:id="@+id/reps_layout"
-                android:name="com.UnayShah.countdownTimer.fragmentsInflater.repsFragmentInflater"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:shadowColor="@color/iconTint"
-                android:stateListAnimator="@null"
-                tools:layout="@layout/reps_layout" />
+            <!--            <fragment-->
+            <!--                android:id="@+id/reps_layout"-->
+            <!--                android:name="com.UnayShah.countdownTimer.fragmentsInflater.repsFragmentInflater"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:shadowColor="@color/iconTint"-->
+            <!--                android:stateListAnimator="@null"-->
+            <!--                tools:layout="@layout/reps_layout" />-->
 
+            <!--            <fragment-->
+            <!--                android:id="@+id/loop_fragment"-->
+            <!--                android:name="com.UnayShah.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:shadowColor="@color/iconTint"-->
+            <!--                tools:layout="@layout/loop_button" />-->
             <fragment
-                android:id="@+id/loop_fragment"
-                android:name="com.UnayShah.countdownTimer.fragmentsInflater.loopSwitchFragmentInflater"
+                android:id="@+id/repetition_fragment"
+                android:name="com.UnayShah.countdownTimer.fragmentsInflater.RepetitionFragmentInflater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/iconTint"
-                tools:layout="@layout/loop_button" />
+                tools:layout="@layout/repetition_layout" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -32,9 +32,11 @@ public class timerAnimationInflater extends Fragment {
 
     private void init(View view) {
         timerAnimation = view.findViewById(R.id.timer_animation);
-
-        Drawable outerRing = ContextCompat.getDrawable(getContext(), R.drawable.timer_animation_sweep);
-        outerRing.setTint(DataHolder.getInstance().getAccentColorColor(getContext()));
-        timerAnimation.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.timer_animation));
+        if (getContext() != null) {
+            Drawable outerRing = ContextCompat.getDrawable(getContext(), R.drawable.timer_animation_sweep);
+            if (outerRing != null)
+                outerRing.setTint(DataHolder.getInstance().getAccentColorColor(getContext()));
+            timerAnimation.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.timer_animation));
+        }
     }
 }

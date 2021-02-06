@@ -92,7 +92,6 @@
                     android:textSize="@dimen/button_text" />
 
                 <LinearLayout
-                    android:id="@+id/reps_linear_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_vsmall"
@@ -104,7 +103,6 @@
                     android:theme="@style/AppTheme">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/decrease_reps"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="@dimen/padding_vsmall"
@@ -130,7 +128,6 @@
 
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/reps_textView"
                         style="@style/TextAppearance.MaterialComponents.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +137,6 @@
                         android:theme="@style/AppTheme" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/increase_reps"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginStart="@dimen/padding_small"
