@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.Pair;
 import android.view.Gravity;
@@ -89,7 +90,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
 
     @Override
     public void onRowClear(ListItemViewHolder holder) {
-        holder.dragImage.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
+        if ((holder.itemView.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
+            holder.dragImage.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
+        else
+            holder.dragImage.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.iconTintDark), android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
     private void timerNamePopup(int position, View itemView) {
@@ -162,6 +166,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 itemView.setOnClickListener(this);
             itemView.setBackgroundResource(R.drawable.add_timer);
             dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
+            if ((itemView.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
+                dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
+            else
+                dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTintDark), android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         private void button1() {
