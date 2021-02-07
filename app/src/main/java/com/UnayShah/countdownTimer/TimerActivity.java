@@ -1,6 +1,5 @@
 package com.UnayShah.countdownTimer;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -47,6 +46,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     View timerLayout;
     //    AdView adView;
     MaterialToolbar timerToolbar;
+    private boolean darkModeChanged = false;
 
     public static void autoScroll(int position) {
         recyclerView.smoothScrollToPosition(position);
@@ -65,14 +65,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onResume() {
-//        AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
-        recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
+        loadData();
         super.onResume();
+        darkModeChanged = false;
     }
 
     @Override
@@ -281,5 +276,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
+    private void loadData() {
+        if (!darkModeChanged) {
+            darkModeChanged = true;
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
+        }
+        getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
+        recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
+    }
 
 }

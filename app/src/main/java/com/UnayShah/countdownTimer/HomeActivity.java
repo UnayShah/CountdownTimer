@@ -1,7 +1,7 @@
 package com.UnayShah.countdownTimer;
 
 import android.content.Intent;
-import android.os.Build;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerAdapter recyclerAdapter;
     //    AdView adView;
     ItemTouchHelper itemTouchHelper;
+    private boolean darkModeChanged = false;
 
     public static void autoScroll(int position) {
         recyclerView.smoothScrollToPosition(position);
@@ -44,16 +46,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             help();
         }
         TimerActivity.timerRunning = false;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         init();
     }
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        System.out.println("Theme : changed");
+        super.onConfigurationChanged(newConfig);
+    }
 
     @Override
     protected void onResume() {
-        super.onResume();
         loadData();
+        super.onResume();
+        darkModeChanged = false;
     }
 
     @Override
@@ -129,11 +138,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
-//        AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        if (!darkModeChanged) {
+            darkModeChanged = true;
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
+        }
         recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
         DataHolder.getInstance().loadData(getApplicationContext());
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
