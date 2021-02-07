@@ -54,7 +54,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/theme_menu_textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/CustomExposedDropdownMenu.Dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.45">

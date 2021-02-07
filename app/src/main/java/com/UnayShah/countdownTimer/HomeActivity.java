@@ -1,7 +1,6 @@
 package com.UnayShah.countdownTimer;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -33,7 +31,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerAdapter recyclerAdapter;
     //    AdView adView;
     ItemTouchHelper itemTouchHelper;
-    private boolean darkModeChanged = false;
 
     public static void autoScroll(int position) {
         recyclerView.smoothScrollToPosition(position);
@@ -53,16 +50,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        System.out.println("Theme : changed");
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     protected void onResume() {
         loadData();
         super.onResume();
-        darkModeChanged = false;
     }
 
     @Override
@@ -138,10 +128,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
-        if (!darkModeChanged) {
-            darkModeChanged = true;
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
             AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
-        }
         recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
         DataHolder.getInstance().loadData(getApplicationContext());
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));

@@ -1,5 +1,6 @@
 package com.UnayShah.countdownTimer;
 
+import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.common.ConstantsClass;
@@ -44,7 +46,6 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
     private MaterialButtonToggleGroup vibrationButtonGroup;
     private MaterialButton vibrationOffButton;
     private MaterialButton vibrationOnButton;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,14 +119,46 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
             themeMenuList = Arrays.asList(ConstantsClass.LIGHT, ConstantsClass.DARK, ConstantsClass.DEFAULT);
         else
             themeMenuList = Arrays.asList(ConstantsClass.LIGHT, ConstantsClass.DARK);
-//            themeMenuList.addAll(Collections.singletonList(ConstantsClass.DEFAULT));
         ArrayAdapter<String> themeAdapter = new ArrayAdapter<>(this, R.layout.theme_menu, themeMenuList);
         themeAdapter.setDropDownViewResource(R.layout.theme_menu);
         themeAutoCompleteTextView.setText(DataHolder.getInstance().getTheme(), false);
         themeAutoCompleteTextView.setAdapter(themeAdapter);
         themeAutoCompleteTextView.setSelection(themeAdapter.getPosition(DataHolder.getInstance().getTheme(getApplicationContext())));
         themeAutoCompleteTextView.addTextChangedListener(this);
-//        themeTextInputLayout.set(themeAdapter.getItem(DataHolder.getInstance().getTheme()));
+    }
+
+    private void setVibrationGroupColours() {
+        themeAutoCompleteTextView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        themeTextInputLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        if (getApplicationContext().getResources().getConfiguration().uiMode == Configuration.UI_MODE_NIGHT_YES + 1) {
+            if (DataHolder.getInstance().getThemeMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                vibrationOnButton.setTextColor(DataHolder.getInstance().iconTint(getApplicationContext()));
+                vibrationOffButton.setTextColor(DataHolder.getInstance().iconTint(getApplicationContext()));
+                vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                themeAutoCompleteTextView.setBackgroundColor(DataHolder.getInstance().iconTint(getApplicationContext()).getDefaultColor());
+                themeTextInputLayout.setBackgroundColor(DataHolder.getInstance().iconTint(getApplicationContext()).getDefaultColor());
+            } else {
+                vibrationOnButton.setTextColor(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                vibrationOffButton.setTextColor(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
+                vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
+                themeAutoCompleteTextView.setBackgroundColor(DataHolder.getInstance().iconTintDark(getApplicationContext()).getDefaultColor());
+                themeTextInputLayout.setBackgroundColor(DataHolder.getInstance().iconTintDark(getApplicationContext()).getDefaultColor());
+            }
+        } else if (getApplicationContext().getResources().getConfiguration().uiMode == Configuration.UI_MODE_NIGHT_NO + 1) {
+            if (DataHolder.getInstance().getThemeMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                vibrationOnButton.setTextColor(DataHolder.getInstance().iconTint(getApplicationContext()));
+                vibrationOffButton.setTextColor(DataHolder.getInstance().iconTint(getApplicationContext()));
+                vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+            } else {
+                vibrationOnButton.setTextColor(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                vibrationOffButton.setTextColor(DataHolder.getInstance().iconTintDark(getApplicationContext()));
+                vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
+                vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
+            }
+        }
     }
 
     private void initVibrationGroup() {
@@ -139,14 +172,12 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
 
         vibrationOnButton.setRippleColor(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         vibrationOffButton.setRippleColor(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-
+        setVibrationGroupColours();
         if (DataHolder.getInstance().getVibration(getApplicationContext())) {
             vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-            vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
             vibrationButtonGroup.check(vibrationOnButton.getId());
         } else {
             vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-            vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
             vibrationButtonGroup.check(vibrationOffButton.getId());
         }
         getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
@@ -239,7 +270,9 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
     @Override
     public void afterTextChanged(Editable s) {
         DataHolder.getInstance().setThemeMode(getApplicationContext(), s.toString());
-//        AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
     }
+
 }
 

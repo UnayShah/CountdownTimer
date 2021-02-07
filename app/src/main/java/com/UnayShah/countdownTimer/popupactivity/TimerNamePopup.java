@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.HomeActivity;
@@ -45,6 +46,8 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
 
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         super.showAtLocation(parent, gravity, x, y);
         View container = (View) getContentView().getParent();
         WindowManager wm = (WindowManager) getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);

@@ -12,6 +12,7 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.UnayShah.countdownTimer.R;
@@ -63,6 +64,8 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
 
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         this.parent = parent;
         super.showAtLocation(parent, gravity, x, y);
         View container = (View) getContentView().getParent();

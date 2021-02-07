@@ -46,7 +46,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     View timerLayout;
     //    AdView adView;
     MaterialToolbar timerToolbar;
-    private boolean darkModeChanged = false;
 
     public static void autoScroll(int position) {
         recyclerView.smoothScrollToPosition(position);
@@ -67,7 +66,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     protected void onResume() {
         loadData();
         super.onResume();
-        darkModeChanged = false;
     }
 
     @Override
@@ -277,10 +275,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loadData() {
-        if (!darkModeChanged) {
-            darkModeChanged = true;
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
             AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
-        }
         getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
         recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
     }

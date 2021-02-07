@@ -5,21 +5,26 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.UnayShah.countdownTimer.common.CustomPagerAdapter;
+import com.UnayShah.countdownTimer.common.CustomFragmentPagerAdapter;
 import com.UnayShah.countdownTimer.model.DataHolder;
 import com.google.android.material.button.MaterialButton;
 
 public class TutorialActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     ViewPager viewPager;
+    FragmentPagerAdapter fragmentPagerAdapter;
     MaterialButton tutorialNext;
     MaterialButton tutorialPrev;
     Integer item;
 
     @Override
     protected void onResume() {
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         super.onResume();
         getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
     }
@@ -35,7 +40,8 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
 
         item = 0;
         viewPager = findViewById(R.id.tutorial_viewPager);
-        viewPager.setAdapter(new CustomPagerAdapter(getApplicationContext()));
+        fragmentPagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(fragmentPagerAdapter);
         tutorialNext = findViewById(R.id.tutorial_next);
         tutorialPrev = findViewById(R.id.tutorial_previous);
         viewPager.setCurrentItem(item);
