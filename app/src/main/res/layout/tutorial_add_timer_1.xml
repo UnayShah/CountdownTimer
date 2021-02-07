@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_vvsmall"
-    android:layout_marginBottom="@dimen/padding_small"
+    android:layout_marginBottom="@dimen/padding_vvsmall"
     android:background="@drawable/add_timer"
     android:backgroundTint="@color/iconTintDark"
     android:paddingTop="@dimen/padding_small"

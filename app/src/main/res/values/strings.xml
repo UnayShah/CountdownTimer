@@ -43,7 +43,7 @@
     <string name="edit_timer">Edit Timer</string>
     <string name="delete_timer">Delete Timer</string>
     <string name="tutorial_drag">Hold &amp; Drag\nto rearrange</string>
-    <string name="timer_group_name">Timer Group Name</string>
+    <string name="timer_group_name">Timer Group\nName</string>
     <string name="tutorial">Tutorial:</string>
     <string name="click_next">Click next</string>
     <string name="click_the_button">Click the \'+\' button</string>
