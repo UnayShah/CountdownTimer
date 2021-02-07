@@ -69,7 +69,7 @@ public class RepetitionFragmentInflater extends Fragment implements View.OnClick
 
         shape = new GradientDrawable();
         border = new GradientDrawable();
-        shape.setTint(ContextCompat.getColor(getContext(), R.color.iconTintDark));
+        shape.setTintList(DataHolder.getInstance().iconTintDark(getContext()));
         shape.setCornerRadius(getResources().getDimension(R.dimen.padding_huge));
         border.setTint(DataHolder.getInstance().getAccentColorColor(getContext()));
         border.setCornerRadius(getResources().getDimension(R.dimen.padding_huge));
@@ -120,29 +120,32 @@ public class RepetitionFragmentInflater extends Fragment implements View.OnClick
 
     private void setTint() {
         if (DataHolder.getInstance().getMapTimerGroups().containsKey(DataHolder.getInstance().getStackNavigation().peek()) && !DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped()) {
-            loopButton.setIconTintResource(R.color.iconTint);
+            loopButton.setIconTint(DataHolder.getInstance().iconTintDark(getContext()));
             loopButton.setRippleColor(accentColorStateList);
             if (getContext() != null)
-                loopButton.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.iconTintDark));
+                loopButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getContext()));
             border.setTint(DataHolder.getInstance().getAccentColorColor(getContext()));
-
-            increaseReps.setIconTintResource(R.color.iconTint);
-            increaseReps.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.backgroundTint));
-            decreaseReps.setIconTintResource(R.color.iconTint);
-            decreaseReps.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.backgroundTint));
-            repsTitleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.iconTint));
-            repsTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.iconTint));
+            shape.setTintList(DataHolder.getInstance().iconTint(getContext()));
+            increaseReps.setIconTint(DataHolder.getInstance().iconTintDark(getContext()));
+            increaseReps.setRippleColor(DataHolder.getInstance().iconTint(getContext()));
+            increaseReps.setBackgroundTintList(DataHolder.getInstance().backgroundTint(getContext()));
+            decreaseReps.setIconTint(DataHolder.getInstance().iconTintDark(getContext()));
+            decreaseReps.setRippleColor(DataHolder.getInstance().iconTint(getContext()));
+            decreaseReps.setBackgroundTintList(DataHolder.getInstance().backgroundTint(getContext()));
+            repsTitleTextView.setTextColor(DataHolder.getInstance().iconTintDark(getContext()));
+            repsTextView.setTextColor(DataHolder.getInstance().iconTintDark(getContext()));
         } else {
             loopButton.setIconTintResource(R.color.iconTintDark);
             loopButton.setRippleColorResource(R.color.iconTint);
             loopButton.setBackgroundTintList(accentColorStateList);
             border.setTint(ContextCompat.getColor(getContext(), R.color.material_on_primary_disabled));
-            increaseReps.setIconTintResource(R.color.backgroundTint);
-            increaseReps.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.iconTintDark));
-            decreaseReps.setIconTintResource(R.color.backgroundTint);
-            decreaseReps.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.iconTintDark));
-            repsTitleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.iconTintDark));
-            repsTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.backgroundTint));
+            shape.setTintList(DataHolder.getInstance().backgroundTint(getContext()));
+            increaseReps.setIconTint(DataHolder.getInstance().iconTint(getContext()));
+            increaseReps.setRippleColor(DataHolder.getInstance().backgroundTint(getContext()));
+            decreaseReps.setIconTint(DataHolder.getInstance().iconTint(getContext()));
+            decreaseReps.setRippleColor(DataHolder.getInstance().backgroundTint(getContext()));
+            repsTitleTextView.setTextColor(DataHolder.getInstance().iconTint(getContext()));
+            repsTextView.setTextColor(DataHolder.getInstance().iconTint(getContext()));
         }
     }
 }

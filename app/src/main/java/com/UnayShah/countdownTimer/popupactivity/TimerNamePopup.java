@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import com.UnayShah.countdownTimer.HomeActivity;
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.RecyclerAdapter;
-import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
@@ -113,7 +112,7 @@ public class TimerNamePopup extends PopupWindow implements View.OnClickListener,
         if (hasFocus) {
             Drawable drawable = ContextCompat.getDrawable(getContentView().getContext(), R.drawable.edit_text_selected);
             drawable.setTint(DataHolder.getInstance().getAccentColorColor(getContentView().getContext()));
-            view.setBackgroundResource(R.drawable.edit_text_selected);
+            view.setBackground(drawable);
         } else {
             view.setBackgroundResource(R.drawable.edit_text);
         }

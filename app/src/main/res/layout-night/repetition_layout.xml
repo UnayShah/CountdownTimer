@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/loop_timer"
-        android:textColor="@color/iconTint"
+        android:textColor="@color/iconTintDark"
         android:textSize="@dimen/button_text" />
 
     <com.google.android.material.button.MaterialButton
@@ -28,7 +28,7 @@
         android:insetBottom="0dp"
         android:stateListAnimator="@null"
         android:theme="@style/AppTheme"
-        app:backgroundTint="@color/iconTintDark"
+        app:backgroundTint="@color/iconTint"
         app:cornerRadius="@dimen/padding_small_medium"
         app:icon="@drawable/ic_round_loop"
         app:iconGravity="textStart"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/repetitions"
-        android:textColor="@color/iconTint"
+        android:textColor="@color/iconTintDark"
         android:textSize="@dimen/button_text" />
 
     <LinearLayout
@@ -66,16 +66,16 @@
             android:insetTop="0dp"
             android:insetRight="0dp"
             android:insetBottom="0dp"
-            android:shadowColor="@color/iconTint"
+            android:shadowColor="@color/iconTintDark"
             android:stateListAnimator="@null"
             android:theme="@style/AppTheme"
-            app:backgroundTint="@color/backgroundTint"
+            app:backgroundTint="@color/backgroundTintDark"
             app:icon="@drawable/ic_round_remove_24"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
-            app:rippleColor="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
 
@@ -102,18 +102,18 @@
             android:insetTop="0dp"
             android:insetRight="0dp"
             android:insetBottom="0dp"
-            android:shadowColor="@color/iconTint"
+            android:shadowColor="@color/iconTintDark"
             android:shadowDx="10"
             android:shadowDy="10"
             android:stateListAnimator="@null"
             android:theme="@style/AppTheme"
-            app:backgroundTint="@color/backgroundTint"
+            app:backgroundTint="@color/backgroundTintDark"
             app:icon="@drawable/ic_round_add"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
-            app:rippleColor="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
     </LinearLayout>
 </LinearLayout>

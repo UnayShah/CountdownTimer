@@ -19,7 +19,6 @@ import com.UnayShah.countdownTimer.RecyclerAdapter;
 import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.common.ConstantsClass;
 import com.UnayShah.countdownTimer.model.DataHolder;
-import com.UnayShah.countdownTimer.model.ThemedNumberPicker;
 import com.UnayShah.countdownTimer.timers.Timer;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
@@ -33,9 +32,9 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
     MaterialButton setTimerButton;
     MaterialButton cancelSetTimerButton;
     MaterialButton toggleNumberPickerTimerGroup;
-    ThemedNumberPicker numberPickerHours;
-    ThemedNumberPicker numberPickerMinutes;
-    ThemedNumberPicker numberPickerSeconds;
+    NumberPicker numberPickerHours;
+    NumberPicker numberPickerMinutes;
+    NumberPicker numberPickerSeconds;
     LinearLayout numberPickerLayout;
     LinearLayout timerGroupPickerLayout;
     ConstraintLayout timerPickerButtons;
@@ -220,7 +219,7 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         DataHolder.getInstance().saveData(getContentView().getContext());
         recyclerAdapter.notifyDataSetChanged();
         dismiss();
-        TimerActivity.autoScroll(DataHolder.getInstance().getListTimerGroup().size()-1);
+        TimerActivity.autoScroll(DataHolder.getInstance().getListTimerGroup().size() - 1);
     }
 
     private Boolean allNumberPickersZero() {

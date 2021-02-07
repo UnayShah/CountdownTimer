@@ -41,6 +41,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         viewPager.setCurrentItem(item);
         tutorialNext.setOnClickListener(this);
         tutorialPrev.setOnClickListener(this);
+        tutorialNext.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         viewPager.addOnPageChangeListener(this);
         tutorialPrev.setVisibility(View.GONE);
     }

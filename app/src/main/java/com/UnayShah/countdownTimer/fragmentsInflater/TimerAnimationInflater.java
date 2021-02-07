@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.model.DataHolder;
 
-public class timerAnimationInflater extends Fragment {
+public class TimerAnimationInflater extends Fragment {
     ImageView timerAnimation;
 
     @Nullable

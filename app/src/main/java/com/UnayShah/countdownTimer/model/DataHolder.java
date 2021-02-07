@@ -3,6 +3,7 @@ package com.UnayShah.countdownTimer.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.widget.EdgeEffect;
 
 import androidx.annotation.NonNull;
@@ -230,5 +231,34 @@ public class DataHolder {
         for (int i = 0; i < allTimerGroups.size(); i++) {
             mapTimerGroups.put(allTimerGroups.get(i).getName(), i);
         }
+    }
+
+    public ColorStateList iconTint(Context context) {
+        if ((context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTintDark));
+        else
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTint));
+    }
+
+    public ColorStateList iconTintDark(Context context) {
+        if ((context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTint));
+        else
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTintDark));
+    }
+
+    public ColorStateList backgroundTint(Context context) {
+        if ((context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.backgroundTint));
+        else
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.backgroundTintDark));
+    }
+
+
+    public ColorStateList backgroundTintDark(Context context) {
+        if ((context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.backgroundTintDark));
+        else
+            return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.backgroundTint));
     }
 }

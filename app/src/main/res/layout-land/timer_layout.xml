@@ -48,7 +48,7 @@
 
             <fragment
                 android:id="@+id/timer_animation_fragment"
-                android:name="com.UnayShah.countdownTimer.fragmentsInflater.timerAnimationInflater"
+                android:name="com.UnayShah.countdownTimer.fragmentsInflater.TimerAnimationInflater"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:shadowColor="@color/iconTint"

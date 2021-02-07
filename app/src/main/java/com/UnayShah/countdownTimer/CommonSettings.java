@@ -1,6 +1,5 @@
 package com.UnayShah.countdownTimer;
 
-import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -125,8 +124,6 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         themeAutoCompleteTextView.setText(DataHolder.getInstance().getTheme(), false);
         themeAutoCompleteTextView.setAdapter(themeAdapter);
         themeAutoCompleteTextView.setSelection(themeAdapter.getPosition(DataHolder.getInstance().getTheme(getApplicationContext())));
-        themeMenuLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.backgroundTint));
-        themeAutoCompleteTextView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.backgroundTint));
         themeAutoCompleteTextView.addTextChangedListener(this);
 //        themeTextInputLayout.set(themeAdapter.getItem(DataHolder.getInstance().getTheme()));
     }
@@ -145,11 +142,11 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
 
         if (DataHolder.getInstance().getVibration(getApplicationContext())) {
             vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-            vibrationOffButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconTintDark)));
+            vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
             vibrationButtonGroup.check(vibrationOnButton.getId());
         } else {
             vibrationOffButton.setBackgroundTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-            vibrationOnButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iconTintDark)));
+            vibrationOnButton.setBackgroundTintList(DataHolder.getInstance().iconTint(getApplicationContext()));
             vibrationButtonGroup.check(vibrationOffButton.getId());
         }
         getWindow().setStatusBarColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
@@ -209,7 +206,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         new ColorPickerDialog.Builder(this)
                 .setTitle("ColorPicker Dialog")
                 .setPreferenceName("MyColorPickerDialog")
-                .setPositiveButton(R.string.set,
+                .setPositiveButton(R.string.set_colour,
                         (ColorEnvelopeListener) (envelope, fromUser) -> {
                             DataHolder.getInstance().setAccentColor(getApplicationContext(), envelope.getColor());
                             accentColourImageView.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));

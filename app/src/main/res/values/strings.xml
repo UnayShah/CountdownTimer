@@ -44,7 +44,8 @@
     <string name="delete_timer">Delete Timer</string>
     <string name="tutorial_drag">Hold &amp; Drag\nto rearrange</string>
     <string name="timer_group_name">Timer Group Name</string>
-    <string name="tutorial">Tutorial: Click Next</string>
+    <string name="tutorial">Tutorial:</string>
+    <string name="click_next">Click next</string>
     <string name="click_the_button">Click the \'+\' button</string>
     <string name="enter_timer_name_in_the_box">Enter timer name\nin the box</string>
     <string name="home">Home</string>
@@ -54,4 +55,5 @@
     <string name="_1">1</string>
     <string name="reset_all_data">Reset All Data</string>
     <string name="no_items_nadd_new">No items\nAdd new</string>
+    <string name="set_colour">SET COLOUR</string>
 </resources>

@@ -6,7 +6,7 @@
     style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundTint"
+    android:background="@color/backgroundTintDark"
     android:theme="@style/AppTheme"
     app:layout_constraintVertical_weight="1"
     tools:context=".TimerActivity">
@@ -20,10 +20,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_round_arrow_back_24"
+        app:navigationIcon="@drawable/ic_round_arrow_back_24_dark"
         app:popupTheme="@style/AppTheme"
         app:title="temp"
-        app:titleTextColor="@color/iconTint" />
+        app:titleTextColor="@color/iconTintDark" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/timer_animation_layout"
@@ -50,7 +50,7 @@
                 android:name="com.UnayShah.countdownTimer.fragmentsInflater.TimerAnimationInflater"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:shadowColor="@color/iconTint"
+                android:shadowColor="@color/iconTintDark"
                 android:stateListAnimator="@null"
                 tools:layout="@layout/timer_animation" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/timer_zero"
                 android:textAlignment="center"
-                android:textColor="@color/iconTint"
+                android:textColor="@color/iconTintDark"
                 android:textSize="@dimen/timer_display_text"
                 android:textStyle="bold"
                 android:theme="@style/AppTheme"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:textColor="@color/iconTint"
+                android:textColor="@color/iconTintDark"
                 android:textSize="@dimen/button_text"
                 android:textStyle="bold"
                 android:theme="@style/AppTheme"
@@ -133,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No items\nAdd new"
-            android:textColor="@color/iconTint"
+            android:textColor="@color/iconTintDark"
             app:layout_constraintBottom_toTopOf="@id/empty_holder_image"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -146,7 +146,7 @@
             android:theme="@style/AppTheme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:tint="@color/iconTint" />
+            app:tint="@color/iconTintDark" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -165,7 +165,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:contentDescription="@string/return_home_button"
             android:elevation="12dp"
             android:insetLeft="0dp"
@@ -179,12 +179,12 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/start_pause_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
         <com.google.android.material.button.MaterialButton
@@ -192,7 +192,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:elevation="12dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -211,7 +211,7 @@
             app:layout_constraintLeft_toRightOf="@id/home_button"
             app:layout_constraintRight_toLeftOf="@id/stop_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
         <com.google.android.material.button.MaterialButton
@@ -219,7 +219,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:elevation="12dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -231,12 +231,12 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/start_pause_button"
             app:layout_constraintRight_toLeftOf="@id/home_add_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
         <com.google.android.material.button.MaterialButton
@@ -244,7 +244,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:contentDescription="@string/add_button"
             android:elevation="12dp"
             android:insetLeft="0dp"
@@ -258,12 +258,12 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/stop_button"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:background="@color/backgroundTint"
+    android:background="@color/backgroundTintDark"
     android:stateListAnimator="@null"
     android:theme="@style/AppTheme"
     app:layout_constraintVertical_weight="1">
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/timer_zero"
                 android:textAlignment="center"
-                android:textColor="@color/iconTint"
+                android:textColor="@color/iconTintDark"
                 android:textSize="@dimen/timer_display_text"
                 android:textStyle="bold"
                 android:theme="@style/AppTheme"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:textColor="@color/iconTint"
+                android:textColor="@color/iconTintDark"
                 android:textSize="@dimen/button_text"
                 android:textStyle="bold"
                 android:theme="@style/AppTheme"
@@ -76,8 +76,44 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_small_medium"
+                android:layout_marginTop="@dimen/padding_vsmall"
+                android:layout_marginRight="@dimen/padding_small_medium"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:theme="@style/AppTheme">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/loop_timer"
+                    android:textColor="@color/iconTintDark"
+                    android:textSize="@dimen/button_text" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/loop_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="@dimen/padding_vsmall"
+                    android:layout_marginBottom="@dimen/padding_small_medium"
+                    android:elevation="12dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:stateListAnimator="@null"
+                    android:theme="@style/AppTheme"
+                    app:backgroundTint="@color/iconTint"
+                    app:cornerRadius="@dimen/padding_small_medium"
+                    app:icon="@drawable/ic_round_loop"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_small_medium"
@@ -89,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/repetitions"
-                    android:textColor="@color/iconTint"
+                    android:textColor="@color/iconTintDark"
                     android:textSize="@dimen/button_text" />
 
                 <LinearLayout
@@ -98,6 +134,7 @@
                     android:layout_marginTop="@dimen/padding_vsmall"
                     android:layout_marginBottom="@dimen/padding_small_medium"
                     android:background="@drawable/popup_buttons"
+                    android:backgroundTint="@color/iconTint"
                     android:elevation="6dp"
                     android:gravity="center"
                     android:stateListAnimator="@null"
@@ -115,18 +152,17 @@
                         android:insetTop="0dp"
                         android:insetRight="0dp"
                         android:insetBottom="0dp"
-                        android:shadowColor="@color/iconTint"
+                        android:shadowColor="@color/iconTintDark"
                         android:stateListAnimator="@null"
                         android:theme="@style/AppTheme"
-                        app:backgroundTint="@color/backgroundTint"
+                        app:backgroundTint="@color/backgroundTintDark"
                         app:icon="@drawable/ic_round_remove_24"
                         app:iconGravity="textStart"
                         app:iconPadding="0dp"
                         app:iconSize="24dp"
-                        app:iconTint="@color/iconTint"
-                        app:rippleColor="@color/iconTint"
+                        app:iconTint="@color/iconTintDark"
+                        app:rippleColor="@color/iconTintDark"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
-
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.MaterialComponents.Body1"
@@ -134,7 +170,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_vvsmall"
                         android:text="0"
-                        android:textColor="@color/iconTint"
+                        android:textColor="@color/iconTintDark"
                         android:theme="@style/AppTheme" />
 
                     <com.google.android.material.button.MaterialButton
@@ -149,59 +185,23 @@
                         android:insetTop="0dp"
                         android:insetRight="0dp"
                         android:insetBottom="0dp"
-                        android:shadowColor="@color/iconTint"
+                        android:shadowColor="@color/iconTintDark"
                         android:shadowDx="10"
                         android:shadowDy="10"
                         android:stateListAnimator="@null"
                         android:theme="@style/AppTheme"
-                        app:backgroundTint="@color/backgroundTint"
+                        app:backgroundTint="@color/backgroundTintDark"
                         app:icon="@drawable/ic_round_add"
                         app:iconGravity="textStart"
                         app:iconPadding="0dp"
                         app:iconSize="24dp"
-                        app:iconTint="@color/iconTint"
-                        app:rippleColor="@color/iconTint"
+                        app:iconTint="@color/iconTintDark"
+                        app:rippleColor="@color/iconTintDark"
                         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/padding_small_medium"
-                android:layout_marginTop="@dimen/padding_vsmall"
-                android:layout_marginRight="@dimen/padding_small_medium"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:theme="@style/AppTheme">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/loop_timer"
-                    android:textColor="@color/iconTint"
-                    android:textSize="@dimen/button_text" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/loop_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="@dimen/padding_vsmall"
-                    android:layout_marginBottom="@dimen/padding_small_medium"
-                    android:elevation="12dp"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:stateListAnimator="@null"
-                    android:theme="@style/AppTheme"
-                    app:backgroundTint="@color/iconTintDark"
-                    app:cornerRadius="@dimen/padding_small_medium"
-                    app:icon="@drawable/ic_round_loop"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp" />
-            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -265,13 +265,12 @@
         app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/home_button"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:contentDescription="@string/return_home_button"
             android:elevation="12dp"
             android:insetLeft="0dp"
@@ -285,12 +284,12 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/start_pause_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
         <com.google.android.material.button.MaterialButton
@@ -298,7 +297,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:elevation="12dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -317,7 +316,7 @@
             app:layout_constraintLeft_toRightOf="@id/home_button"
             app:layout_constraintRight_toLeftOf="@id/stop_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
         <com.google.android.material.button.MaterialButton
@@ -325,7 +324,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:elevation="12dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -337,12 +336,12 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/start_pause_button"
             app:layout_constraintRight_toLeftOf="@id/home_add_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
 
         <com.google.android.material.button.MaterialButton
@@ -350,7 +349,7 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@color/iconTintDark"
+            android:backgroundTint="@color/iconTint"
             android:contentDescription="@string/add_button"
             android:elevation="12dp"
             android:insetLeft="0dp"
@@ -364,12 +363,12 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="24dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/stop_button"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/iconTint"
+            app:rippleColor="@color/iconTintDark"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

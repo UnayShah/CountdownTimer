@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <item name="windowActionBar">false</item>
@@ -12,6 +12,15 @@
         <item name="android:textColorPrimary">@color/iconTint</item>
         <item name="android:colorControlNormal">@color/iconTint</item>
         <item name="android:colorControlActivated">@color/iconTint</item>
+        <item name="android:layout_marginLeft">@dimen/padding_vvsmall</item>
+        <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
+    </style>
+
+    <style name="ThemeOverlay.MaterialComponents.PopupNumberPicker.Dark" parent="AppTheme">
+        <item name="android:background">@drawable/number_picker_design_dark</item>
+        <item name="android:textColorPrimary">@color/iconTintDark</item>
+        <item name="android:colorControlNormal">@color/iconTintDark</item>
+        <item name="android:colorControlActivated">@color/iconTintDark</item>
         <item name="android:layout_marginLeft">@dimen/padding_vvsmall</item>
         <item name="android:layout_marginRight">@dimen/padding_vvsmall</item>
     </style>
