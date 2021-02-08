@@ -51,7 +51,7 @@
     <string name="home">Home</string>
     <string name="set_timer_value_or_nadd_an_existing_timer_group">Set timer value or\nadd an existing timer group</string>
     <string name="timer_time">Timer time</string>
-    <string name="click_on_set">Click on \'set\'</string>
+    <string name="click_on_set_timer">Click on \'set timer\'</string>
     <string name="_1">1</string>
     <string name="clear_all_data">Clear All Data</string>
     <string name="no_items_nadd_new">No items\nAdd new</string>

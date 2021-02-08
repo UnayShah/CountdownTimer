@@ -2,6 +2,7 @@ package com.UnayShah.countdownTimer;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import com.UnayShah.countdownTimer.common.DataHolder;
 import com.google.android.material.button.MaterialButton;
 
 public class TutorialActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-
+    ProgressBar progressBar;
     ViewPager viewPager;
     FragmentPagerAdapter fragmentPagerAdapter;
     MaterialButton tutorialNext;
@@ -44,6 +45,10 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         viewPager.setAdapter(fragmentPagerAdapter);
         tutorialNext = findViewById(R.id.tutorial_next);
         tutorialPrev = findViewById(R.id.tutorial_previous);
+        progressBar = findViewById(R.id.tutorial_progressBar);
+        progressBar.setMax(6);
+        progressBar.setProgressTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+        progressBar.setProgressBackgroundTintList(DataHolder.getInstance().backgroundTintDark(getApplicationContext()));
         viewPager.setCurrentItem(item);
         tutorialNext.setOnClickListener(this);
         tutorialPrev.setOnClickListener(this);
@@ -75,6 +80,7 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             tutorialNext.setText(R.string.done);
         else
             tutorialNext.setText(R.string.next);
+        progressBar.setProgress(item + 1);
     }
 
     @Override

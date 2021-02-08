@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/click_on_set"
+            android:text="@string/click_on_set_timer"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/accent" />
@@ -55,6 +55,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:clickable="true"
+        android:elevation="20dp"
         android:focusable="true"
         android:orientation="horizontal"
         android:visibility="visible"

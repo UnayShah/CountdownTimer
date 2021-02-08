@@ -4,8 +4,6 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorOnSurface">@color/iconTint</item>
-        <item name="colorSurface">@color/iconTint</item>
         <item name="android:forceDarkAllowed">false</item>
     </style>
 </resources>

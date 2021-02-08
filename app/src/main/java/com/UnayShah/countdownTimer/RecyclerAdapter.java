@@ -7,9 +7,9 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Pair;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +36,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListItemViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
-    LayoutInflater layoutInflater;
     IStartDragListener startDragListener;
     Activity activity;
+    GradientDrawable item;
 
     public RecyclerAdapter(Activity activity) {
         this.activity = activity;
+        item = new GradientDrawable();
+        item.setShape(GradientDrawable.RECTANGLE);
+        item.setColor(DataHolder.getInstance().iconTintAdvanced(activity.getApplicationContext()).getDefaultColor());
+        item.setCornerRadius(activity.getResources().getDimension(R.dimen.padding_small_medium));
     }
 
     public RecyclerAdapter(IStartDragListener iStartDragListener, Activity activity) {
@@ -52,8 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     @NonNull
     @Override
     public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.add_timer, parent, false);
+        View view = activity.getLayoutInflater().inflate(R.layout.add_timer, parent, false);
         return new ListItemViewHolder(view);
     }
 
@@ -97,13 +100,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
     }
 
     private void timerNamePopup(int position, View itemView) {
-        View timerNamePopupWindowView = layoutInflater.inflate(R.layout.timer_name_popup, null, false);
+        View timerNamePopupWindowView = activity.getLayoutInflater().inflate(R.layout.timer_name_popup, null, false);
         PopupWindow timerNamePopupWindow = new TimerNamePopup(timerNamePopupWindowView, this, position);
         timerNamePopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }
 
     private void timerPickerPopup(int position, View itemView) {
-        View timePickerPopupWindowView = layoutInflater.inflate(R.layout.timer_picker_popup, null, false);
+        View timePickerPopupWindowView = activity.getLayoutInflater().inflate(R.layout.timer_picker_popup, null, false);
         PopupWindow timePickerPopupWindow = new TimePickerPopup(timePickerPopupWindowView, this, position);
         timePickerPopupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
     }
@@ -152,8 +155,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             button2.setOnClickListener(this);
             timerText.setOnClickListener(this);
             dragImage.setOnTouchListener(this);
-//            setDragImageVisibility();
-            itemView.setBackgroundResource(R.drawable.add_timer);
+            itemView.setBackground(item);
         }
 
         public void init() {
@@ -161,10 +163,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
             button2.setStrokeColor(DataHolder.getInstance().getAccentColor(activity.getApplicationContext()));
             timerText.setText(DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).toString());
             timerGroupType = DataHolder.getInstance().getListTimerGroup().get(getAdapterPosition()).getTimerGroupType();
-            itemView.setBackgroundResource(R.drawable.add_timer);
             if (timerGroupType.equals(TimerGroupType.TIMER_GROUP))
                 itemView.setOnClickListener(this);
-            itemView.setBackgroundResource(R.drawable.add_timer);
             dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
             if ((itemView.getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0)
                 dragImage.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.iconTint), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -251,13 +251,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ListIt
                 else DataHolder.getInstance().setListTimerGroup(new ArrayList<>());
                 notifyDataSetChanged();
             }
-            if (activity.findViewById(R.id.loop_button) != null) {
-                activity.findViewById(R.id.loop_button).callOnClick();
-                activity.findViewById(R.id.loop_button).callOnClick();
-            }
             if (activity.findViewById(R.id.increase_reps) != null && activity.findViewById(R.id.decrease_reps) != null) {
                 activity.findViewById(R.id.increase_reps).callOnClick();
                 activity.findViewById(R.id.decrease_reps).callOnClick();
+            }
+            if (activity.findViewById(R.id.loop_button) != null) {
+                activity.findViewById(R.id.loop_button).callOnClick();
+                activity.findViewById(R.id.loop_button).callOnClick();
             }
             if (activity.findViewById(R.id.timer_toolbar) != null)
                 ((MaterialToolbar) activity.findViewById(R.id.timer_toolbar)).setTitle(DataHolder.getInstance().getStackNavigation().peek());

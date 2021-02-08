@@ -43,7 +43,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             help();
         }
         TimerActivity.timerRunning = false;
-
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         init();
@@ -51,6 +52,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         loadData();
         super.onResume();
     }
@@ -128,8 +131,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
-        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
-            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
         DataHolder.getInstance().loadData(getApplicationContext());
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));

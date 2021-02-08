@@ -1,13 +1,10 @@
 package com.UnayShah.countdownTimer.countdowntimer;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.ImageView;
-
-import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.TimerActivity;
@@ -29,7 +26,7 @@ public class CountdownTimer {
     private String iterationText;
     private Stack<TimerGroup> countdownStack;
     private ImageView timerAnimation;
-    private Drawable inactiveItem;
+    private GradientDrawable inactiveItem;
     private Vibrator vibrator;
     private Integer reps;
     private MaterialTextView indexOfTimerTextView;
@@ -52,8 +49,10 @@ public class CountdownTimer {
         iterationText = "";
         timerAnimation = timerActivity.findViewById(R.id.timer_animation);
         timerAnimation.setRotation(-90f);
-        inactiveItem = ContextCompat.getDrawable(this.timerActivity.getApplicationContext(), R.drawable.add_timer);
-        inactiveItem.setTintList(ColorStateList.valueOf(ContextCompat.getColor(timerActivity.getApplicationContext(), R.color.iconTintDark)));
+        inactiveItem = new GradientDrawable();
+        inactiveItem.setShape(GradientDrawable.RECTANGLE);
+        inactiveItem.setColor(DataHolder.getInstance().iconTintAdvanced(timerActivity.getApplicationContext()).getDefaultColor());
+        inactiveItem.setCornerRadius(timerActivity.getResources().getDimension(R.dimen.padding_small_medium));
         vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
     }
@@ -216,14 +215,15 @@ public class CountdownTimer {
 
     public void stopTimer() {
         try {
-            TimerActivity.autoScroll(ConstantsClass.ZERO);
+            if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size()) {
+                timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(inactiveItem);
+            } else if (DataHolder.getInstance().getListTimerGroup().size() - 1 >= 0) {
+                timerActivity.getRecyclerView().findViewHolderForAdapterPosition(DataHolder.getInstance().getListTimerGroup().size() - 1).itemView.setBackground(inactiveItem);
+            }
         } catch (Exception ignore) {
         }
         try {
-            if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size())
-                timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(inactiveItem);
-            else if (DataHolder.getInstance().getListTimerGroup().size() - 1 >= 0)
-                timerActivity.getRecyclerView().findViewHolderForAdapterPosition(DataHolder.getInstance().getListTimerGroup().size() - 1).itemView.setBackground(inactiveItem);
+            TimerActivity.autoScroll(ConstantsClass.ZERO);
         } catch (Exception ignore) {
         }
         countdownStack.clear();

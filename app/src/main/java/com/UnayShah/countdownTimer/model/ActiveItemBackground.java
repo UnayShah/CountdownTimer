@@ -7,22 +7,20 @@ import android.graphics.drawable.PaintDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 
-import androidx.core.content.ContextCompat;
-
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.common.DataHolder;
 
 public class ActiveItemBackground extends ShapeDrawable.ShaderFactory {
+    private final int[] gradientColors;
+    private final float[] gradientPositions;
     Context context;
     int totalTime;
     int timePassed;
     PaintDrawable pd;
-    private final int[] gradientColors;
-    private final float[] gradientPositions;
 
     public ActiveItemBackground(Context context) {
         this.context = context;
-        gradientColors = new int[]{DataHolder.getInstance().getAccentColorColor(context), DataHolder.getInstance().getAccentColorColor(context), ContextCompat.getColor(context, R.color.iconTintDark), ContextCompat.getColor(context, R.color.iconTintDark)};
+        gradientColors = new int[]{DataHolder.getInstance().getAccentColorColor(context), DataHolder.getInstance().getAccentColorColor(context), DataHolder.getInstance().iconTintAdvanced(context).getDefaultColor(), DataHolder.getInstance().iconTintAdvanced(context).getDefaultColor()};
         gradientPositions = new float[]{0, 0.5f, 0.5f, 1};
         pd = new PaintDrawable();
     }
@@ -49,6 +47,8 @@ public class ActiveItemBackground extends ShapeDrawable.ShaderFactory {
         gradientPositions[2] = ((float) timePassed / totalTime);
         gradientColors[0] = DataHolder.getInstance().getAccentColorColor(context);
         gradientColors[1] = DataHolder.getInstance().getAccentColorColor(context);
+        gradientColors[2] = DataHolder.getInstance().iconTintAdvanced(context).getDefaultColor();
+        gradientColors[3] = DataHolder.getInstance().iconTintAdvanced(context).getDefaultColor();
         return resize(width, height);
     }
 

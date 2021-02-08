@@ -230,13 +230,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     public void stopTimer() {
         countdownTimer.repsSetOne();
-        recyclerAdapter.notifyDataSetChanged();
         addTimerButton.setVisibility(View.VISIBLE);
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_play_arrow));
         stopTimerButton.setVisibility(View.GONE);
         pauseTimeInMillis = ConstantsClass.ZERO_LONG;
         indexOfTimer = ConstantsClass.ZERO;
         countdownTimer.stopTimer();
+        recyclerAdapter.notifyDataSetChanged();
         timerRunning = false;
         new CountDownTimer(ConstantsClass.TWO_SECOND_IN_MILLIS, ConstantsClass.FIFTY_MILLIS_IN_MILLIS) {
             @Override

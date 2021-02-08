@@ -47,9 +47,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/click_the_button"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="@color/accent" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tutorial_tutorial_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tutorial_home_buttons_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/tutorial_tutorial_holder_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tutorial"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/accent"
+            app:layout_constraintBottom_toTopOf="@id/tutorial_tutorial_holder_image"
+            app:layout_constraintStart_toEndOf="@+id/tutorial_tutorial_holder_image" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tutorial_tutorial_holder_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="-1"
+            android:src="@drawable/ic_pointing_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:tint="@color/accent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tutorial_empty_holder"
@@ -65,7 +95,7 @@
             android:layout_height="wrap_content"
             android:text="Add new\ntimer group"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/accent"
             app:layout_constraintBottom_toBottomOf="@id/tutorial_empty_holder_image"
             app:layout_constraintEnd_toStartOf="@+id/tutorial_empty_holder_image"
@@ -96,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Settings"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/accent"
             app:layout_constraintEnd_toStartOf="@id/tutorial_settings_image"
             app:layout_constraintTop_toTopOf="@id/tutorial_settings_image" />

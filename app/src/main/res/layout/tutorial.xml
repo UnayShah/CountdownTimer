@@ -40,25 +40,36 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tutorial_tutorial_text"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/tutorial_viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/padding_small"
-        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginRight="@dimen/padding_small"
         android:layout_weight="0.82"
         android:clickable="false"
         android:focusable="false"
         android:stateListAnimator="@null"
-        android:theme="@style/AppTheme"
-        app:layout_constraintVertical_weight="1" />
+        android:theme="@style/AppTheme" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1">
+
+        <ProgressBar
+            android:id="@+id/tutorial_progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:forceDarkAllowed="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tutorial_previous"
@@ -104,13 +115,13 @@
             android:paddingEnd="@dimen/padding_vvsmall"
             android:stateListAnimator="@null"
             android:text="@string/next"
-            android:textColor="@color/iconTint"
+            android:textColor="@color/iconTintDark"
             app:cornerRadius="@dimen/padding_small_medium"
             app:icon="@drawable/ic_round_chevron_right_24"
             app:iconGravity="end"
             app:iconPadding="0dp"
             app:iconSize="50dp"
-            app:iconTint="@color/iconTint"
+            app:iconTint="@color/iconTintDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

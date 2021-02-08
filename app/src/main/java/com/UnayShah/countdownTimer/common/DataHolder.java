@@ -277,4 +277,21 @@ public class DataHolder {
         else
             return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.backgroundTint));
     }
+
+    public ColorStateList iconTintAdvanced(Context context) {
+        if ((context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_NO) != 0) {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTintDark));
+            } else {
+                return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTint));
+            }
+        } else if ((context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) != 0) {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTintDark));
+            } else {
+                return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTint));
+            }
+        }
+        return ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iconTint));
+    }
 }

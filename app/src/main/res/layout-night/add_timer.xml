@@ -6,7 +6,6 @@
     android:layout_marginTop="@dimen/padding_vvsmall"
     android:layout_marginBottom="@dimen/padding_small"
     android:background="@drawable/add_timer_dark"
-    android:backgroundTint="@color/iconTint"
     android:paddingTop="@dimen/padding_small"
     android:paddingBottom="@dimen/padding_small"
     android:theme="@style/AppTheme"
