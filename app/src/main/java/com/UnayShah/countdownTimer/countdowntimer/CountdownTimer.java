@@ -115,7 +115,7 @@ public class CountdownTimer {
                         }
                     } catch (Exception ignore) {
                     }
-                    if (timePassed > ConstantsClass.FIVE_SECOND_IN_MILLIS)
+                    if (timePassed > ConstantsClass.TWO_SECOND_IN_MILLIS)
                         TimerActivity.ringtone.stop();
                 }
 

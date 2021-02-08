@@ -17,8 +17,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loop_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginTop="@dimen/padding_vsmall"
         android:layout_marginBottom="@dimen/padding_small"
         android:elevation="8dp"

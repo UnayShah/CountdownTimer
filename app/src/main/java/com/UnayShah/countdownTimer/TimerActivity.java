@@ -238,7 +238,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         indexOfTimer = ConstantsClass.ZERO;
         countdownTimer.stopTimer();
         timerRunning = false;
-        new CountDownTimer(ConstantsClass.FIVE_SECOND_IN_MILLIS, ConstantsClass.FIFTY_MILLIS_IN_MILLIS) {
+        new CountDownTimer(ConstantsClass.TWO_SECOND_IN_MILLIS, ConstantsClass.FIFTY_MILLIS_IN_MILLIS) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
