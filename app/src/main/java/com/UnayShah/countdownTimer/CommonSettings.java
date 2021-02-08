@@ -1,15 +1,21 @@
 package com.UnayShah.countdownTimer;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +23,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.common.ConstantsClass;
-import com.UnayShah.countdownTimer.model.DataHolder;
+import com.UnayShah.countdownTimer.common.DataHolder;
+import com.UnayShah.countdownTimer.model.OnSubmitListener;
+import com.UnayShah.countdownTimer.popupactivity.ConfirmationPopup;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -30,13 +38,15 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommonSettings extends AppCompatActivity implements View.OnClickListener, MaterialButtonToggleGroup.OnButtonCheckedListener, TextWatcher {
+public class CommonSettings extends AppCompatActivity implements View.OnClickListener, MaterialButtonToggleGroup.OnButtonCheckedListener, TextWatcher, OnSubmitListener {
 
-    MaterialTextView vibrationTextView;
+    private final int RINGTONE_REQUEST_CODE = 1;
+    private MaterialTextView vibrationTextView;
     private MaterialTextView accentColourTextView;
     private MaterialTextView resetTextView;
     private MaterialTextView themeTextView;
     private MaterialTextView resetAllDataTextView;
+    private MaterialTextView ringtoneTextView;
     private MaterialAutoCompleteTextView themeAutoCompleteTextView;
     private TextInputLayout themeTextInputLayout;
     private ImageView accentColourImageView;
@@ -46,9 +56,12 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
     private MaterialButtonToggleGroup vibrationButtonGroup;
     private MaterialButton vibrationOffButton;
     private MaterialButton vibrationOnButton;
+    private boolean confirmation = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
+            AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_settings);
         init();
@@ -63,7 +76,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
     private void init() {
         accentColourLayout = findViewById(R.id.accent_color_view);
         accentColourTextView = findViewById(R.id.accent_color_textView);
-        resetTextView = findViewById(R.id.reset_textView);
+        resetTextView = findViewById(R.id.reset_all_settings_textView);
         vibrationTextView = findViewById(R.id.vibration_textView);
         vibrationLayout = findViewById(R.id.vibration_view);
         accentColourImageView = findViewById(R.id.accent_color_preview);
@@ -75,6 +88,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         themeTextInputLayout = findViewById(R.id.theme_menu_textInputLayout);
         themeTextView = findViewById(R.id.theme_textView);
         resetAllDataTextView = findViewById(R.id.reset_all_data_textView);
+        ringtoneTextView = findViewById(R.id.ringtone_textView);
         MaterialToolbar timerToolbar = findViewById(R.id.timer_toolbar);
         setSupportActionBar(timerToolbar);
         vibrationButtonGroup.setSingleSelection(true);
@@ -99,6 +113,7 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         vibrationTextView.setOnClickListener(this);
         accentColourImageView.setOnClickListener(this);
         resetAllDataTextView.setOnClickListener(this);
+        ringtoneTextView.setOnClickListener(this);
         vibrationButtonGroup.addOnButtonCheckedListener(this);
         timerToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
@@ -120,7 +135,6 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
         else
             themeMenuList = Arrays.asList(ConstantsClass.LIGHT, ConstantsClass.DARK);
         ArrayAdapter<String> themeAdapter = new ArrayAdapter<>(this, R.layout.theme_menu, themeMenuList);
-        themeAdapter.setDropDownViewResource(R.layout.theme_menu);
         themeAutoCompleteTextView.setText(DataHolder.getInstance().getTheme(), false);
         themeAutoCompleteTextView.setAdapter(themeAdapter);
         themeAutoCompleteTextView.setSelection(themeAdapter.getPosition(DataHolder.getInstance().getTheme(getApplicationContext())));
@@ -196,23 +210,46 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
                 toggleVibrationGroup();
             } else if (v.getId() == themeTextView.getId() || v.getId() == themeMenuLayout.getId() || v.getId() == themeTextInputLayout.getId() || v.getId() == themeAutoCompleteTextView.getId()) {
                 themeAutoCompleteTextView.showDropDown();
-                themeAutoCompleteTextView.getOnItemClickListener();
                 DataHolder.getInstance().setDisableButtonClick(false);
             } else if (v.getId() == resetAllDataTextView.getId()) {
                 resetAllData();
+            } else if (v.getId() == ringtoneTextView.getId()) {
+                Intent ringtoneIntent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                ringtoneIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, DataHolder.getInstance().getRingtone(getApplicationContext()));
+                ringtoneIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+                startActivityForResult(ringtoneIntent, RINGTONE_REQUEST_CODE);
+                DataHolder.getInstance().setDisableButtonClick(false);
             } else DataHolder.getInstance().setDisableButtonClick(false);
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RINGTONE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri toneUri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                DataHolder.getInstance().setRingtone(toneUri.toString(), getApplicationContext());
+            }
+        }
+    }
+
     private void resetAllData() {
-        reset();
-        DataHolder.getInstance().getAllTimerGroups().clear();
-        DataHolder.getInstance().getMapTimerGroups().clear();
-        DataHolder.getInstance().getListTimerGroup().clear();
-        DataHolder.getInstance().setDisableButtonClick(false);
-        DataHolder.getInstance().getStackNavigation().clear();
-        DataHolder.getInstance().saveData(getApplicationContext());
-        onBackPressed();
+        View confirmationPopupView = getLayoutInflater().inflate(R.layout.confirmation_popup, (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), false);
+        PopupWindow confirmationPopup = new ConfirmationPopup(confirmationPopupView, this, getString(R.string.clear_all_data));
+        confirmationPopup.setOnDismissListener(() -> {
+            if (confirmation) {
+                reset();
+                DataHolder.getInstance().getAllTimerGroups().clear();
+                DataHolder.getInstance().getMapTimerGroups().clear();
+                DataHolder.getInstance().getListTimerGroup().clear();
+                DataHolder.getInstance().getStackNavigation().clear();
+                DataHolder.getInstance().saveData(getApplicationContext());
+            }
+            DataHolder.getInstance().setDisableButtonClick(false);
+            confirmation = false;
+        });
+        confirmationPopup.showAtLocation(findViewById(R.id.common_settings), Gravity.CENTER, 0, 0);
     }
 
     private void toggleVibrationGroup() {
@@ -223,13 +260,21 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
     }
 
     private void reset() {
-        DataHolder.getInstance().setAccentColor(getApplicationContext(), ContextCompat.getColor(getApplicationContext(), R.color.accent));
-        accentColourImageView.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-        vibrationButtonGroup.check(vibrationOnButton.getId());
-        DataHolder.getInstance().setVibration(getApplicationContext(), true);
-        initVibrationGroup();
-        DataHolder.getInstance().setShowTutorial(true, getApplicationContext());
-        DataHolder.getInstance().setDisableButtonClick(false);
+        View confirmationPopupView = getLayoutInflater().inflate(R.layout.confirmation_popup, (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), false);
+        PopupWindow confirmationPopup = new ConfirmationPopup(confirmationPopupView, this, getString(R.string.reset_all_settings));
+        confirmationPopup.setOnDismissListener(() -> {
+            if (confirmation) {
+                DataHolder.getInstance().setAccentColor(getApplicationContext(), ContextCompat.getColor(getApplicationContext(), R.color.accent));
+                accentColourImageView.setImageTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+                vibrationButtonGroup.check(vibrationOnButton.getId());
+                DataHolder.getInstance().setVibration(getApplicationContext(), true);
+                initVibrationGroup();
+                DataHolder.getInstance().setShowTutorial(true, getApplicationContext());
+            }
+            confirmation = false;
+            DataHolder.getInstance().setDisableButtonClick(false);
+        });
+        confirmationPopup.showAtLocation(findViewById(R.id.common_settings), Gravity.CENTER, 0, 0);
     }
 
     private void colorPicker() {
@@ -264,7 +309,6 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     @Override
@@ -274,5 +318,9 @@ public class CommonSettings extends AppCompatActivity implements View.OnClickLis
             AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
     }
 
+    @Override
+    public void confirmation(boolean bool) {
+        this.confirmation = bool;
+    }
 }
 

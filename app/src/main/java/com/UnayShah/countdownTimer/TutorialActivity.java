@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.UnayShah.countdownTimer.common.CustomFragmentPagerAdapter;
-import com.UnayShah.countdownTimer.model.DataHolder;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.google.android.material.button.MaterialButton;
 
 public class TutorialActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {

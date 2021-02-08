@@ -10,14 +10,15 @@ import android.graphics.drawable.shapes.RectShape;
 import androidx.core.content.ContextCompat;
 
 import com.UnayShah.countdownTimer.R;
+import com.UnayShah.countdownTimer.common.DataHolder;
 
 public class ActiveItemBackground extends ShapeDrawable.ShaderFactory {
     Context context;
     int totalTime;
     int timePassed;
     PaintDrawable pd;
-    private int[] gradientColors;
-    private float[] gradientPositions;
+    private final int[] gradientColors;
+    private final float[] gradientPositions;
 
     public ActiveItemBackground(Context context) {
         this.context = context;

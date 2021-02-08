@@ -19,7 +19,7 @@ import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.RecyclerAdapter;
 import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.common.ConstantsClass;
-import com.UnayShah.countdownTimer.model.DataHolder;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.timers.Timer;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
@@ -188,9 +188,6 @@ public class TimePickerPopup extends PopupWindow implements View.OnClickListener
         numberPicker.setMaxValue(max);
         numberPicker.setMinValue(min);
         numberPicker.setFormatter(value -> String.format(Locale.US, "%02d", value));
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            numberPicker.setTextColor(getContentView().getResources().getColor(R.color.text));
-//        }
     }
 
     /**

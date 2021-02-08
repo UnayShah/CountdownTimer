@@ -22,8 +22,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.UnayShah.countdownTimer.common.ConstantsClass;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.countdowntimer.CountdownTimer;
-import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.popupactivity.TimePickerPopup;
 import com.UnayShah.countdownTimer.popupactivity.TimerNamePopup;
 import com.UnayShah.countdownTimer.timers.TimerGroup;

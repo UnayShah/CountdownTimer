@@ -53,7 +53,12 @@
     <string name="timer_time">Timer time</string>
     <string name="click_on_set">Click on \'set\'</string>
     <string name="_1">1</string>
-    <string name="reset_all_data">Reset All Data</string>
+    <string name="clear_all_data">Clear All Data</string>
     <string name="no_items_nadd_new">No items\nAdd new</string>
-    <string name="set_colour">SET COLOUR</string>
+    <string name="set_colour">Set Colour</string>
+    <string name="ringtone">Select Ringtone</string>
+    <string name="delete_all_timers">Delete All Timers?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="reset_all_settings">Reset All Settings</string>
 </resources>

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialHomeScreen;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialHomeScreenEmpty;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialHomeScreenPopupTimername;

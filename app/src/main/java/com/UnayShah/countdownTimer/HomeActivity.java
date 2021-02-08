@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.UnayShah.countdownTimer.model.DataHolder;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.popupactivity.TimerNamePopup;
 import com.google.android.material.button.MaterialButton;
 

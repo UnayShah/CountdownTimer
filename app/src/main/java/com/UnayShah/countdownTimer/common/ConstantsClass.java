@@ -31,6 +31,7 @@ public final class ConstantsClass {
     public static final Integer TWO_HUNDRED_MILLIS_IN_MILLIS = 200;
     public static final Integer TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS = 250;
     public static final Integer FIVE_HUNDRED_MILLIS_IN_MILLIS = 500;
+    public static final Integer FIVE_SECOND_IN_MILLIS = 5000;
     public static final Integer SECONDS_IN_ONE_MINUTE = 60;
     public static final Integer MINUTES_IN_ONE_HOUR = 60;
     public static final Integer ZERO = 0;
@@ -53,4 +54,5 @@ public final class ConstantsClass {
     public static final String DEFAULT = "Default";
     public static final String THEME = "Theme";
     public static final String SHOW_TUTORIAL = "SHOW_TUTORIAL";
+    public static final String RINGTONE = "RINGTONE";
 }

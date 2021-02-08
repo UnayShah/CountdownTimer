@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import com.UnayShah.countdownTimer.HomeActivity;
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.RecyclerAdapter;
-import com.UnayShah.countdownTimer.model.DataHolder;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
 import com.google.android.material.textfield.TextInputEditText;

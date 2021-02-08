@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.UnayShah.countdownTimer.R;
-import com.UnayShah.countdownTimer.model.DataHolder;
+import com.UnayShah.countdownTimer.common.DataHolder;
 
 public class TutorialTimerScreenPopupNumberPicker extends Fragment {
     @Nullable

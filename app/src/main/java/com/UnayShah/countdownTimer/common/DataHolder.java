@@ -1,9 +1,11 @@
-package com.UnayShah.countdownTimer.model;
+package com.UnayShah.countdownTimer.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.widget.EdgeEffect;
 
 import androidx.annotation.NonNull;
@@ -12,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.UnayShah.countdownTimer.R;
-import com.UnayShah.countdownTimer.common.ConstantsClass;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +33,7 @@ public class DataHolder {
     private Boolean disableButtonClick = false;
     private String themeMode;
     private Boolean showTutorial = true;
+    private String ringtone;
 
     public DataHolder() {
         this.listTimerGroup = new ArrayList<>();
@@ -42,6 +44,20 @@ public class DataHolder {
 
     public static DataHolder getInstance() {
         return dataHolder;
+    }
+
+    public Uri getRingtone(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.RINGTONE, Context.MODE_PRIVATE);
+        ringtone = sharedPreferences.getString(ConstantsClass.RINGTONE, RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI);
+        return Uri.parse(ringtone);
+    }
+
+    public void setRingtone(String ringtone, Context context) {
+        this.ringtone = ringtone;
+        SharedPreferences.Editor editor = context.getSharedPreferences(ConstantsClass.RINGTONE, Context.MODE_PRIVATE).edit();
+        editor.putString(ConstantsClass.RINGTONE, ringtone);
+        editor.apply();
+        editor.commit();
     }
 
     public Boolean getShowTutorial(Context context) {

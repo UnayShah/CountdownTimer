@@ -1,6 +1,9 @@
 package com.UnayShah.countdownTimer;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.UnayShah.countdownTimer.common.ConstantsClass;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.countdowntimer.CountdownTimer;
 import com.UnayShah.countdownTimer.countdowntimer.CountdownTimerFactory;
 import com.UnayShah.countdownTimer.model.CustomAnimations;
-import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.popupactivity.TimePickerPopup;
 import com.UnayShah.countdownTimer.timers.Timer;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning = false;
+    public static Ringtone ringtone;
     static CountdownTimer countdownTimer;
     static RecyclerView recyclerView;
     ConstraintLayout emptyHolder;
@@ -129,6 +133,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         timerToolbar.setNavigationOnClickListener(v -> returnButton());
         timerStarted();
         stopTimer();
+        ringtone = RingtoneManager.getRingtone(getApplicationContext(), DataHolder.getInstance().getRingtone(getApplicationContext()));
+        ringtone.stop();
     }
 
     public void setText(String s) {
@@ -232,6 +238,16 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         indexOfTimer = ConstantsClass.ZERO;
         countdownTimer.stopTimer();
         timerRunning = false;
+        new CountDownTimer(ConstantsClass.FIVE_SECOND_IN_MILLIS, ConstantsClass.FIFTY_MILLIS_IN_MILLIS) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                ringtone.stop();
+            }
+        }.start();
         DataHolder.getInstance().setDisableButtonClick(false);
         setText(new Timer().toString());
     }
@@ -245,6 +261,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void returnButton() {
+        ringtone.stop();
+
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
             stopTimer();
             DataHolder.getInstance().getStackNavigation().pop();

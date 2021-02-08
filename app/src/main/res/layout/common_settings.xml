@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/common_settings"
     style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTint"
+    android:forceDarkAllowed="false"
     android:orientation="vertical"
     android:theme="@style/AppTheme"
     tools:context=".CommonSettings">
@@ -173,7 +175,24 @@
     </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/reset_textView"
+        android:id="@+id/ringtone_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_small_medium"
+        android:layout_marginEnd="@dimen/padding_small_medium"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small_medium"
+        android:text="@string/ringtone"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/iconTint"
+        android:textSize="@dimen/timer_display_text"
+        android:theme="@style/AppTheme" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/reset_all_settings_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_small_medium"
@@ -200,7 +219,7 @@
         android:focusable="true"
         android:paddingTop="@dimen/padding_small"
         android:paddingBottom="@dimen/padding_small_medium"
-        android:text="@string/reset_all_data"
+        android:text="@string/clear_all_data"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="@color/iconTint"
         android:textSize="@dimen/timer_display_text"

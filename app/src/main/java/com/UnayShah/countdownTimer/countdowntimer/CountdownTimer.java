@@ -3,9 +3,6 @@ package com.UnayShah.countdownTimer.countdowntimer;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PaintDrawable;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.widget.ImageView;
@@ -15,8 +12,8 @@ import androidx.core.content.ContextCompat;
 import com.UnayShah.countdownTimer.R;
 import com.UnayShah.countdownTimer.TimerActivity;
 import com.UnayShah.countdownTimer.common.ConstantsClass;
+import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.model.ActiveItemBackgroundFactory;
-import com.UnayShah.countdownTimer.model.DataHolder;
 import com.UnayShah.countdownTimer.timers.TimerGroup;
 import com.UnayShah.countdownTimer.timers.TimerGroupType;
 import com.google.android.material.textview.MaterialTextView;
@@ -29,12 +26,10 @@ public class CountdownTimer {
     public static Long timePassed;
     public static Long totalTime;
     private final TimerActivity timerActivity;
-    String iterationText;
-    private PaintDrawable pd;
+    private String iterationText;
     private Stack<TimerGroup> countdownStack;
     private ImageView timerAnimation;
     private Drawable inactiveItem;
-    private Drawable activeItem;
     private Vibrator vibrator;
     private Integer reps;
     private MaterialTextView indexOfTimerTextView;
@@ -58,12 +53,9 @@ public class CountdownTimer {
         timerAnimation = timerActivity.findViewById(R.id.timer_animation);
         timerAnimation.setRotation(-90f);
         inactiveItem = ContextCompat.getDrawable(this.timerActivity.getApplicationContext(), R.drawable.add_timer);
-        activeItem = ContextCompat.getDrawable(this.timerActivity.getApplicationContext(), R.drawable.add_timer);
         inactiveItem.setTintList(ColorStateList.valueOf(ContextCompat.getColor(timerActivity.getApplicationContext(), R.color.iconTintDark)));
-        activeItem.setTintList(DataHolder.getInstance().getAccentColor(this.timerActivity.getApplicationContext()));
         vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
-        pd = new PaintDrawable();
     }
 
     public void setTotalTime() {
@@ -123,6 +115,8 @@ public class CountdownTimer {
                         }
                     } catch (Exception ignore) {
                     }
+                    if (timePassed > ConstantsClass.FIVE_SECOND_IN_MILLIS)
+                        TimerActivity.ringtone.stop();
                 }
 
                 @Override
@@ -133,8 +127,8 @@ public class CountdownTimer {
                     }
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
                     if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
-                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_SYSTEM, 100);
-                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, ConstantsClass.SOUND_MEDIUM);
+                    TimerActivity.ringtone.stop();
+                    TimerActivity.ringtone.play();
                     if (DataHolder.getInstance().getVibration(timerActivity.getApplicationContext())) {
                         vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
                     }
