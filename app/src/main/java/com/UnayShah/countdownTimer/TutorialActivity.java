@@ -1,8 +1,8 @@
 package com.UnayShah.countdownTimer;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.UnayShah.countdownTimer.common.CustomFragmentPagerAdapter;
 import com.UnayShah.countdownTimer.common.DataHolder;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class TutorialActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    ProgressBar progressBar;
+    LinearProgressIndicator progressBar;
     ViewPager viewPager;
     FragmentPagerAdapter fragmentPagerAdapter;
     MaterialButton tutorialNext;
@@ -46,9 +47,13 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
         tutorialNext = findViewById(R.id.tutorial_next);
         tutorialPrev = findViewById(R.id.tutorial_previous);
         progressBar = findViewById(R.id.tutorial_progressBar);
-        progressBar.setMax(6);
-        progressBar.setProgressTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
-        progressBar.setProgressBackgroundTintList(DataHolder.getInstance().backgroundTintDark(getApplicationContext()));
+        progressBar.setMax(7);
+        progressBar.setIndicatorColor(DataHolder.getInstance().getAccentColorColor(getApplicationContext()));
+        progressBar.setTrackColor(DataHolder.getInstance().iconTintAdvanced(getApplicationContext()).getDefaultColor());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            progressBar.setProgress(item + 1, true);
+        else
+            progressBar.setProgress(item + 1);
         viewPager.setCurrentItem(item);
         tutorialNext.setOnClickListener(this);
         tutorialPrev.setOnClickListener(this);
@@ -76,11 +81,15 @@ public class TutorialActivity extends AppCompatActivity implements View.OnClickL
             tutorialPrev.setVisibility(View.GONE);
         else
             tutorialPrev.setVisibility(View.VISIBLE);
+        if (position == progressBar.getMax() - 1) super.onBackPressed();
         if (item == 5)
             tutorialNext.setText(R.string.done);
         else
             tutorialNext.setText(R.string.next);
-        progressBar.setProgress(item + 1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            progressBar.setProgress(item + 1, true);
+        else
+            progressBar.setProgress(item + 1);
     }
 
     @Override

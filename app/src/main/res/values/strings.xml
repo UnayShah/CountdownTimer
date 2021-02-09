@@ -45,7 +45,7 @@
     <string name="tutorial_drag">Hold &amp; Drag\nto rearrange</string>
     <string name="timer_group_name">Timer Group\nName</string>
     <string name="tutorial">Tutorial:</string>
-    <string name="click_next">Click next</string>
+    <string name="swipe_left">Swipe Left</string>
     <string name="click_the_button">Click the \'+\' button</string>
     <string name="enter_timer_name_in_the_box">Enter timer name\nin the box</string>
     <string name="home">Home</string>

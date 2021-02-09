@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_medium"
             android:text="@string/tutorial"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:textColor="@color/backgroundTint"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,8 +33,8 @@
             android:id="@+id/tutorial_click_next_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/click_next"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:text="@string/swipe_left"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
             android:textColor="@color/backgroundTint"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,27 +48,26 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginRight="@dimen/padding_small"
-        android:layout_weight="0.82"
+        android:layout_weight="0.85"
         android:clickable="false"
         android:focusable="false"
         android:stateListAnimator="@null"
         android:theme="@style/AppTheme" />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/tutorial_progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:forceDarkAllowed="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1">
-
-        <ProgressBar
-            android:id="@+id/tutorial_progressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:forceDarkAllowed="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tutorial_previous"

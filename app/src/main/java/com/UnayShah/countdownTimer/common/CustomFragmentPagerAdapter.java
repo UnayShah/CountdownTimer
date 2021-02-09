@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.UnayShah.countdownTimer.tutorialFragments.TutorialEmpty;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialHomeScreen;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialHomeScreenEmpty;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialHomeScreenPopupTimername;
+import com.UnayShah.countdownTimer.tutorialFragments.TutorialTimerScreen;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialTimerScreenEmpty;
 import com.UnayShah.countdownTimer.tutorialFragments.TutorialTimerScreenPopupNumberPicker;
 
@@ -24,11 +26,12 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
         if (DataHolder.getInstance().getThemeMode() != AppCompatDelegate.getDefaultNightMode())
             AppCompatDelegate.setDefaultNightMode(DataHolder.getInstance().getThemeMode());
         containersFragment.add(new TutorialHomeScreenEmpty());
-        containersFragment.add(new TutorialHomeScreen());
         containersFragment.add(new TutorialHomeScreenPopupTimername());
-        containersFragment.add(new TutorialTimerScreenEmpty());
+        containersFragment.add(new TutorialHomeScreen());
         containersFragment.add(new TutorialTimerScreenEmpty());
         containersFragment.add(new TutorialTimerScreenPopupNumberPicker());
+        containersFragment.add(new TutorialTimerScreen());
+        containersFragment.add(new TutorialEmpty());
     }
 
     @NonNull
