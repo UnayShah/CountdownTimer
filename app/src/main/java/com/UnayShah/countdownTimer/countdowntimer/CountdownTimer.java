@@ -125,7 +125,8 @@ public class CountdownTimer {
                     } catch (Exception ignore) {
                     }
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
-                    if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
+                    if (timePassed >= totalTime - ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS)
+                        timePassed = ConstantsClass.ZERO_LONG;
                     TimerActivity.ringtone.stop();
                     TimerActivity.ringtone.play();
                     if (DataHolder.getInstance().getVibration(timerActivity.getApplicationContext())) {
