@@ -23,6 +23,7 @@ public class CountdownTimer {
     public static Long timePassed;
     public static Long totalTime;
     private final TimerActivity timerActivity;
+    private Long playSoundTime;
     private String iterationText;
     private Stack<TimerGroup> countdownStack;
     private ImageView timerAnimation;
@@ -42,6 +43,7 @@ public class CountdownTimer {
     private void init() {
         timePassed = 0L;
         totalTime = 0L;
+        playSoundTime = 0L;
         timerPaused = false;
         indexOfTimer = 0;
         reps = ConstantsClass.ONE;
@@ -51,7 +53,7 @@ public class CountdownTimer {
         timerAnimation.setRotation(-90f);
         inactiveItem = new GradientDrawable();
         inactiveItem.setShape(GradientDrawable.RECTANGLE);
-        inactiveItem.setColor(DataHolder.getInstance().iconTintAdvanced(timerActivity.getApplicationContext()).getDefaultColor());
+        inactiveItem.setColor(DataHolder.getInstance().iconTintAdvanced(timerActivity).getDefaultColor());
         inactiveItem.setCornerRadius(timerActivity.getResources().getDimension(R.dimen.padding_small_medium));
         vibrator = (Vibrator) timerActivity.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
@@ -69,7 +71,7 @@ public class CountdownTimer {
         }
     }
 
-    public void startTimer(Long pauseTimeInMillis) {
+    public void startTimer(Long pauseTimeInMillis, boolean playTone) {
         indexOfTimerTextView = timerActivity.findViewById(R.id.index_textView);
         if (indexOfTimerTextView != null && !DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() && DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps() > ConstantsClass.ONE) {
             iterationText = "Loop " + reps;
@@ -83,15 +85,16 @@ public class CountdownTimer {
             setTotalTime();
         }
         if (!countdownStack.isEmpty() && countdownStack.peek() == null) {
+            timePassed = ConstantsClass.ZERO_LONG;
             countdownStack.pop();
             countdownStack.pop();
             if (countdownStack.isEmpty()) indexOfTimer++;
             if (countDownTimer != null) countDownTimer.cancel();
-            startTimer(pauseTimeInMillis);
+            startTimer(pauseTimeInMillis, false);
         } else if (!countdownStack.isEmpty() && countdownStack.peek() != null && countdownStack.peek().getTimerGroupType().equals(TimerGroupType.TIMER)) {
-            if (!timerPaused) {
+            if (!timerPaused)
                 timeInMillis = countdownStack.peek().getTimeInMilliseconds();
-            } else timeInMillis = pauseTimeInMillis;
+            else timeInMillis = pauseTimeInMillis;
             timerPaused = false;
             countDownTimer = new CountDownTimer(timeInMillis, ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS) {
                 @Override
@@ -106,35 +109,39 @@ public class CountdownTimer {
                     timeInMillis = millisUntilFinished;
                     timerActivity.setText(timerGroup.setTimer(millisUntilFinished).toString());
                     timePassed += ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS;
+                    playSoundTime += ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS;
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
                     try {
-                        if (timePassed >= totalTime) timePassed = ConstantsClass.ZERO_LONG;
+                        if (timePassed >= totalTime - ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS)
+                            timePassed = ConstantsClass.ZERO_LONG;
                         if (indexOfTimer < DataHolder.getInstance().getListTimerGroup().size()) {
                             timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(ActiveItemBackgroundFactory.getInstance(timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getContext(), timePassed.intValue(), totalTime.intValue(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getWidth(), timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.getHeight()));
                         }
                     } catch (Exception ignore) {
                     }
-                    if (timePassed > ConstantsClass.TWO_SECOND_IN_MILLIS)
-                        TimerActivity.ringtone.stop();
+                    if (playSoundTime > ConstantsClass.TWO_SECOND_IN_MILLIS)
+                        if (timerActivity.mediaPlayer.isPlaying()) {
+                            timerActivity.mediaPlayer.pause();
+                            timerActivity.mediaPlayer.seekTo(ConstantsClass.ZERO);
+                        }
                 }
 
                 @Override
                 public void onFinish() {
+                    timerActivity.mediaPlayer.start();
+                    playSoundTime = ConstantsClass.ZERO_LONG;
                     try {
                         timerActivity.getRecyclerView().findViewHolderForAdapterPosition(indexOfTimer).itemView.setBackground(inactiveItem);
                     } catch (Exception ignore) {
                     }
                     timerAnimation.setRotation(-(((float) timePassed * 360) / totalTime) - 90);
-                    if (timePassed >= totalTime - ConstantsClass.TWO_HUNDRED_FIFTY_MILLIS_IN_MILLIS)
-                        timePassed = ConstantsClass.ZERO_LONG;
-                    TimerActivity.ringtone.stop();
-                    TimerActivity.ringtone.play();
                     if (DataHolder.getInstance().getVibration(timerActivity.getApplicationContext())) {
                         vibrator.vibrate(ConstantsClass.VIBRATE_MEDIUM);
                     }
                     if (!countdownStack.isEmpty())
                         countdownStack.pop();
                     if (countdownStack.isEmpty()) {
+                        timePassed = ConstantsClass.ZERO_LONG;
                         indexOfTimer++;
                     }
                     if (DataHolder.getInstance().getListTimerGroup().size() <= indexOfTimer) {
@@ -142,13 +149,12 @@ public class CountdownTimer {
                             stopTimer();
                             if (!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped())
                                 reps++;
-                            startTimer(ConstantsClass.ZERO.longValue());
+                            startTimer(ConstantsClass.ZERO.longValue(), true);
                         } else {
                             timerActivity.stopTimer();
                         }
                     } else {
-                        cancel();
-                        startTimer(ConstantsClass.ZERO.longValue());
+                        startTimer(ConstantsClass.ZERO.longValue(), true);
                     }
                 }
             }.start();
@@ -182,19 +188,19 @@ public class CountdownTimer {
                 indexOfTimer++;
             }
             if (countDownTimer != null) countDownTimer.cancel();
-            startTimer(ConstantsClass.ZERO_LONG);
+            startTimer(ConstantsClass.ZERO_LONG, true);
         } else if (countdownStack.isEmpty() && indexOfTimer > DataHolder.getInstance().getListTimerGroup().size()) {
             if (DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped() || reps < DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getReps()) {
                 stopTimer();
                 if (!DataHolder.getInstance().getAllTimerGroups().get(DataHolder.getInstance().getMapTimerGroups().get(DataHolder.getInstance().getStackNavigation().peek())).getLooped())
                     reps++;
-                startTimer(ConstantsClass.ZERO_LONG);
+                startTimer(ConstantsClass.ZERO_LONG, true);
             } else timerActivity.stopTimer();
         } else {
             indexOfTimer++;
             if (countDownTimer != null) {
                 countDownTimer.cancel();
-                startTimer(ConstantsClass.ZERO_LONG);
+                startTimer(ConstantsClass.ZERO_LONG, true);
             }
         }
     }

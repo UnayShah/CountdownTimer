@@ -33,7 +33,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     ItemTouchHelper itemTouchHelper;
 
     public static void autoScroll(int position) {
-        recyclerView.smoothScrollToPosition(position);
+        try {
+            recyclerView.smoothScrollToPosition(position);
+        } catch (Exception ignore) {
+            System.err.println("Error in auto scroll");
+        }
     }
 
     @Override

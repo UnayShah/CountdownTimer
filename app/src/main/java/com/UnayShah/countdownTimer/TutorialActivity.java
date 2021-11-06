@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.UnayShah.countdownTimer.common.CustomFragmentPagerAdapter;
@@ -18,7 +18,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 public class TutorialActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     LinearProgressIndicator progressBar;
     ViewPager viewPager;
-    FragmentPagerAdapter fragmentPagerAdapter;
+    PagerAdapter fragmentPagerAdapter;
     MaterialButton tutorialNext;
     MaterialButton tutorialPrev;
     Integer item;

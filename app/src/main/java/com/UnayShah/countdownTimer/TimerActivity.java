@@ -1,9 +1,9 @@
 package com.UnayShah.countdownTimer;
 
-import android.media.Ringtone;
-import android.media.RingtoneManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
     public static Boolean timerRunning = false;
-    public static Ringtone ringtone;
+    public static MediaPlayer mediaPlayer;
     static CountdownTimer countdownTimer;
     static RecyclerView recyclerView;
     ConstraintLayout emptyHolder;
@@ -131,10 +131,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         initTransitionAnimations(recyclerView, startPauseTimerButton);
         DataHolder.getInstance().setDisableButtonClick(false);
         timerToolbar.setNavigationOnClickListener(v -> returnButton());
-        timerStarted();
+        mediaPlayer = MediaPlayer.create(this, DataHolder.getInstance().getRingtone(getApplicationContext()));
+        if (mediaPlayer == null)
+            mediaPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.seekTo(ConstantsClass.ZERO);
+        timerStarted(false);
         stopTimer();
-        ringtone = RingtoneManager.getRingtone(getApplicationContext(), DataHolder.getInstance().getRingtone(getApplicationContext()));
-        ringtone.stop();
     }
 
     public void setText(String s) {
@@ -178,8 +181,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 if (DataHolder.getInstance().getListTimerGroup().size() > 0)
                     startPauseTimer();
                 else DataHolder.getInstance().setDisableButtonClick(false);
-            } else if (view.getId() == stopTimerButton.getId()) stopTimer();
-            else if (view.getId() == homeButton.getId())
+            } else if (view.getId() == stopTimerButton.getId()) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    mediaPlayer.seekTo(0);
+                }
+                stopTimer();
+            } else if (view.getId() == homeButton.getId())
                 homeButton();
             else {
                 DataHolder.getInstance().setDisableButtonClick(false);
@@ -200,16 +208,16 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         if (timerRunning) {
             setTimerPaused();
         } else {
-            timerStarted();
+            timerStarted(false);
         }
     }
 
-    private void timerStarted() {
+    private void timerStarted(boolean playTone) {
         timerRunning = true;
         startPauseTimerButton.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_round_pause));
         stopTimerButton.setVisibility(View.VISIBLE);
         addTimerButton.setVisibility(View.GONE);
-        countdownTimer.startTimer(pauseTimeInMillis);
+        countdownTimer.startTimer(pauseTimeInMillis, playTone);
         DataHolder.getInstance().setDisableButtonClick(false);
     }
 
@@ -245,7 +253,15 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFinish() {
-                ringtone.stop();
+                try {
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
+                        mediaPlayer.seekTo(ConstantsClass.ZERO);
+                    }
+                } catch (Exception ignore) {
+                }
+
+
             }
         }.start();
         DataHolder.getInstance().setDisableButtonClick(false);
@@ -261,8 +277,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void returnButton() {
-        ringtone.stop();
-
+        try {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                mediaPlayer.seekTo(ConstantsClass.ZERO);
+            }
+        } catch (Exception ignore) {
+        }
         if (!DataHolder.getInstance().getStackNavigation().empty()) {
             stopTimer();
             DataHolder.getInstance().getStackNavigation().pop();
@@ -290,6 +311,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             }
         }
         DataHolder.getInstance().setDisableButtonClick(false);
+        try {
+            mediaPlayer.release();
+        } catch (Exception ignore) {
+        }
     }
 
     private void loadData() {

@@ -49,6 +49,7 @@ public class DataHolder {
     public Uri getRingtone(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.RINGTONE, Context.MODE_PRIVATE);
         ringtone = sharedPreferences.getString(ConstantsClass.RINGTONE, RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI);
+        System.out.println("media " + ringtone);
         return Uri.parse(ringtone);
     }
 
