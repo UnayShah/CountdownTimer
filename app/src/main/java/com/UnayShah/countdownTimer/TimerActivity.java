@@ -1,10 +1,13 @@
 package com.UnayShah.countdownTimer;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -28,6 +31,7 @@ import com.UnayShah.countdownTimer.popupactivity.TimePickerPopup;
 import com.UnayShah.countdownTimer.timers.Timer;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.slider.Slider;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -37,15 +41,20 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     public static MediaPlayer mediaPlayer;
     static CountdownTimer countdownTimer;
     static RecyclerView recyclerView;
+    AudioManager audioManager;
     ConstraintLayout emptyHolder;
     MaterialButton addTimerButton;
+    MaterialButton volumeUpButton;
+    MaterialButton volumeDownButton;
     MaterialButton startPauseTimerButton;
     MaterialButton stopTimerButton;
     MaterialButton homeButton;
+    Slider volumeSlider;
     RecyclerAdapter recyclerAdapter;
     ItemTouchHelper itemTouchHelper;
     MaterialTextView timerTextView;
     Long pauseTimeInMillis;
+    Float mediaVolume;
     Integer indexOfTimer;
     View timerLayout;
     //    AdView adView;
@@ -83,6 +92,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 //        adView = findViewById(R.id.adView_timer);
 //        AdRequest adRequest = new AdRequest.Builder().build();
 //        adView.loadAd(adRequest);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        DataHolder.getInstance().setOriginalSystemVolume(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), getApplicationContext());
+        mediaVolume = (float) DataHolder.getInstance().getAppVolume(getApplicationContext());
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mediaVolume.intValue(), 0);
+        volumeSlider = findViewById(R.id.volume_slider);
+        volumeSlider.setValue(mediaVolume);
 
         recyclerView = findViewById(R.id.timers_scrollView_recyclerView);
         recyclerAdapter = new RecyclerAdapter(this, this);
@@ -90,6 +105,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         recyclerView.setAdapter(recyclerAdapter);
         timerTextView = findViewById(R.id.timer_textView);
         addTimerButton = findViewById(R.id.home_add_button);
+        volumeUpButton = findViewById(R.id.volume_up);
+        volumeDownButton = findViewById(R.id.volume_down);
         startPauseTimerButton = findViewById(R.id.start_pause_button);
         homeButton = findViewById(R.id.home_button);
         stopTimerButton = findViewById(R.id.stop_button);
@@ -105,6 +122,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         stopTimerButton.setOnClickListener(this);
         stopTimerButton.setVisibility(View.INVISIBLE);
         addTimerButton.setOnClickListener(this);
+        volumeUpButton.setOnClickListener(this);
+        volumeDownButton.setOnClickListener(this);
         homeButton.setOnClickListener(this);
 
         countdownTimer = CountdownTimerFactory.getInstance(this);
@@ -126,6 +145,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             emptyHolderVisibility();
             recyclerAdapter.notifyDataSetChanged();
         }
+
+        volumeSlider.setThumbTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+        volumeSlider.setHaloTintList(DataHolder.getInstance().getAccentColorTransparent(getApplicationContext(), 150));
+        volumeSlider.setTrackInactiveTintList(DataHolder.getInstance().getAccentColorTransparent(getApplicationContext(), 50));
+        volumeSlider.setTrackActiveTintList(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+        volumeUpButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
+        volumeDownButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         startPauseTimerButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));
         setSupportActionBar(timerToolbar);
         initTransitionAnimations(recyclerView, startPauseTimerButton);
@@ -138,6 +164,26 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         mediaPlayer.seekTo(ConstantsClass.ZERO);
         timerStarted(false);
         stopTimer();
+
+        volumeSlider.addOnChangeListener((slider, value, fromUser) -> {
+            mediaVolume = value;
+            DataHolder.getInstance().setAppVolume(mediaVolume.intValue(), this);
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) value, 0);
+            mediaPlayer.setVolume(mediaVolume / 100, mediaVolume / 100);
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            volumeSlider.setValue(Math.min(volumeSlider.getValue() + 10, 100));
+            DataHolder.getInstance().setOriginalSystemVolume(Math.min(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), 100), getApplicationContext());
+        }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            volumeSlider.setValue(Math.max(volumeSlider.getValue() - 10, 0));
+            DataHolder.getInstance().setOriginalSystemVolume(Math.max(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), 0), getApplicationContext());
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void setText(String s) {
@@ -174,6 +220,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
      */
     @Override
     public void onClick(View view) {
+        if (view.getId() == volumeUpButton.getId())
+            volumeSlider.setValue(Math.min(volumeSlider.getValue() + 10, 100));
+        if (view.getId() == volumeDownButton.getId())
+            volumeSlider.setValue(Math.max(volumeSlider.getValue() - 10, 0));
         if (!DataHolder.getInstance().getDisableButtonClick()) {
             DataHolder.getInstance().setDisableButtonClick(true);
             if (view.getId() == addTimerButton.getId()) addTimer();
@@ -282,6 +332,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 mediaPlayer.pause();
                 mediaPlayer.seekTo(ConstantsClass.ZERO);
             }
+            DataHolder.getInstance().setAppVolume(mediaVolume.intValue(), getApplicationContext());
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, DataHolder.getInstance().getOriginalSystemVolume(getApplicationContext()), 0);
         } catch (Exception ignore) {
         }
         if (!DataHolder.getInstance().getStackNavigation().empty()) {

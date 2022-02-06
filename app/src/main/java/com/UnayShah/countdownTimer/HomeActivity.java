@@ -1,6 +1,8 @@
 package com.UnayShah.countdownTimer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -31,6 +33,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerAdapter recyclerAdapter;
     //    AdView adView;
     ItemTouchHelper itemTouchHelper;
+    AudioManager audioManager;
 
     public static void autoScroll(int position) {
         try {
@@ -65,6 +68,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         DataHolder.getInstance().setDisableButtonClick(false);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, DataHolder.getInstance().getOriginalSystemVolume(getApplicationContext()), 0);
         super.onBackPressed();
     }
 
@@ -135,6 +139,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadData() {
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        DataHolder.getInstance().setOriginalSystemVolume(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), getApplicationContext());
         recyclerView.setEdgeEffectFactory(DataHolder.getInstance().recyclerViewEdgeEffectFactory(getApplicationContext()));
         DataHolder.getInstance().loadData(getApplicationContext());
         homeAddButton.setIconTint(DataHolder.getInstance().getAccentColor(getApplicationContext()));

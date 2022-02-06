@@ -31,6 +31,8 @@ public class DataHolder {
     private List<TimerGroup> listTimerGroup;
     private List<TimerGroup> allTimerGroups;
     private Boolean disableButtonClick = false;
+    private Integer originalSystemVolume;
+    private Integer appVolume;
     private String themeMode;
     private Boolean showTutorial = true;
     private String ringtone;
@@ -44,6 +46,32 @@ public class DataHolder {
 
     public static DataHolder getInstance() {
         return dataHolder;
+    }
+
+    public Integer getOriginalSystemVolume(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.ORIGINAL_SYSTEM_VOLUME, Context.MODE_PRIVATE);
+        return Math.min(Math.max(sharedPreferences.getInt(ConstantsClass.ORIGINAL_SYSTEM_VOLUME, 0), 0), 100);
+    }
+
+    public void setOriginalSystemVolume(Integer originalSystemVolume, Context context) {
+        this.originalSystemVolume = Math.min(Math.max(originalSystemVolume, 0), 100);
+        SharedPreferences.Editor editor = context.getSharedPreferences(ConstantsClass.ORIGINAL_SYSTEM_VOLUME, Context.MODE_PRIVATE).edit();
+        editor.putInt(ConstantsClass.ORIGINAL_SYSTEM_VOLUME, originalSystemVolume);
+        editor.apply();
+        editor.commit();
+    }
+
+    public Integer getAppVolume(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.APP_VOLUME, Context.MODE_PRIVATE);
+        return Math.min(Math.max(sharedPreferences.getInt(ConstantsClass.APP_VOLUME, 0), 0), 100);
+    }
+
+    public void setAppVolume(Integer appVolume, Context context) {
+        this.appVolume = Math.min(Math.max(appVolume, 0), 100);
+        SharedPreferences.Editor editor = context.getSharedPreferences(ConstantsClass.APP_VOLUME, Context.MODE_PRIVATE).edit();
+        editor.putInt(ConstantsClass.APP_VOLUME, appVolume);
+        editor.apply();
+        editor.commit();
     }
 
     public Uri getRingtone(Context context) {
@@ -159,6 +187,11 @@ public class DataHolder {
     public ColorStateList getAccentColor(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
         return ColorStateList.valueOf(sharedPreferences.getInt(ConstantsClass.ACCENT_COLOR, ContextCompat.getColor(context, R.color.accent)));
+    }
+
+    public ColorStateList getAccentColorTransparent(Context context, Integer alpha) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(ConstantsClass.HOME_LIST, Context.MODE_PRIVATE);
+        return ColorStateList.valueOf(sharedPreferences.getInt(ConstantsClass.ACCENT_COLOR, ContextCompat.getColor(context, R.color.accent))).withAlpha(alpha);
     }
 
     public int getAccentColorColor(Context context) {

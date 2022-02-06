@@ -45,6 +45,8 @@ public final class ConstantsClass {
     public static final String HOME_LIST = "HOME_LIST";
     public static final String ACCENT_COLOR = "ACCENT_COLOR";
     public static final String VIBRATION_BOOL = "VIBRATION_BOOL";
+    public static final String ORIGINAL_SYSTEM_VOLUME = "ORIGINAL_SYSTEM_VOLUME";
+    public static final String APP_VOLUME = "APP_VOLUME";
     public static final String STORAGE = "CountdownTimerApp.txt";
     public static final String COUNTER_IN_USE_ELSEWHERE = "Cannot delete timer group.\nIn use elsewhere.";
     public static final String ORIENTATION = "ORIENTATION";
