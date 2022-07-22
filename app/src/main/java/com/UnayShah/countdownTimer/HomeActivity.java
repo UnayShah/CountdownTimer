@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.UnayShah.countdownTimer.common.DataHolder;
 import com.UnayShah.countdownTimer.popupactivity.TimerNamePopup;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.button.MaterialButton;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, IStartDragListener {
@@ -31,7 +33,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     MaterialButton settingsButton;
     ImageView titleImage;
     RecyclerAdapter recyclerAdapter;
-    //    AdView adView;
+    AdView adView;
     ItemTouchHelper itemTouchHelper;
     AudioManager audioManager;
 
@@ -55,6 +57,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         init();
+//        MobileAds.initialize(this);
     }
 
     @Override
@@ -73,9 +76,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void init() {
-//        adView = findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        adView.loadAd(adRequest);
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         emptyHolder = findViewById(R.id.empty_holder);
         if (DataHolder.getInstance().getListTimerGroup().size() > 0)

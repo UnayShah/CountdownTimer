@@ -29,6 +29,8 @@ import com.UnayShah.countdownTimer.countdowntimer.CountdownTimerFactory;
 import com.UnayShah.countdownTimer.model.CustomAnimations;
 import com.UnayShah.countdownTimer.popupactivity.TimePickerPopup;
 import com.UnayShah.countdownTimer.timers.Timer;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
@@ -57,7 +59,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     Float mediaVolume;
     Integer indexOfTimer;
     View timerLayout;
-    //    AdView adView;
+    AdView adView;
     MaterialToolbar timerToolbar;
 
     public static void autoScroll(int position) {
@@ -73,6 +75,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer_layout);
         init();
+//        MobileAds.initialize(this);
     }
 
     @Override
@@ -89,9 +92,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     public void init() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-//        adView = findViewById(R.id.adView_timer);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        adView.loadAd(adRequest);
+        adView = findViewById(R.id.adView_timer);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         DataHolder.getInstance().setOriginalSystemVolume(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC), getApplicationContext());
         mediaVolume = (float) DataHolder.getInstance().getAppVolume(getApplicationContext());

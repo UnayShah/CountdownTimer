@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_screen"
-    android:forceDarkAllowed="false"
     style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundTint"
+    android:forceDarkAllowed="false"
     android:theme="@style/AppTheme"
     app:layout_constraintVertical_weight="1"
     tools:context=".HomeActivity">
@@ -71,7 +71,7 @@
         android:id="@+id/home_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent">
@@ -156,19 +156,19 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CountdownTimer.Button.Circle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--    <com.google.android.gms.ads.AdView-->
-    <!--        android:id="@+id/adView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:transitionName="Ad Transition"-->
-    <!--        app:adSize="BANNER"-->
-    <!--        app:adUnitId="ca-app-pub-3940256099942544/6300978111"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--        app:layout_constraintRight_toRightOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:transitionName="Ad Transition"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-9798040295367550/2735633846"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

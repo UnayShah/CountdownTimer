@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9798040295367550~4431858894" />
+
         <activity
             android:name="com.UnayShah.countdownTimer.HomeActivity"
             android:label="@string/app_name"
@@ -31,9 +35,6 @@
             android:name="com.UnayShah.countdownTimer.TutorialActivity"
             android:screenOrientation="portrait" />
 
-        <!--        <meta-data-->
-        <!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-        <!--            android:value="ca-app-pub-3940256099942544~3347511713" />-->
 
     </application>
 
